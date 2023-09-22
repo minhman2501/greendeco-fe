@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { FormControl, FormControlProps } from '@mui/base/FormControl'
-import Input from './Input'
+import { Input } from './Input'
 import clsx from 'clsx'
 import { UseFormRegisterReturn } from 'react-hook-form'
 
@@ -11,17 +11,14 @@ type CustomFormControlProps<T> = Partial<T> & {
 	register?: UseFormRegisterReturn
 }
 
-export default function TextField(props: CustomFormControlProps<FormControlProps>) {
+export function TextField(props: CustomFormControlProps<FormControlProps>) {
 	const {
 		className,
 		label,
 		helperText,
 		type,
 		required,
-		value,
 		error,
-		disabled,
-		defaultValue,
 		register,
 		...otherFormControlProps
 	} = props
@@ -30,7 +27,7 @@ export default function TextField(props: CustomFormControlProps<FormControlProps
 		<>
 			<FormControl
 				{...otherFormControlProps}
-				disabled={disabled}
+				error={error}
 				className={clsx('flex flex-col gap-compact', className)}
 			>
 				{label && (
@@ -41,10 +38,6 @@ export default function TextField(props: CustomFormControlProps<FormControlProps
 				<Input
 					type={type}
 					className='w-full'
-					value={value}
-					error={error}
-					disabled={disabled}
-					defaultValue={defaultValue}
 					{...register}
 				/>
 				{helperText && <p className={clsx({ 'text-status-error': error })}>{helperText}</p>}

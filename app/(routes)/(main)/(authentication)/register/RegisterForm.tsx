@@ -6,7 +6,7 @@ import { useMutation } from '@tanstack/react-query'
 import { registerAccount } from '@/app/_api/axios/authentication'
 import { AxiosError } from 'axios'
 import { notifyRegisterFail, notifyRegisterSuccess } from '../Notification'
-import TextField from '@/app/_components/form/TextField'
+import { TextField } from '@/app/_components/form'
 import Button from '@/app/_components/Button'
 
 export default function RegisterForm() {

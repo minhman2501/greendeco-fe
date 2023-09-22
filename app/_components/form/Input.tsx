@@ -3,18 +3,24 @@ import * as React from 'react'
 import { Input as BaseInput, InputProps } from '@mui/base/Input'
 import clsx from 'clsx'
 import { EnvelopeIcon, LockClosedIcon } from '@heroicons/react/24/solid'
+import { useFormControlContext } from '@mui/base/FormControl'
 
 //NOTE: Input
 const Input = React.forwardRef(function Input(
 	props: InputProps,
 	ref: React.ForwardedRef<HTMLInputElement>,
 ) {
-	const { className, disabled, error, ...otherInputProps } = props
+	const { className, ...otherInputProps } = props
+
+	const formControlContext = useFormControlContext()
+	if (formControlContext === undefined) {
+		return null
+	}
+	const { disabled, error } = formControlContext
+
 	return (
 		<BaseInput
 			{...otherInputProps}
-			disabled={disabled}
-			error={error}
 			ref={ref}
 			startAdornment={props.type && renderStartAndormentIcon(props.type)}
 			slotProps={{

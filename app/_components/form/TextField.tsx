@@ -18,10 +18,7 @@ export default function TextField(props: CustomFormControlProps<FormControlProps
 		helperText,
 		type,
 		required,
-		value,
 		error,
-		disabled,
-		defaultValue,
 		register,
 		...otherFormControlProps
 	} = props
@@ -30,7 +27,7 @@ export default function TextField(props: CustomFormControlProps<FormControlProps
 		<>
 			<FormControl
 				{...otherFormControlProps}
-				disabled={disabled}
+				error={error}
 				className={clsx('flex flex-col gap-compact', className)}
 			>
 				{label && (
@@ -41,10 +38,6 @@ export default function TextField(props: CustomFormControlProps<FormControlProps
 				<Input
 					type={type}
 					className='w-full'
-					value={value}
-					error={error}
-					disabled={disabled}
-					defaultValue={defaultValue}
 					{...register}
 				/>
 				{helperText && <p className={clsx({ 'text-status-error': error })}>{helperText}</p>}

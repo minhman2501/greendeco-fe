@@ -61,4 +61,4 @@ const renderStartAndormentIcon = (type: React.HTMLInputTypeAttribute) => {
 	if (startIcon) return startIcon.icon
 }
 
-export default Input
+export { Input }

@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { FormControl, FormControlProps } from '@mui/base/FormControl'
-import Input from './Input'
+import { Input } from './Input'
 import clsx from 'clsx'
 import { UseFormRegisterReturn } from 'react-hook-form'
 
@@ -11,7 +11,7 @@ type CustomFormControlProps<T> = Partial<T> & {
 	register?: UseFormRegisterReturn
 }
 
-export default function TextField(props: CustomFormControlProps<FormControlProps>) {
+export function TextField(props: CustomFormControlProps<FormControlProps>) {
 	const {
 		className,
 		label,

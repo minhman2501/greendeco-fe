@@ -13,7 +13,6 @@ type RegisterData = {
 
 export const authApi = axios.create({
 	baseURL: AUTHENTICATION_URL,
-	withCredentials: true,
 })
 
 authApi.defaults.headers.common['Content-Type'] = 'application/json'

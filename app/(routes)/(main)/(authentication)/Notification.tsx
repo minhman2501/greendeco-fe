@@ -12,6 +12,16 @@ export const notifyRegisterFail = (errorMessage?: string) => {
 		position: 'top-center',
 	})
 }
+export const notifyLoginSuccess = () => {
+	toast.success(<LoginSuccessMessage />, {
+		position: 'top-center',
+	})
+}
+export const notifyLoginFail = (errorMessage?: string) => {
+	toast.error(<LoginErrorMessage message={errorMessage ? errorMessage : undefined} />, {
+		position: 'top-center',
+	})
+}
 
 export const notifyResetPasswordSuccess = (options?: ToastOptions) => {
 	toast.success(<ResetPasswordSuccessMessage />, {
@@ -46,9 +56,30 @@ const RegisterSuccessMessage = () => (
 		</p>
 	</div>
 )
+
+const LoginSuccessMessage = () => (
+	<div className='flex flex-col gap-[4px] pl-compact pr-common text-body-sm'>
+		<h3 className='capitalize text-primary-625'>Login Successfully</h3>
+		<p>
+			Let&apos;s go{' '}
+			<Link
+				href={'../login'}
+				className='hover:font-bold'
+			>
+				Shopping!
+			</Link>
+		</p>
+	</div>
+)
 const RegisterErrorMessage = ({ message }: { message?: string }) => (
 	<div className='flex flex-col gap-[4px] pl-compact pr-common text-body-sm'>
 		<h3 className='capitalize text-status-error'>{message ? message : 'Registered Failed'}</h3>
+	</div>
+)
+
+const LoginErrorMessage = ({ message }: { message?: string }) => (
+	<div className='flex flex-col gap-[4px] pl-compact pr-common text-body-sm'>
+		<h3 className='capitalize text-status-error'>{message ? message : 'Login Failed'}</h3>
 	</div>
 )
 

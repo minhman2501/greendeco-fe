@@ -2,19 +2,19 @@
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import {
-	RegisterSchema,
-	RegisterFormInputType,
 	ForgotPasswordFormInputType,
 	ForgotPasswordSchema,
 } from '@/app/_configs/schemas/authentication'
 import { useMutation } from '@tanstack/react-query'
 import { sendEmailToResetPassword } from '@/app/_api/axios/authentication'
 import { AxiosError } from 'axios'
-import { notifyRegisterFail, notifyRegisterSuccess } from '../Notification'
+import { notifySendEmailFail } from '../Notification'
 import { TextField } from '@/app/_components/form'
 import Button from '@/app/_components/Button'
+import { useRouter } from 'next/navigation'
 
 export default function ForgotPasswordForm() {
+	const router = useRouter()
 	const defaultInputValues: ForgotPasswordFormInputType = {
 		email: '',
 	}
@@ -36,14 +36,14 @@ export default function ForgotPasswordForm() {
 		//NOTE: The callback used for the mutation
 		mutationFn: sendEmailToResetPassword,
 		//NOTE: Execuse after receiving suscess responses
-		onSuccess: (data) => {
+		onSuccess: () => {
 			reset()
-			console.log(data)
+			router.push('/forgot-password/emailsendsuccess')
 		},
 		//NOTE: Execuse after receving failure responses
 		onError: (e) => {
 			if (e instanceof AxiosError) {
-				console.log(e)
+				notifySendEmailFail(e.response?.data.msg || e.message)
 			}
 		},
 	})

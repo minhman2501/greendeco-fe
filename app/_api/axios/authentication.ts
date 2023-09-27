@@ -10,6 +10,10 @@ type RegisterData = {
 	phoneNumber: string
 	password: string
 }
+type ResetPasswordData = {
+	password: string
+	token: string
+}
 
 export const authApi = axios.create({
 	baseURL: AUTHENTICATION_URL,
@@ -22,4 +26,18 @@ export const registerAccount = async (newAccount: RegisterData) => {
 }
 export const sendEmailToResetPassword = async ({ email }: { email: string }) => {
 	return await authApi.post('/forgot-password', { email }).then((res) => res.data)
+}
+
+export const resetPassword = async (resetPasswordData: ResetPasswordData) => {
+	return await authApi
+		.post(
+			'/reset-password',
+			{ password: resetPasswordData.password },
+			{
+				headers: {
+					Authorization: `Bearer ${resetPasswordData.token}`,
+				},
+			},
+		)
+		.then((res) => res.data)
 }

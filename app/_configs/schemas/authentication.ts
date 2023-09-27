@@ -34,12 +34,18 @@ export const RegisterSchema = z
 		message: 'Invalid phone number',
 	})
 
-export const ResetPasswordSchema = z.object({
-	password: z
-		.string()
-		.min(MIN_PASSWORD, `Password must be more than ${MIN_PASSWORD} characters`)
-		.max(MAX_PASSWORD, `Password must be less than ${MAX_PASSWORD} characters`),
-})
+export const ResetPasswordSchema = z
+	.object({
+		password: z
+			.string()
+			.min(MIN_PASSWORD, `Password must be more than ${MIN_PASSWORD} characters`)
+			.max(MAX_PASSWORD, `Password must be less than ${MAX_PASSWORD} characters`),
+		passwordConfirm: z.string().min(1, 'Please confirm your password'),
+	})
+	.refine((data) => data.password === data.passwordConfirm, {
+		path: ['passwordConfirm'],
+		message: 'Passwords do not match',
+	})
 
 export const ForgotPasswordSchema = z.object({
 	email: z.string().min(1, 'Email is required').email('Email is invalid'),

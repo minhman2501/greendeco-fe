@@ -42,7 +42,7 @@ function MissingTokenMessage() {
 					</p>
 					<p>
 						Or if you don&apos;t have an account,{' '}
-						<Link href={'/login'}>Sign Up Now!</Link>
+						<Link href={'/register'}>Sign Up Now!</Link>
 					</p>
 				</div>
 			</div>

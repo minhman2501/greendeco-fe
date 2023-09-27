@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const BASE_URL = 'http://localhost:8080/api/v1'
+const AUTHENTICATION_URL = `${process.env.NEXT_PUBLIC_GREENDECO_BACKEND_API}/auth`
 
 type RegisterData = {
 	firstName: string
@@ -12,12 +12,11 @@ type RegisterData = {
 }
 
 export const authApi = axios.create({
-	baseURL: BASE_URL,
-	withCredentials: true,
+	baseURL: AUTHENTICATION_URL,
 })
 
 authApi.defaults.headers.common['Content-Type'] = 'application/json'
 
 export const registerAccount = async (newAccount: RegisterData) => {
-	return await authApi.post('/auth/register', newAccount).then((res) => res.data)
+	return await authApi.post('/register', newAccount).then((res) => res.data)
 }

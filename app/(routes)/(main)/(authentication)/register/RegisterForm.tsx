@@ -27,7 +27,7 @@ export default function RegisterForm() {
 		formState: { errors },
 	} = useForm<RegisterFormInputType>({
 		mode: 'onBlur',
-		reValidateMode: 'onSubmit',
+		reValidateMode: 'onBlur',
 		resolver: zodResolver(RegisterSchema),
 		defaultValues: defaultInputValues,
 	})
@@ -43,7 +43,7 @@ export default function RegisterForm() {
 		//NOTE: Execuse after receving failure responses
 		onError: (e) => {
 			if (e instanceof AxiosError) {
-				notifyRegisterFail(e.response?.data.msg)
+				notifyRegisterFail(e.response?.data.msg || e.message)
 			}
 		},
 	})

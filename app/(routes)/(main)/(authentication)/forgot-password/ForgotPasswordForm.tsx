@@ -38,7 +38,7 @@ export default function ForgotPasswordForm() {
 		//NOTE: Execuse after receiving suscess responses
 		onSuccess: () => {
 			reset()
-			router.push('/forgot-password/emailsendsuccess')
+			router.push('/forgot-password/email-send-success')
 		},
 		//NOTE: Execuse after receving failure responses
 		onError: (e) => {

@@ -6,13 +6,15 @@ import {
 	ResetPasswordSchema,
 } from '@/app/_configs/schemas/authentication'
 import { useMutation } from '@tanstack/react-query'
-import { registerAccount, resetPassword } from '@/app/_api/axios/authentication'
+import { resetPassword } from '@/app/_api/axios/authentication'
 import { AxiosError } from 'axios'
-import { notifyRegisterFail, notifyRegisterSuccess } from '../Notification'
+import { notifyResetPasswordFail, notifyResetPasswordSuccess } from '../Notification'
 import { TextField } from '@/app/_components/form'
 import Button from '@/app/_components/Button'
+import { useRouter } from 'next/navigation'
 
 export default function ResetPasswordForm({ resetPasswordToken }: { resetPasswordToken: string }) {
+	const router = useRouter()
 	const defaultInputValues: ResetPasswordFormInputType = {
 		password: '',
 		passwordConfirm: '',
@@ -37,12 +39,14 @@ export default function ResetPasswordForm({ resetPasswordToken }: { resetPasswor
 		//NOTE: Execuse after receiving suscess responses
 		onSuccess: () => {
 			reset()
-			console.log('sucess')
+			notifyResetPasswordSuccess({ onClose: () => router.push('/login') })
 		},
 		//NOTE: Execuse after receving failure responses
 		onError: (e) => {
 			if (e instanceof AxiosError) {
-				console.log(e.response?.data.msg || e.message)
+				notifyResetPasswordFail(e.response?.data.msg || e.message, {
+					onClose: () => router.push('/forgot-password'),
+				})
 			}
 		},
 	})

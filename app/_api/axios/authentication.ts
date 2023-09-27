@@ -30,8 +30,8 @@ export const sendEmailToResetPassword = async ({ email }: { email: string }) => 
 
 export const resetPassword = async (resetPasswordData: ResetPasswordData) => {
 	return await authApi
-		.post(
-			'/reset-password',
+		.put(
+			'/password',
 			{ password: resetPasswordData.password },
 			{
 				headers: {

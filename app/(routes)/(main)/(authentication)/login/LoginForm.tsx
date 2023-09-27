@@ -8,6 +8,7 @@ import Button from '@/app/_components/Button'
 import { LoginFormInputType, LoginSchema } from '@/app/_configs/schemas/authentication'
 import { loginAccount } from '@/app/_api/axios/authentication'
 import { notifyLoginFail, notifyLoginSuccess } from '../Notification'
+import { setCookie } from '@/app/_hooks/useCookie'
 export default function LoginForm() {
 	const defaultInputValues: LoginFormInputType = {
 		email: '',
@@ -22,7 +23,7 @@ export default function LoginForm() {
 		formState: { errors },
 	} = useForm<LoginFormInputType>({
 		mode: 'onBlur',
-		reValidateMode: 'onSubmit',
+		reValidateMode: 'onBlur',
 		resolver: zodResolver(LoginSchema),
 		defaultValues: defaultInputValues,
 	})
@@ -34,6 +35,7 @@ export default function LoginForm() {
 		onSuccess: (data) => {
 			reset()
 			console.log(data)
+			setCookie({ name: 'access_Token', value: data.access_Token })
 			notifyLoginSuccess()
 		},
 		//NOTE: Execuse after receving failure responses

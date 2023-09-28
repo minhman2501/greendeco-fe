@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const AUTHENTICATION_URL = `${process.env.NEXT_PUBLIC_GREENDECO_BACKEND_API_LOCAL}/auth`
+const AUTHENTICATION_URL = `${process.env.NEXT_PUBLIC_GREENDECO_BACKEND_API}/auth`
 
 type RegisterData = {
 	firstName: string

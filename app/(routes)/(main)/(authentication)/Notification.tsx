@@ -12,6 +12,7 @@ export const notifyRegisterFail = (errorMessage?: string) => {
 		position: 'top-center',
 	})
 }
+
 export const notifyResetPasswordSuccess = (options?: ToastOptions) => {
 	toast.success(<ResetPasswordSuccessMessage />, {
 		position: 'top-center',
@@ -24,6 +25,7 @@ export const notifyResetPasswordFail = (errorMessage?: string, options?: ToastOp
 		onClose: options?.onClose,
 	})
 }
+
 export const notifySendEmailFail = (errorMessage?: string) => {
 	toast.error(<SendEmailErrorMessage message={errorMessage ? errorMessage : undefined} />, {
 		position: 'top-center',
@@ -84,6 +86,7 @@ const ResetPasswordErrorMessage = ({ message }: { message?: string }) => (
 		)}
 	</div>
 )
+
 const SendEmailErrorMessage = ({ message }: { message?: string }) => (
 	<div className='flex flex-col gap-[4px] pl-compact pr-common text-body-sm'>
 		<h3 className='capitalize text-status-error'>{message ? message : 'Registered Failed'}</h3>

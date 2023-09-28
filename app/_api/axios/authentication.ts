@@ -10,6 +10,7 @@ type RegisterData = {
 	phoneNumber: string
 	password: string
 }
+
 type ResetPasswordData = {
 	password: string
 	token: string
@@ -24,6 +25,7 @@ authApi.defaults.headers.common['Content-Type'] = 'application/json'
 export const registerAccount = async (newAccount: RegisterData) => {
 	return await authApi.post('/register', newAccount).then((res) => res.data)
 }
+
 export const sendEmailToResetPassword = async ({ email }: { email: string }) => {
 	return await authApi.post('/forgot-password', { email }).then((res) => res.data)
 }

@@ -1,5 +1,6 @@
 'use client'
 import { TextField } from '@/app/_components/form'
+import Link from 'next/link'
 import { AxiosError } from 'axios'
 import { useMutation } from '@tanstack/react-query'
 import { useForm, SubmitHandler } from 'react-hook-form'
@@ -80,6 +81,9 @@ export default function LoginForm() {
 						error={Boolean(errors?.password)}
 						helperText={errors?.password?.message}
 					/>
+				</div>
+				<div className='flex w-full justify-end'>
+					<Link href={'/forgot-password'}>Forgot Password</Link>
 				</div>
 				<Button
 					type='submit'

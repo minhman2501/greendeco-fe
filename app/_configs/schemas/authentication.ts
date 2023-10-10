@@ -1,7 +1,7 @@
 import { MIN_PASSWORD, MAX_PASSWORD } from '../constants/variables'
 import * as z from 'zod'
 
-function validatePhoneForE164(phoneNumber: string) {
+export function validatePhoneForE164(phoneNumber: string) {
 	const regEx = /^\+[1-9]\d{10,14}$/
 
 	return regEx.test(phoneNumber)

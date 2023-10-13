@@ -1,22 +1,27 @@
-'use client'
-import React, { Dispatch, useState } from 'react'
+import React, { Dispatch, useEffect, useState } from 'react'
 import Image from 'next/image'
 import { AxiosError } from 'axios'
 import { DEFAULT_AVATAR } from '@/app/_configs/constants/images'
 import { useMutation } from '@tanstack/react-query'
 import { uploadImage } from '@/app/_api/axios/media'
+import { UserProfileResponseData } from '@/app/_api/axios/user'
+import { IMAGE_MAX_SIZE_IN_MB } from '@/app/_configs/constants/variables'
 
-export default function UserAvatar({
+function UserAvatar({
 	avatar,
 	setAvatar,
 }: {
-	avatar: any
-	setAvatar: Dispatch<any>
+	avatar: UserProfileResponseData['avatar']
+	setAvatar: Dispatch<UserProfileResponseData['avatar']>
 }) {
 	const [currentImage, setCurrentImage] = useState(avatar)
 
+	useEffect(() => {
+		setAvatar(currentImage)
+	}, [currentImage, setAvatar])
+
 	const onFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-		event.target.files && handleChange(event.target.files[0])
+		event.target.files && handleImageChange(event.target.files[0])
 	}
 
 	const imageUploadMutation = useMutation({
@@ -34,10 +39,15 @@ export default function UserAvatar({
 		},
 	})
 
-	function handleChange(imageFile: File) {
-		const formData = new FormData()
-		formData.append('image', imageFile)
-		imageUploadMutation.mutate(formData)
+	function handleImageChange(imageFile: File) {
+		validateImageSize(imageFile)
+			.then(() => {
+				const formData = new FormData()
+				formData.append('image', imageFile)
+
+				imageUploadMutation.mutate(formData)
+			})
+			.catch((error) => console.log(error))
 	}
 
 	return (
@@ -56,3 +66,15 @@ export default function UserAvatar({
 		</div>
 	)
 }
+
+function validateImageSize(image: File) {
+	const maxSize = IMAGE_MAX_SIZE_IN_MB * 1000 * 1024
+
+	return new Promise((resolve, rejects) => {
+		if (image.size < maxSize) {
+			resolve(image)
+		} else rejects(`Image size must be lower than ${IMAGE_MAX_SIZE_IN_MB} MB`)
+	})
+}
+
+export default React.memo(UserAvatar)

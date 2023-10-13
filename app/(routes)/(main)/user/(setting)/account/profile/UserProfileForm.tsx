@@ -1,5 +1,3 @@
-'use client'
-
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { AxiosError } from 'axios'
@@ -8,14 +6,12 @@ import { UserProfileFormInputType, UserProfileSchema } from '@/app/_configs/sche
 import UserAvatar from './UserAvatar'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
-import { updatetUserProfile } from '@/app/_api/axios/user'
+import { UserProfileResponseData, updatetUserProfile } from '@/app/_api/axios/user'
 
-export default function UserProfileForm({ profile }: { profile: any }) {
-	const [avatar, setAvatar] = useState<string>(profile.avatar)
+export default function UserProfileForm({ profile }: { profile: UserProfileResponseData }) {
+	const [avatar, setAvatar] = useState(profile.avatar)
 
 	const queryClient = useQueryClient()
-
-	console.log(avatar)
 
 	const defaultInputValues: UserProfileFormInputType = {
 		firstName: profile.firstName,
@@ -25,6 +21,7 @@ export default function UserProfileForm({ profile }: { profile: any }) {
 	}
 
 	const {
+		reset,
 		register,
 		handleSubmit,
 		formState: { errors, isDirty },
@@ -39,8 +36,8 @@ export default function UserProfileForm({ profile }: { profile: any }) {
 		//NOTE: The callback used for the mutation
 		mutationFn: updatetUserProfile,
 		//NOTE: Execuse after receiving suscess responses
-		onSuccess: (data) => {
-			console.log(data)
+		onSuccess: () => {
+			reset()
 			queryClient.invalidateQueries({ queryKey: ['user'] })
 		},
 		//NOTE: Execuse after receving failure responses
@@ -100,7 +97,8 @@ export default function UserProfileForm({ profile }: { profile: any }) {
 				</div>
 				<Button
 					disabled={
-						!isDirty || avatar == profile.avatar || updateUserProfileMutation.isLoading
+						(!isDirty && avatar == profile.avatar) ||
+						updateUserProfileMutation.isLoading
 					}
 					type='submit'
 				>

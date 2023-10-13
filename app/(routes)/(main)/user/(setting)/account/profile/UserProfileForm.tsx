@@ -7,6 +7,7 @@ import UserAvatar from './UserAvatar'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
 import { UserProfileResponseData, updatetUserProfile } from '@/app/_api/axios/user'
+import { notifySuccess, notifyError } from './Notification'
 
 export default function UserProfileForm({ profile }: { profile: UserProfileResponseData }) {
 	const [avatar, setAvatar] = useState(profile.avatar)
@@ -37,13 +38,13 @@ export default function UserProfileForm({ profile }: { profile: UserProfileRespo
 		mutationFn: updatetUserProfile,
 		//NOTE: Execuse after receiving suscess responses
 		onSuccess: () => {
-			reset()
+			notifySuccess()
 			queryClient.invalidateQueries({ queryKey: ['user'] })
 		},
 		//NOTE: Execuse after receving failure responses
 		onError: (e) => {
 			if (e instanceof AxiosError) {
-				console.log(e)
+				notifyError(e.response?.data.msg)
 			}
 		},
 	})
@@ -106,7 +107,7 @@ export default function UserProfileForm({ profile }: { profile: UserProfileRespo
 				</Button>
 			</form>
 			<UserAvatar
-				avatar={profile.avatar}
+				avatar={avatar}
 				setAvatar={setAvatar}
 			/>
 		</>

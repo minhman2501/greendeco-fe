@@ -6,6 +6,7 @@ import { useMutation } from '@tanstack/react-query'
 import { uploadImage } from '@/app/_api/axios/media'
 import { UserProfileResponseData } from '@/app/_api/axios/user'
 import { IMAGE_MAX_SIZE_IN_MB } from '@/app/_configs/constants/variables'
+import { notifyError } from './Notification'
 
 function UserAvatar({
 	avatar,
@@ -14,12 +15,6 @@ function UserAvatar({
 	avatar: UserProfileResponseData['avatar']
 	setAvatar: Dispatch<UserProfileResponseData['avatar']>
 }) {
-	const [currentImage, setCurrentImage] = useState(avatar)
-
-	useEffect(() => {
-		setAvatar(currentImage)
-	}, [currentImage, setAvatar])
-
 	const onFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		event.target.files && handleImageChange(event.target.files[0])
 	}
@@ -29,15 +24,16 @@ function UserAvatar({
 		mutationFn: uploadImage,
 		//NOTE: Execuse after receiving suscess responses
 		onSuccess: (data) => {
-			setCurrentImage(data)
+			setAvatar(data)
 		},
 		//NOTE: Execuse after receving failure responses
 		onError: (e) => {
 			if (e instanceof AxiosError) {
-				console.log(e)
+				notifyError(e.response?.data.msg)
 			}
 		},
 	})
+	console.log(imageUploadMutation.isLoading ? 'render loading' : 'render')
 
 	function handleImageChange(imageFile: File) {
 		validateImageSize(imageFile)
@@ -47,7 +43,7 @@ function UserAvatar({
 
 				imageUploadMutation.mutate(formData)
 			})
-			.catch((error) => console.log(error))
+			.catch((error) => notifyError(error))
 	}
 
 	return (
@@ -55,7 +51,7 @@ function UserAvatar({
 			<Image
 				width={30}
 				height={30}
-				src={currentImage ? currentImage : DEFAULT_AVATAR}
+				src={avatar ? avatar : DEFAULT_AVATAR}
 				alt='user avatar'
 			></Image>
 			<input

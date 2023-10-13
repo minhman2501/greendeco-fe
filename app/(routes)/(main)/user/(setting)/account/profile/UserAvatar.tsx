@@ -25,7 +25,6 @@ export default function UserAvatar({
 		//NOTE: Execuse after receiving suscess responses
 		onSuccess: (data) => {
 			setCurrentImage(data)
-			setAvatar(data)
 		},
 		//NOTE: Execuse after receving failure responses
 		onError: (e) => {

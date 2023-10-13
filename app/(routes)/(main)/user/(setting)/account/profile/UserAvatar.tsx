@@ -33,7 +33,6 @@ function UserAvatar({
 			}
 		},
 	})
-	console.log(imageUploadMutation.isLoading ? 'render loading' : 'render')
 
 	function handleImageChange(imageFile: File) {
 		validateImageSize(imageFile)

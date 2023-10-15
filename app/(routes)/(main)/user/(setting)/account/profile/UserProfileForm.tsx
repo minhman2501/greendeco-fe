@@ -5,11 +5,11 @@ import Button from '@/app/_components/Button'
 import { UserProfileFormInputType, UserProfileSchema } from '@/app/_configs/schemas/userProfile'
 import UserAvatar from './UserAvatar'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { useState } from 'react'
+import { useState, memo } from 'react'
 import { UserProfileResponseData, updatetUserProfile } from '@/app/_api/axios/user'
 import { notifySuccess, notifyError } from './Notification'
 
-export default function UserProfileForm({ profile }: { profile: UserProfileResponseData }) {
+function UserProfileForm({ profile }: { profile: UserProfileResponseData }) {
 	const [avatar, setAvatar] = useState(profile.avatar)
 
 	const queryClient = useQueryClient()
@@ -37,7 +37,8 @@ export default function UserProfileForm({ profile }: { profile: UserProfileRespo
 		//NOTE: The callback used for the mutation
 		mutationFn: updatetUserProfile,
 		//NOTE: Execuse after receiving suscess responses
-		onSuccess: () => {
+		onSuccess: (data) => {
+			reset(data)
 			notifySuccess()
 			queryClient.invalidateQueries({ queryKey: ['user'] })
 		},
@@ -113,3 +114,4 @@ export default function UserProfileForm({ profile }: { profile: UserProfileRespo
 		</>
 	)
 }
+export default memo(UserProfileForm)

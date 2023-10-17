@@ -10,15 +10,16 @@ import { UserProfileResponseData, updatetUserProfile } from '@/app/_api/axios/us
 import { notifySuccess, notifyError } from './Notification'
 
 function UserProfileForm({ profile }: { profile: UserProfileResponseData }) {
-	const [avatar, setAvatar] = useState(profile.avatar)
+	const { avatar, firstName, lastName, email, phoneNumber } = profile
+	const [userAvatar, setUserAvatar] = useState(avatar)
 
 	const queryClient = useQueryClient()
 
 	const defaultInputValues: UserProfileFormInputType = {
-		firstName: profile.firstName,
-		lastName: profile.lastName,
-		email: profile.email,
-		phoneNumber: profile.phoneNumber,
+		firstName: firstName,
+		lastName: lastName,
+		email: email,
+		phoneNumber: phoneNumber,
 	}
 
 	const {
@@ -65,7 +66,7 @@ function UserProfileForm({ profile }: { profile: UserProfileResponseData }) {
 		<div className='flex-col-start gap-comfortable'>
 			<UserAvatar
 				avatar={avatar}
-				setAvatar={setAvatar}
+				setAvatar={setUserAvatar}
 			/>
 			<form
 				onSubmit={handleSubmit(onSubmitHandler)}
@@ -121,7 +122,7 @@ function UserProfileForm({ profile }: { profile: UserProfileResponseData }) {
 						type='button'
 						onClick={() => {
 							reset()
-							setAvatar(profile.avatar)
+							setUserAvatar(profile.avatar)
 						}}
 					>
 						Cancel

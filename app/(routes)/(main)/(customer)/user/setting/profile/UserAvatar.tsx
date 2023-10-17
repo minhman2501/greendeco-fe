@@ -17,10 +17,6 @@ function UserAvatar({
 	avatar: UserProfileResponseData['avatar']
 	setAvatar: Dispatch<UserProfileResponseData['avatar']>
 }) {
-	const onFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-		event.target.files && handleImageChange(event.target.files[0])
-	}
-
 	const imageUploadMutation = useMutation({
 		//NOTE: The callback used for the mutation
 		mutationFn: uploadImage,
@@ -47,6 +43,10 @@ function UserAvatar({
 			.catch((error) => notifyError(error))
 	}
 
+	const onFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		event.target.files && handleImageChange(event.target.files[0])
+	}
+
 	return (
 		<div className='flex gap-comfortable'>
 			<div className='flex aspect-square w-[180px] items-center justify-center overflow-hidden rounded-[100%] border-[1px] border-primary-418-20'>
@@ -59,25 +59,8 @@ function UserAvatar({
 				></Image>
 			</div>
 			<div className='flex flex-col justify-center gap-cozy'>
-				<Button
-					type='button'
-					className='btnSecondary flex items-center justify-center gap-compact px-cozy'
-				>
-					<PhotoIcon className='aspect-square w-[20px]' />
-					<label
-						htmlFor='upload-photo'
-						className='cursor-pointer'
-					>
-						Change Avatar
-					</label>
-					<input
-						className='hidden'
-						type='file'
-						id='upload-photo'
-						accept='image/*'
-						onChange={onFileChange}
-					/>
-				</Button>
+				<SelectImageButton handleFileChange={onFileChange} />
+
 				<Button
 					onClick={() => setAvatar('')}
 					className='btnSecondary flex items-center justify-center gap-compact px-cozy'
@@ -90,17 +73,31 @@ function UserAvatar({
 	)
 }
 
-function BrowseFileButton(onFileChangeFn: (event: React.ChangeEvent<HTMLInputElement>) => void) {
+function SelectImageButton({
+	handleFileChange,
+}: {
+	handleFileChange: (event: React.ChangeEvent<HTMLInputElement>) => void
+}) {
 	return (
-		<>
-			<label htmlFor='upload-photo'>Browse...</label>
+		<Button
+			type='button'
+			className='btnSecondary flex items-center justify-center gap-compact px-cozy'
+		>
+			<PhotoIcon className='aspect-square w-[20px]' />
+			<label
+				htmlFor='upload-photo'
+				className='cursor-pointer'
+			>
+				Change Avatar
+			</label>
 			<input
+				className='hidden'
 				type='file'
 				id='upload-photo'
 				accept='image/*'
-				onChange={onFileChangeFn}
+				onChange={handleFileChange}
 			/>
-		</>
+		</Button>
 	)
 }
 

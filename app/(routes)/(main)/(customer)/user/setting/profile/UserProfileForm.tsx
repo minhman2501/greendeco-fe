@@ -66,7 +66,7 @@ function UserProfileForm({ profile }: { profile: UserProfileResponseData }) {
 	return (
 		<div className='flex-col-start gap-comfortable'>
 			<UserAvatar
-				avatar={avatar}
+				avatar={userAvatar}
 				setAvatar={setUserAvatar}
 			/>
 			<form

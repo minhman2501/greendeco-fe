@@ -12,6 +12,12 @@ export default function UserProfilePage() {
 
 	userProfileQuery.data && console.log(userProfileQuery.data)
 
-	if (userProfileQuery.data) return <UserProfileForm profile={userProfileQuery.data} />
-	return <h1>lmao</h1>
+	return (
+		<div className='flex-col-start gap-compact'>
+			<h1 className='text-heading-3'>Account Preference</h1>
+			<div className='p-cozy'>
+				{userProfileQuery.isSuccess && <UserProfileForm profile={userProfileQuery.data} />}
+			</div>
+		</div>
+	)
 }

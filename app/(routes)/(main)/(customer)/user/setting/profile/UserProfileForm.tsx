@@ -56,7 +56,7 @@ function UserProfileForm({ profile }: { profile: UserProfileResponseData }) {
 		e?.preventDefault()
 		//NOTE: Execute the Mutation
 		updateUserProfileMutation.mutate({
-			avatar: avatar,
+			avatar: userAvatar,
 			email: values.email,
 			firstName: values.firstName,
 			lastName: values.lastName,
@@ -81,7 +81,7 @@ function UserProfileForm({ profile }: { profile: UserProfileResponseData }) {
 							placeholder='First name'
 							register={register('firstName')}
 							error={Boolean(errors?.firstName)}
-							helperText={errors?.firstName?.message}
+							helperText={errors?.lastName?.message}
 						/>
 					</div>
 					<div className='flex-1'>
@@ -119,7 +119,7 @@ function UserProfileForm({ profile }: { profile: UserProfileResponseData }) {
 					<Button
 						className='w-fit px-comfortable'
 						disabled={
-							(!isDirty && avatar == profile.avatar) ||
+							(!isDirty && userAvatar == profile.avatar) ||
 							updateUserProfileMutation.isLoading
 						}
 						type='submit'

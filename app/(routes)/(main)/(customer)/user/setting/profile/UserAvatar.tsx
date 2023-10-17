@@ -9,6 +9,7 @@ import { IMAGE_MAX_SIZE_IN_MB } from '@/app/_configs/constants/variables'
 import { notifyError } from './Notification'
 import Button from '@/app/_components/Button'
 import { PhotoIcon, TrashIcon } from '@heroicons/react/24/solid'
+import { MutatingDots } from 'react-loader-spinner'
 
 function UserAvatar({
 	avatar,
@@ -49,7 +50,8 @@ function UserAvatar({
 
 	return (
 		<div className='flex gap-comfortable'>
-			<div className='flex aspect-square w-[180px] items-center justify-center overflow-hidden rounded-[100%] border-[1px] border-primary-418-20'>
+			<div className='relative flex aspect-square w-[180px] items-center justify-center overflow-hidden rounded-[100%] border-[1px] border-primary-418-20'>
+				{imageUploadMutation.isLoading && <LoadingAvatar />}
 				<Image
 					width={0}
 					height={0}
@@ -98,6 +100,22 @@ function SelectImageButton({
 				onChange={handleFileChange}
 			/>
 		</Button>
+	)
+}
+
+function LoadingAvatar() {
+	return (
+		<div className='absolute inset-0 flex items-center justify-center bg-primary-625'>
+			<MutatingDots
+				height='100'
+				width='100'
+				color='#fff'
+				secondaryColor='#fff'
+				radius='12.5'
+				ariaLabel='mutating-dots-loading'
+				visible={true}
+			/>
+		</div>
 	)
 }
 

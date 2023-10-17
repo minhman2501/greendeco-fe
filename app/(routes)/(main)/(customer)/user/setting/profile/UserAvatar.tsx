@@ -1,4 +1,4 @@
-import React, { Dispatch, useEffect, useState } from 'react'
+import React, { Dispatch } from 'react'
 import Image from 'next/image'
 import { AxiosError } from 'axios'
 import { DEFAULT_AVATAR } from '@/app/_configs/constants/images'
@@ -7,6 +7,8 @@ import { uploadImage } from '@/app/_api/axios/media'
 import { UserProfileResponseData } from '@/app/_api/axios/user'
 import { IMAGE_MAX_SIZE_IN_MB } from '@/app/_configs/constants/variables'
 import { notifyError } from './Notification'
+import Button from '@/app/_components/Button'
+import { PhotoIcon, TrashIcon } from '@heroicons/react/24/solid'
 
 function UserAvatar({
 	avatar,
@@ -46,19 +48,59 @@ function UserAvatar({
 	}
 
 	return (
-		<div className='w-[300px]'>
-			<Image
-				width={30}
-				height={30}
-				src={avatar ? avatar : DEFAULT_AVATAR}
-				alt='user avatar'
-			></Image>
+		<div className='flex gap-comfortable'>
+			<div className='flex aspect-square w-[180px] items-center justify-center overflow-hidden rounded-[100%] border-[1px] border-primary-418-20'>
+				<Image
+					width={0}
+					height={0}
+					sizes='100vw'
+					src={avatar ? avatar : DEFAULT_AVATAR}
+					alt='user avatar'
+				></Image>
+			</div>
+			<div className='flex flex-col justify-center gap-cozy'>
+				<Button
+					type='button'
+					className='btnSecondary flex items-center justify-center gap-compact px-cozy'
+				>
+					<PhotoIcon className='aspect-square w-[20px]' />
+					<label
+						htmlFor='upload-photo'
+						className='cursor-pointer'
+					>
+						Change Avatar
+					</label>
+					<input
+						className='hidden'
+						type='file'
+						id='upload-photo'
+						accept='image/*'
+						onChange={onFileChange}
+					/>
+				</Button>
+				<Button
+					onClick={() => setAvatar('')}
+					className='btnSecondary flex items-center justify-center gap-compact px-cozy'
+				>
+					<TrashIcon className='aspect-square w-[20px]' />
+					Remove
+				</Button>
+			</div>
+		</div>
+	)
+}
+
+function BrowseFileButton(onFileChangeFn: (event: React.ChangeEvent<HTMLInputElement>) => void) {
+	return (
+		<>
+			<label htmlFor='upload-photo'>Browse...</label>
 			<input
 				type='file'
+				id='upload-photo'
 				accept='image/*'
-				onChange={onFileChange}
-			></input>
-		</div>
+				onChange={onFileChangeFn}
+			/>
+		</>
 	)
 }
 

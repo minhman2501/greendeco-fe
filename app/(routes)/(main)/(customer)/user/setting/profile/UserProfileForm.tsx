@@ -62,7 +62,11 @@ function UserProfileForm({ profile }: { profile: UserProfileResponseData }) {
 		})
 	}
 	return (
-		<>
+		<div className='flex-col-start gap-comfortable'>
+			<UserAvatar
+				avatar={avatar}
+				setAvatar={setAvatar}
+			/>
 			<form
 				onSubmit={handleSubmit(onSubmitHandler)}
 				className='flex w-full flex-col gap-cozy text-body-sm'
@@ -97,21 +101,34 @@ function UserProfileForm({ profile }: { profile: UserProfileResponseData }) {
 						{...register('phoneNumber')}
 					/>
 				</div>
-				<Button
-					disabled={
-						(!isDirty && avatar == profile.avatar) ||
-						updateUserProfileMutation.isLoading
-					}
-					type='submit'
-				>
-					Edit
-				</Button>
+				<span className='flex gap-cozy'>
+					<Button
+						className='w-fit px-comfortable'
+						disabled={
+							(!isDirty && avatar == profile.avatar) ||
+							updateUserProfileMutation.isLoading
+						}
+						type='submit'
+					>
+						Edit
+					</Button>
+					<Button
+						className='btnSecondary w-fit px-comfortable'
+						disabled={
+							(!isDirty && avatar == profile.avatar) ||
+							updateUserProfileMutation.isLoading
+						}
+						type='button'
+						onClick={() => {
+							reset()
+							setAvatar(profile.avatar)
+						}}
+					>
+						Cancel
+					</Button>
+				</span>
 			</form>
-			<UserAvatar
-				avatar={avatar}
-				setAvatar={setAvatar}
-			/>
-		</>
+		</div>
 	)
 }
 export default memo(UserProfileForm)

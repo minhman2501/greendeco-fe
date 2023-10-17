@@ -8,6 +8,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useState, memo } from 'react'
 import { UserProfileResponseData, updatetUserProfile } from '@/app/_api/axios/user'
 import { notifySuccess, notifyError } from './Notification'
+import { TextField } from '@/app/_components/form'
 
 function UserProfileForm({ profile }: { profile: UserProfileResponseData }) {
 	const { avatar, firstName, lastName, email, phoneNumber } = profile
@@ -74,32 +75,44 @@ function UserProfileForm({ profile }: { profile: UserProfileResponseData }) {
 			>
 				<div className='flex-row-between gap-cozy'>
 					<div className='flex-1'>
-						<input
+						<TextField
 							type='text'
-							placeholder='First Name'
-							{...register('firstName')}
+							label='First name'
+							placeholder='First name'
+							register={register('firstName')}
+							error={Boolean(errors?.firstName)}
+							helperText={errors?.firstName?.message}
 						/>
 					</div>
 					<div className='flex-1'>
-						<input
+						<TextField
 							type='text'
-							placeholder='Last Name'
-							{...register('lastName')}
+							label='Last name'
+							placeholder='Last name'
+							register={register('lastName')}
+							error={Boolean(errors?.lastName)}
+							helperText={errors?.lastName?.message}
 						/>
 					</div>
 				</div>
 				<div>
-					<input
+					<TextField
 						type='email'
+						label='Email'
 						placeholder='Email'
-						{...register('email')}
+						register={register('email')}
+						error={Boolean(errors?.email)}
+						helperText={errors?.email?.message}
 					/>
 				</div>
 				<div>
-					<input
+					<TextField
 						type='tel'
-						placeholder='Phone Number'
-						{...register('phoneNumber')}
+						label='Phone number'
+						placeholder='Phone number'
+						register={register('phoneNumber')}
+						error={Boolean(errors?.phoneNumber)}
+						helperText={errors?.phoneNumber?.message}
 					/>
 				</div>
 				<span className='flex gap-cozy'>
@@ -113,6 +126,7 @@ function UserProfileForm({ profile }: { profile: UserProfileResponseData }) {
 					>
 						Edit
 					</Button>
+
 					<Button
 						className='btnSecondary w-fit px-comfortable'
 						disabled={

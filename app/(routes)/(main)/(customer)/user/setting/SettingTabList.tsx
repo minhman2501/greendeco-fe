@@ -28,7 +28,7 @@ export default React.memo(function SettingTabList() {
 	return (
 		<div
 			className='
-            flex w-full items-center gap-x-compact rounded-[4px] bg-primary-625 p-compact
+            flex w-full items-center gap-x-compact rounded-[8px] bg-primary-625 p-compact
             '
 		>
 			{settingTabList.map((tab) => (

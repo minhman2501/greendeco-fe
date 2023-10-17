@@ -1,47 +1,33 @@
 import * as React from 'react'
-import { FormControl, FormControlProps } from '@mui/base/FormControl'
 import { Input } from './Input'
 import clsx from 'clsx'
 import { UseFormRegisterReturn } from 'react-hook-form'
 
-type CustomFormControlProps<T> = Partial<T> & {
+type TextFieldProps = {
 	label?: string
 	helperText?: string
 	type?: React.HTMLInputTypeAttribute
 	register?: UseFormRegisterReturn
+	className?: string
+	placeholder: string
+	error: boolean
 }
 
-export function TextField(props: CustomFormControlProps<FormControlProps>) {
-	const {
-		className,
-		label,
-		helperText,
-		type,
-		required,
-		error,
-		register,
-		...otherFormControlProps
-	} = props
+export function TextField(props: TextFieldProps) {
+	const { className, label, helperText, type, error, register, placeholder } = props
 
 	return (
 		<>
-			<FormControl
-				{...otherFormControlProps}
-				error={error}
-				className={clsx('flex flex-col gap-compact', className)}
-			>
-				{label && (
-					<label className='font-bold'>
-						{label} {required ? '*' : ''}
-					</label>
-				)}
+			<div className={clsx('flex flex-col gap-compact', className)}>
+				{label && <label className='font-bold'>{label}</label>}
 				<Input
 					type={type}
+					placeholder={placeholder}
 					className='w-full'
 					{...register}
 				/>
 				{helperText && <p className={clsx({ 'text-status-error': error })}>{helperText}</p>}
-			</FormControl>
+			</div>
 		</>
 	)
 }

@@ -28,7 +28,7 @@ export default React.memo(function SettingTabList() {
 	return (
 		<div
 			className='
-            flex w-full items-center gap-x-compact rounded-[8px] bg-primary-625 p-compact
+            flex w-full items-center gap-cozy rounded-[8px] bg-primary-625 p-compact
             '
 		>
 			{settingTabList.map((tab) => (
@@ -50,7 +50,7 @@ const Tab = React.memo(function Tab({ label, path }: SettingTab) {
 		<Link
 			href={`./${path}`}
 			className={clsx('flex w-full justify-center rounded-[4px]  p-compact font-bold', {
-				' bg-primary-625  text-neutral-gray-1 hover:font-semibold':
+				' bg-primary-625  text-neutral-gray-1 hover:bg-white/30 ':
 					currentPath.includes(path) === false,
 				'pointer-events-none cursor-auto cursor-pointer bg-white text-primary-625':
 					currentPath.includes(path),

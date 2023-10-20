@@ -6,12 +6,12 @@ export type ProductCardProps = {
 	id: string
 	name: string
 	image: string
-	review?: string[]
+	review?: number
 	price: string
 }
 
-export default function ProductCard(props: ProductCardProps) {
-	const { id, name, image, price } = props
+export default function ProductCard({ product }: { product: ProductCardProps }) {
+	const { id, name, image, price } = product
 	return (
 		<span className='w-full overflow-hidden rounded-[8px] shadow-63'>
 			<CardImage imageUrl={image} />

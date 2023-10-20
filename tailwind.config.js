@@ -17,6 +17,7 @@ module.exports = {
 			boxShadow: {
 				30: ' 0px 14px 28px rgba(0, 0, 0, 0.25),0px 10px 10px rgba(0, 0, 0, 0.22) ',
 				38: ' 0px 10px 15px -3px rgba(0, 0, 0, 0.1),0px 4px 6px -2px rgba(0, 0, 0, 0.05) ',
+				63: ' 6px 2px 16px 0px rgba(136, 165, 191, 0.48),-6px -2px 16px 0px  rgba(255, 255, 255, 0.8)',
 			},
 			fontSize: {
 				heading: '2.8rem',
@@ -35,6 +36,7 @@ module.exports = {
 			fontWeight: {
 				bold: 700,
 				regular: 400,
+				'semi-bold': 600,
 				light: 300,
 			},
 			spacing: {

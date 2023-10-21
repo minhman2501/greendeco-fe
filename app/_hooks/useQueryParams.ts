@@ -7,6 +7,7 @@ export default function useQueryParams<T>() {
 	const pathname = usePathname()
 	const searchParams = useSearchParams()
 	const urlSearchParams = new URLSearchParams(searchParams?.toString())
+	const urlQueryObject = Object.fromEntries(urlSearchParams)
 
 	function setQueryParams(params: Partial<T>) {
 		Object.entries(params).forEach(([key, value]) => {
@@ -23,5 +24,5 @@ export default function useQueryParams<T>() {
 		router.replace(`${pathname}${query}`)
 	}
 
-	return { queryParams: searchParams, setQueryParams }
+	return { queryParams: searchParams, queryObject: urlQueryObject, setQueryParams }
 }

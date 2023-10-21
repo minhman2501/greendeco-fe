@@ -8,6 +8,7 @@ type SortOptionsType = {
 	sort?: 'asc' | 'desc'
 	sortBy?: string
 }
+
 const options: SortOptionsType[] = [
 	{
 		sort: 'asc',
@@ -28,10 +29,9 @@ const options: SortOptionsType[] = [
 ]
 
 export const SortMenu = () => {
-	const { queryParams, setQueryParams } = useQueryParams<SortOptionsType>()
+	const { queryObject, setQueryParams } = useQueryParams<SortOptionsType>()
 
-	const urlQueryParams = new URLSearchParams(queryParams.toString())
-	const optionFilter = Object.fromEntries(urlQueryParams)
+	const optionFilter = queryObject
 
 	const onSelect = useCallback(
 		(event: ChangeEvent<HTMLSelectElement>) => {

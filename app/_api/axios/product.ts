@@ -34,8 +34,16 @@ export type FilterParams = {
 	offSet?: number
 	sort?: 'asc' | 'desc'
 	sortBy?: string
-	field?: JSON
+	field?: string
 } | null
+
+const fieldJSONParse = (params: FilterParams) => {
+	if (params) {
+		const { field, ...restParms } = params
+		const fieldJSON = field ? JSON.parse(field) : null
+		return { field: fieldJSON ? fieldJSON : null, ...restParms }
+	}
+}
 
 export const productApi = axios.create({
 	baseURL: PRODUCT_URL,
@@ -44,9 +52,14 @@ export const productApi = axios.create({
 productApi.defaults.headers.common['Content-Type'] = 'application/json'
 
 export const getProductList = async (params?: FilterParams) => {
+	let paramAfterJSON
+	if (params) {
+		paramAfterJSON = fieldJSONParse(params)
+	}
+
 	return await productApi
 		.get<ProductListData>('', {
-			params: params,
+			params: { ...paramAfterJSON },
 		})
 		.then((res) => res.data)
 }

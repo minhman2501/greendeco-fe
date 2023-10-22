@@ -3,18 +3,16 @@ import { FilterParams, getProductList } from '@/app/_api/axios/product'
 import ProductCardsGrid from '@/app/_components/product/ProductGrid'
 import { useQuery } from '@tanstack/react-query'
 import useQueryParams from '@/app/_hooks/useQueryParams'
+import Pagination from './Pagination'
 
 export default function ProductListPage() {
-	const { queryObject, queryParams } = useQueryParams<FilterParams>()
+	const { queryObject } = useQueryParams<FilterParams>()
 
-	const field = queryParams?.get('field')
-	const result = field ? field : ''
-	result !== '' ? console.log('field', JSON.parse(result)) : null
 	const productListQuery = useQuery({
-		queryKey: ['product', field],
+		queryKey: ['product', queryObject],
 		queryFn: () =>
 			getProductList({
-				field: JSON.parse(result),
+				...queryObject,
 			}),
 	})
 
@@ -28,6 +26,11 @@ export default function ProductListPage() {
 					productList={productListQuery.data.items}
 					columns={4}
 					gap='cozy'
+				/>
+				<Pagination
+					offSet={productListQuery.data.page}
+					next={productListQuery.data.next}
+					prev={productListQuery.data.prev}
 				/>
 			</>
 		)

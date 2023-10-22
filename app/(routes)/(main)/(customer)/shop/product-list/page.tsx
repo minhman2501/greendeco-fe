@@ -12,13 +12,14 @@ export default function ProductListPage() {
 		queryKey: ['product', queryObject],
 		queryFn: () =>
 			getProductList({
+				limit: 3,
 				...queryObject,
 			}),
 	})
 
 	if (productListQuery.data)
 		return (
-			<section>
+			<>
 				{productListQuery.data.page_size > 0 ? (
 					<div className='flex-col-start gap-cozy'>
 						<span>count {productListQuery.data.page_size}</span>
@@ -28,7 +29,6 @@ export default function ProductListPage() {
 							gap='cozy'
 						/>
 						<Pagination
-							offSet={productListQuery.data.page}
 							next={productListQuery.data.next}
 							prev={productListQuery.data.prev}
 						/>
@@ -36,6 +36,6 @@ export default function ProductListPage() {
 				) : (
 					<div>Out of product</div>
 				)}
-			</section>
+			</>
 		)
 }

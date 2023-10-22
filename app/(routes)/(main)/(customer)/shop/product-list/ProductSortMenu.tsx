@@ -65,7 +65,7 @@ export const SortMenu = () => {
 							? 'Price decrease'
 							: '')}
 					{opt.sortBy === 'created_at' &&
-						(opt.sort === 'asc' ? 'Newest' : opt.sort === 'desc' ? 'Oldest' : '')}
+						(opt.sort === 'asc' ? 'Oldest' : opt.sort === 'desc' ? 'Newest' : '')}
 				</option>
 			))}
 		</select>

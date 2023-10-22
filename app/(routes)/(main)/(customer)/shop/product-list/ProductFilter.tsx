@@ -14,7 +14,7 @@ type QueryParams = {
 	field: string | null
 }
 
-const sizeOptions = ['S', 'M', 'L']
+const sizeOptions = ['S', 'M', 'L', 'XL']
 const difficultyOptions = ['easy', 'medium', 'hard']
 const typeOptions = ['Outdoor', 'Indoor']
 
@@ -37,8 +37,12 @@ export default function FilterMenu() {
 					else delete object[key]
 				}
 			})
+			if (Object.keys(object).length === 0) {
+				setQueryParams({ field: undefined, offSet: 1 })
+				return
+			}
 
-			setQueryParams({ field: object ? JSON.stringify(object) : null, offSet: 1 })
+			setQueryParams({ field: JSON.stringify(object), offSet: 1 })
 		},
 		[setQueryParams, object],
 	)

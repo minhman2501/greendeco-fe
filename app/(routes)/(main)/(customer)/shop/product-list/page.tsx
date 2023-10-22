@@ -18,20 +18,24 @@ export default function ProductListPage() {
 
 	if (productListQuery.data)
 		return (
-			<>
-				<div className='flex items-center justify-between'>
-					<span>count {productListQuery.data.page_size}</span>
-				</div>
-				<ProductCardsGrid
-					productList={productListQuery.data.items}
-					columns={4}
-					gap='cozy'
-				/>
-				<Pagination
-					offSet={productListQuery.data.page}
-					next={productListQuery.data.next}
-					prev={productListQuery.data.prev}
-				/>
-			</>
+			<section>
+				{productListQuery.data.page_size > 0 ? (
+					<div className='flex-col-start gap-cozy'>
+						<span>count {productListQuery.data.page_size}</span>
+						<ProductCardsGrid
+							productList={productListQuery.data.items}
+							columns={4}
+							gap='cozy'
+						/>
+						<Pagination
+							offSet={productListQuery.data.page}
+							next={productListQuery.data.next}
+							prev={productListQuery.data.prev}
+						/>
+					</div>
+				) : (
+					<div>Out of product</div>
+				)}
+			</section>
 		)
 }

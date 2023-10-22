@@ -9,7 +9,8 @@ type FieldQuery = {
 	type?: string
 }
 
-type FieldString = {
+type QueryParams = {
+	offSet: number
 	field: string | null
 }
 
@@ -24,10 +25,9 @@ const options = {
 }
 
 export default function FilterMenu() {
-	const { queryParams, setQueryParams } = useQueryParams<FieldString>()
+	const { queryParams, setQueryParams } = useQueryParams<QueryParams>()
 	const fieldQuery = queryParams?.get('field')
 	const object: FieldQuery = fieldQuery ? JSON.parse(fieldQuery) : {}
-	// console.log(object)
 
 	const filterSearch = useCallback(
 		(field: FieldQuery) => {
@@ -38,7 +38,7 @@ export default function FilterMenu() {
 				}
 			})
 
-			setQueryParams({ field: object ? JSON.stringify(object) : null })
+			setQueryParams({ field: object ? JSON.stringify(object) : null, offSet: 1 })
 		},
 		[setQueryParams, object],
 	)

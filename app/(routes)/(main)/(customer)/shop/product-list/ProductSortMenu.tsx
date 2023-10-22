@@ -9,6 +9,8 @@ type SortOptionsType = {
 	sortBy?: string
 }
 
+type QueryParams<T> = Partial<T> & { offSet: number }
+
 const options: SortOptionsType[] = [
 	{
 		sort: 'asc',
@@ -29,13 +31,14 @@ const options: SortOptionsType[] = [
 ]
 
 export const SortMenu = () => {
-	const { queryObject, setQueryParams } = useQueryParams<SortOptionsType>()
+	const { queryObject, setQueryParams } = useQueryParams<QueryParams<SortOptionsType>>()
 
 	const optionFilter = queryObject
 
 	const onSelect = useCallback(
 		(event: ChangeEvent<HTMLSelectElement>) => {
-			if (event.target.value === JSON.stringify(optionFilter) || !event.target.value) {
+			const value: SortOptionsType = JSON.parse(event.target.value)
+			if (value === optionFilter || !event.target.value) {
 				setQueryParams({
 					sort: undefined,
 					sortBy: undefined,
@@ -43,7 +46,7 @@ export const SortMenu = () => {
 				return
 			}
 
-			setQueryParams(JSON.parse(event.target.value))
+			setQueryParams({ sort: value.sort, sortBy: value.sortBy, offSet: 1 })
 		},
 		[setQueryParams, optionFilter],
 	)

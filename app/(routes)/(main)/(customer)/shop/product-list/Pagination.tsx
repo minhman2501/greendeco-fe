@@ -4,26 +4,33 @@ import useQueryParams from '@/app/_hooks/useQueryParams'
 import Button from '@/app/_components/Button'
 
 type PaginationProps = {
-	offSet: number
 	next: boolean
 	prev: boolean
 }
 
-type QueryPararms = Pick<PaginationProps, 'offSet'>
+type QueryPararms = {
+	offSet: number
+}
 
 export default function Pagination(props: PaginationProps) {
-	const { offSet, next, prev } = props
+	const { next, prev } = props
 
-	const { setQueryParams } = useQueryParams<QueryPararms>()
-	const currentPage = offSet
+	const { queryParams, setQueryParams } = useQueryParams<QueryPararms>()
+
+	const offSetValue = queryParams?.get('offSet')
+	const currentPage: QueryPararms['offSet'] =
+		offSetValue && offSetValue !== '0' ? Number.parseInt(offSetValue) : 1
 
 	const changePage = useCallback(
 		(pageNumber: number) => {
-			if (pageNumber === currentPage || !pageNumber) setQueryParams({ offSet: undefined })
+			if (pageNumber === 0) {
+				setQueryParams({ offSet: undefined })
+				return
+			}
 
 			setQueryParams({ offSet: pageNumber })
 		},
-		[setQueryParams, currentPage],
+		[setQueryParams],
 	)
 
 	const handlePageChange = (destinationPage: number) => {

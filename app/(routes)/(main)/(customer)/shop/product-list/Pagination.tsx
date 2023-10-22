@@ -31,7 +31,7 @@ export default function Pagination(props: PaginationProps) {
 	}
 
 	return (
-		<div className='flex items-center gap-comfortable'>
+		<div className='flex items-center justify-center gap-cozy'>
 			<Button
 				disabled={!prev}
 				onClick={() => handlePageChange(currentPage - 1)}

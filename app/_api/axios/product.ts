@@ -25,7 +25,7 @@ type ProductListData = {
 	items: ProductData[]
 	next: boolean
 	page: number
-	page_size: 2
+	page_size: number
 	prev: boolean
 }
 

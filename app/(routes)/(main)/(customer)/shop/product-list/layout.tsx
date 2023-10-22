@@ -6,13 +6,15 @@ export default function ProductListLayout({ children }: { children: React.ReactN
 	return (
 		<>
 			<div>Banner</div>
-			<div className='grid grid-cols-12 gap-comfortable'>
-				<div className='col-span-3'>
-					<SortMenu />
-					<FilterMenu />
+			<section className='container'>
+				<div className='grid grid-cols-12 gap-comfortable'>
+					<div className='col-span-3'>
+						<SortMenu />
+						<FilterMenu />
+					</div>
+					<div className='col-span-9'>{children}</div>
 				</div>
-				<div className='col-span-9'>{children}</div>
-			</div>
+			</section>
 		</>
 	)
 }

@@ -15,7 +15,7 @@ export default function ProductListPage() {
 		queryKey: ['product', queryObject],
 		queryFn: () =>
 			getProductList({
-				limit: 4,
+				limit: 20,
 				...queryObject,
 			}),
 	})
@@ -28,16 +28,18 @@ export default function ProductListPage() {
 
 			<div className='col-span-9'>
 				<div className='flex-col-start gap-cozy'>
-					<div className='flex w-full items-center justify-end'>
-						<SortMenu />
-					</div>
+					{productListQuery.data?.page_size !== 0 && (
+						<div className='flex w-full items-center justify-end'>
+							<SortMenu />
+						</div>
+					)}
 					{productListQuery.isLoading && <ProductListLoading />}
-					{productListQuery.data?.items && (
+					{productListQuery.data?.items && productListQuery.data.page_size !== 0 && (
 						<>
 							<ProductCardsGrid
 								productList={productListQuery.data.items}
 								columns={4}
-								gap='compact'
+								gap='cozy'
 							/>
 							<Pagination
 								next={productListQuery.data.next}

@@ -7,6 +7,7 @@ import Pagination from './Pagination'
 import { SortMenu } from './ProductSortMenu'
 import FilterSideBar from './ProductFilterSideBar'
 import ProductListLoading from './loading'
+import { FaceFrownIcon } from '@heroicons/react/24/solid'
 
 export default function ProductListPage() {
 	const { queryObject } = useQueryParams<FilterParams>()
@@ -49,8 +50,20 @@ export default function ProductListPage() {
 					)}
 				</div>
 
-				{productListQuery.data?.page_size === 0 && <div>Out of product</div>}
+				{productListQuery.data?.page_size === 0 && <OutOfProductMessage />}
 			</div>
+		</div>
+	)
+}
+
+function OutOfProductMessage() {
+	return (
+		<div className='flex h-[200px] w-full items-center justify-center text-primary-418'>
+			<span className='flex-col-center gap-compact'>
+				<FaceFrownIcon className='aspect-square h-[80px]' />
+
+				<p className='text-body-md'>Sorry! We can&apos;t find any product</p>
+			</span>
 		</div>
 	)
 }

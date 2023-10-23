@@ -52,7 +52,10 @@ export const SortMenu = () => {
 	)
 
 	return (
-		<select onChange={onSelect}>
+		<select
+			className='rounded-[4px] border-[1px] border-primary-625 bg-primary-5555 px-cozy py-compact text-body-md text-white'
+			onChange={onSelect}
+		>
 			{options.map((opt) => (
 				<option
 					key={JSON.stringify(opt)}

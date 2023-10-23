@@ -32,6 +32,7 @@ function FilterMenu() {
 
 	const filterSearch = useCallback(
 		(field: FieldQuery) => {
+			//NOTE: Validate field before assign to the fieldQueryObject
 			Object.entries(field).forEach(([key, value]) => {
 				if (key === 'size' || key === 'type' || key === 'light' || key === 'difficulty') {
 					if (value) object[key] = value

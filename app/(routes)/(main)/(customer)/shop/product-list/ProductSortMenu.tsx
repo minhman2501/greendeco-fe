@@ -52,6 +52,7 @@ export const SortMenu = () => {
 			className='rounded-[4px] border-[1px] border-primary-625 bg-primary-5555 px-cozy py-compact text-body-md text-white'
 			onChange={onSelect}
 		>
+			{/*NOTE: option value type can be only string => stringify the object */}
 			{options.map((opt) => (
 				<option
 					key={JSON.stringify(opt)}

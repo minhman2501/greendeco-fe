@@ -2,6 +2,7 @@
 import { useCallback } from 'react'
 import useQueryParams from '@/app/_hooks/useQueryParams'
 import Button from '@/app/_components/Button'
+import { ArrowLeftIcon, ArrowRightIcon } from '@heroicons/react/24/solid'
 
 type PaginationProps = {
 	next: boolean
@@ -40,16 +41,20 @@ export default function Pagination(props: PaginationProps) {
 	return (
 		<div className='flex items-center justify-center gap-cozy'>
 			<Button
+				className='flex items-center gap-compact rounded-[4px] font-normal'
 				disabled={!prev}
 				onClick={() => handlePageChange(currentPage - 1)}
 			>
-				Previous Page
+				<ArrowLeftIcon className='aspect-square w-[16px]' />
+				Previous
 			</Button>
 			<Button
+				className='flex items-center gap-compact rounded-[4px]  font-normal'
 				disabled={!next}
 				onClick={() => handlePageChange(currentPage + 1)}
 			>
-				Next Page
+				Next
+				<ArrowRightIcon className='aspect-square w-[16px]' />
 			</Button>
 		</div>
 	)

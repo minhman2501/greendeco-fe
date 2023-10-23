@@ -14,6 +14,7 @@ module.exports = {
 			backgroundImage: {
 				'product-list':
 					"url('https://www.everwallpaper.co.uk/cdn/shop/collections/Bird-and-Floral-Art-Wallpaper-Mural.jpg?v=1660109731')",
+				test: "linear-gradient(to left bottom, rgba(255,255,255,0),rgba(86, 119, 118, 0.2), rgba(70, 79, 65, 0.95)), url('https://www.everwallpaper.co.uk/cdn/shop/collections/Bird-and-Floral-Art-Wallpaper-Mural.jpg?v=1660109731')",
 			},
 			boxShadow: {
 				30: ' 0px 14px 28px rgba(0, 0, 0, 0.25),0px 10px 10px rgba(0, 0, 0, 0.22) ',

@@ -4,6 +4,9 @@ import ProductCardsGrid from '@/app/_components/product/ProductGrid'
 import { useQuery } from '@tanstack/react-query'
 import useQueryParams from '@/app/_hooks/useQueryParams'
 import Pagination from './Pagination'
+import { SortMenu } from './ProductSortMenu'
+import FilterSideBar from './ProductFilterSideBar'
+import ProductListLoading from './loading'
 
 export default function ProductListPage() {
 	const { queryObject } = useQueryParams<FilterParams>()
@@ -12,30 +15,40 @@ export default function ProductListPage() {
 		queryKey: ['product', queryObject],
 		queryFn: () =>
 			getProductList({
-				limit: 3,
+				limit: 4,
 				...queryObject,
 			}),
 	})
 
-	if (productListQuery.data)
-		return (
-			<>
-				{productListQuery.data.page_size > 0 ? (
-					<div className='flex-col-start gap-cozy'>
-						<span>count {productListQuery.data.page_size}</span>
-						<ProductCardsGrid
-							productList={productListQuery.data.items}
-							columns={4}
-							gap='cozy'
-						/>
-						<Pagination
-							next={productListQuery.data.next}
-							prev={productListQuery.data.prev}
-						/>
+	return (
+		<div className='grid grid-cols-12 gap-comfortable py-comfortable'>
+			<div className='col-span-3'>
+				<FilterSideBar />
+			</div>
+
+			<div className='col-span-9'>
+				<div className='flex-col-start gap-cozy'>
+					<div className='flex w-full items-center justify-end'>
+						<SortMenu />
 					</div>
-				) : (
-					<div>Out of product</div>
-				)}
-			</>
-		)
+					{productListQuery.isLoading && <ProductListLoading />}
+					{productListQuery.data?.items && (
+						<>
+							<ProductCardsGrid
+								productList={productListQuery.data.items}
+								columns={4}
+								gap='compact'
+							/>
+							<Pagination
+								next={productListQuery.data.next}
+								prev={productListQuery.data.prev}
+							/>
+						</>
+					)}
+				</div>
+
+				{productListQuery.data?.page_size === 0 && <div>Out of product</div>}
+			</div>
+		</div>
+	)
 }

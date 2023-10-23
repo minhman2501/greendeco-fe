@@ -13,20 +13,16 @@ type QueryParams<T> = Partial<T> & { offSet: number }
 
 const options: SortOptionsType[] = [
 	{
+		sort: 'desc',
+		sortBy: 'created_at',
+	},
+	{
 		sort: 'asc',
 		sortBy: 'price',
 	},
 	{
 		sort: 'desc',
 		sortBy: 'price',
-	},
-	{
-		sort: 'asc',
-		sortBy: 'created_at',
-	},
-	{
-		sort: 'desc',
-		sortBy: 'created_at',
 	},
 ]
 
@@ -63,12 +59,11 @@ export const SortMenu = () => {
 				>
 					{opt.sortBy === 'price' &&
 						(opt.sort === 'asc'
-							? 'Price increase'
+							? 'Price Increase'
 							: opt.sort === 'desc'
-							? 'Price decrease'
+							? 'Price Decrease'
 							: '')}
-					{opt.sortBy === 'created_at' &&
-						(opt.sort === 'asc' ? 'Oldest' : opt.sort === 'desc' ? 'Newest' : '')}
+					{opt.sortBy === 'created_at' && 'Newest Release'}
 				</option>
 			))}
 		</select>

@@ -8,7 +8,7 @@ export type ProductCardProps = Pick<ProductData, 'id' | 'name' | 'images' | 'pri
 export default function ProductCard({ product }: { product: ProductCardProps }) {
 	const { id, name, images, price } = product
 	return (
-		<span className='w-full overflow-hidden rounded-[8px] shadow-63'>
+		<span className='w-full overflow-hidden rounded-[8px] bg-white shadow-63'>
 			<CardImage imageUrl={images[0]} />
 			<div className='flex w-full p-cozy'>
 				<CardDetail
@@ -50,7 +50,7 @@ function CardDetail({
 }
 function CardImage({ imageUrl }: { imageUrl: string }) {
 	return (
-		<div className='h-[280px] w-full'>
+		<div className='h-[240px] w-full'>
 			<Image
 				src={imageUrl}
 				alt='product image'

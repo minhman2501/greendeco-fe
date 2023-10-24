@@ -8,7 +8,7 @@ const accessToken = getCookie(ACCESS_TOKEN_COOKIE_NAME)
 
 export type UserProfileResponseData = {
 	id: string
-	avatar: string
+	avatar: string | null
 	firstName: string
 	lastName: string
 	email: string
@@ -16,7 +16,7 @@ export type UserProfileResponseData = {
 }
 
 export type UserProfileUpdateData = {
-	avatar: string
+	avatar: string | null
 	firstName: string
 	lastName: string
 	email: string

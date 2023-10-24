@@ -64,7 +64,7 @@ function UserAvatar({
 				<SelectImageButton handleFileChange={onFileChange} />
 
 				<Button
-					onClick={() => setAvatar('')}
+					onClick={() => setAvatar(null)}
 					className='btnSecondary flex items-center justify-center gap-compact px-cozy'
 				>
 					<TrashIcon className='aspect-square w-[20px]' />

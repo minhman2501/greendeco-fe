@@ -12,9 +12,11 @@ import { ACCESS_TOKEN_COOKIE_NAME } from '@/app/_configs/constants/cookies'
 export default function UserProfilePage() {
 	const router = useRouter()
 
+	const accessToken = getCookie(ACCESS_TOKEN_COOKIE_NAME)?.toString()
+
 	const userProfileQuery = useQuery({
 		queryKey: ['user'],
-		queryFn: getUserProfile,
+		queryFn: () => getUserProfile(accessToken),
 		onError: (e) => {
 			if (e instanceof AxiosError) {
 				notifyGetProfileError(e.response?.data.msg, {

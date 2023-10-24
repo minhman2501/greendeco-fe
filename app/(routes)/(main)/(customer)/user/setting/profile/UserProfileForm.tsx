@@ -9,6 +9,8 @@ import { useState, memo } from 'react'
 import { UserProfileResponseData, updatetUserProfile } from '@/app/_api/axios/user'
 import { notifySuccess, notifyError } from './Notification'
 import { TextField } from '@/app/_components/form'
+import { getCookie } from 'cookies-next'
+import { ACCESS_TOKEN_COOKIE_NAME } from '@/app/_configs/constants/cookies'
 
 function UserProfileForm({ profile }: { profile: UserProfileResponseData }) {
 	const { avatar, firstName, lastName, email, phoneNumber } = profile
@@ -54,13 +56,17 @@ function UserProfileForm({ profile }: { profile: UserProfileResponseData }) {
 
 	const onSubmitHandler: SubmitHandler<UserProfileFormInputType> = (values, e) => {
 		e?.preventDefault()
+		const accessToken = getCookie(ACCESS_TOKEN_COOKIE_NAME)
 		//NOTE: Execute the Mutation
 		updateUserProfileMutation.mutate({
-			avatar: userAvatar,
-			email: values.email,
-			firstName: values.firstName,
-			lastName: values.lastName,
-			phoneNumber: values.phoneNumber,
+			accessToken: accessToken,
+			profile: {
+				avatar: userAvatar,
+				email: values.email,
+				firstName: values.firstName,
+				lastName: values.lastName,
+				phoneNumber: values.phoneNumber,
+			},
 		})
 	}
 	return (

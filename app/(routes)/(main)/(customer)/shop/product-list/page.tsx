@@ -8,6 +8,7 @@ import { SortMenu } from './ProductSortMenu'
 import FilterSideBar from './ProductFilterSideBar'
 import ProductListLoading from './loading'
 import { FaceFrownIcon } from '@heroicons/react/24/solid'
+import ProuductListError from './error'
 
 export default function ProductListPage() {
 	const { queryObject } = useQueryParams<FilterParams>()
@@ -19,6 +20,7 @@ export default function ProductListPage() {
 				limit: 20,
 				...queryObject,
 			}),
+		refetchOnWindowFocus: false,
 	})
 
 	return (
@@ -28,29 +30,30 @@ export default function ProductListPage() {
 			</div>
 
 			<div className='col-span-9'>
-				<div className='flex-col-start gap-cozy'>
-					{productListQuery.data?.page_size !== 0 && (
-						<div className='flex w-full items-center justify-end'>
-							<SortMenu />
-						</div>
-					)}
-					{productListQuery.isLoading && <ProductListLoading />}
-					{productListQuery.data?.items && productListQuery.data.page_size !== 0 && (
-						<>
-							<ProductCardsGrid
-								productList={productListQuery.data.items}
-								columns={4}
-								gap='cozy'
-							/>
-							<Pagination
-								next={productListQuery.data.next}
-								prev={productListQuery.data.prev}
-							/>
-						</>
-					)}
-				</div>
-
-				{productListQuery.data?.page_size === 0 && <OutOfProductMessage />}
+				{productListQuery.isLoading && <ProductListLoading />}
+				{productListQuery.isSuccess && (
+					<div className='flex-col-start gap-cozy'>
+						{productListQuery.data?.items && productListQuery.data.page_size > 0 ? (
+							<>
+								<div className='flex w-full items-center justify-end'>
+									<SortMenu />
+								</div>
+								<ProductCardsGrid
+									productList={productListQuery.data.items}
+									columns={4}
+									gap='cozy'
+								/>
+								<Pagination
+									next={productListQuery.data.next}
+									prev={productListQuery.data.prev}
+								/>
+							</>
+						) : (
+							<OutOfProductMessage />
+						)}
+					</div>
+				)}
+				{productListQuery.isError && <ProuductListError />}
 			</div>
 		</div>
 	)

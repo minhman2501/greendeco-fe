@@ -24,12 +24,9 @@ export default function Pagination(props: PaginationProps) {
 
 	const changePage = useCallback(
 		(pageNumber: number) => {
-			if (pageNumber === 0) {
-				setQueryParams({ offSet: undefined })
-				return
-			}
-
-			setQueryParams({ offSet: pageNumber })
+			return pageNumber === 0
+				? setQueryParams({ offSet: undefined })
+				: setQueryParams({ offSet: pageNumber })
 		},
 		[setQueryParams],
 	)

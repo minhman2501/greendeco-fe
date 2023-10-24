@@ -38,7 +38,7 @@ export default function Pagination(props: PaginationProps) {
 	return (
 		<div className='flex items-center justify-center gap-cozy'>
 			<Button
-				className='flex items-center gap-compact rounded-[4px] font-normal'
+				className='flex  items-center  gap-compact rounded-[4px] px-cozy py-compact font-normal'
 				disabled={!prev}
 				onClick={() => handlePageChange(currentPage - 1)}
 			>
@@ -46,7 +46,7 @@ export default function Pagination(props: PaginationProps) {
 				Previous
 			</Button>
 			<Button
-				className='flex items-center gap-compact rounded-[4px]  font-normal'
+				className='flex  items-center  gap-compact rounded-[4px] px-cozy py-compact font-normal'
 				disabled={!next}
 				onClick={() => handlePageChange(currentPage + 1)}
 			>

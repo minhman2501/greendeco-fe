@@ -1,20 +1,15 @@
 import Image from 'next/image'
 import { StarIcon } from '@heroicons/react/24/solid'
 import { ShoppingBagIcon } from '@heroicons/react/24/outline'
+import { ProductData } from '@/app/_api/axios/product'
 
-export type ProductCardProps = {
-	id: string
-	name: string
-	image: string
-	review?: number
-	price: string
-}
+export type ProductCardProps = Pick<ProductData, 'id' | 'name' | 'images' | 'price'>
 
 export default function ProductCard({ product }: { product: ProductCardProps }) {
-	const { id, name, image, price } = product
+	const { id, name, images, price } = product
 	return (
-		<span className='w-full overflow-hidden rounded-[8px] shadow-63'>
-			<CardImage imageUrl={image} />
+		<span className='w-full overflow-hidden rounded-[8px] bg-white shadow-63'>
+			<CardImage imageUrl={images[0]} />
 			<div className='flex w-full p-cozy'>
 				<CardDetail
 					name={name}
@@ -53,9 +48,9 @@ function CardDetail({
 		</div>
 	)
 }
-function CardImage({ imageUrl }: { imageUrl: ProductCardProps['image'] }) {
+function CardImage({ imageUrl }: { imageUrl: string }) {
 	return (
-		<div className='h-[280px] w-full'>
+		<div className='h-[240px] w-full'>
 			<Image
 				src={imageUrl}
 				alt='product image'

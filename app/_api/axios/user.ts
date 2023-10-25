@@ -1,10 +1,6 @@
-import { ACCESS_TOKEN_COOKIE_NAME } from '@/app/_configs/constants/cookies'
 import axios from 'axios'
-import { getCookie } from 'cookies-next'
 
 const USER_URL = `${process.env.NEXT_PUBLIC_GREENDECO_BACKEND_API}/user`
-
-const accessToken = getCookie(ACCESS_TOKEN_COOKIE_NAME)
 
 export type UserProfileResponseData = {
 	id: string

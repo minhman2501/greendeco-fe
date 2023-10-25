@@ -30,29 +30,38 @@ export default function ProductListPage() {
 			</div>
 
 			<div className='col-span-9'>
-				{productListQuery.isLoading && <ProductListLoading />}
-				{productListQuery.isSuccess && (
-					<div className='flex-col-start gap-cozy'>
-						{productListQuery.data?.items && productListQuery.data.page_size > 0 ? (
-							<>
-								<div className='flex w-full items-center justify-end'>
-									<SortMenu />
-								</div>
-								<ProductCardsGrid
-									productList={productListQuery.data.items}
-									columns={4}
-									gap='cozy'
-								/>
-								<Pagination
-									next={productListQuery.data.next}
-									prev={productListQuery.data.prev}
-								/>
-							</>
-						) : (
-							<OutOfProductMessage />
+				<div className='flex-col-start gap-cozy'>
+					{/*NOTE: Because isError default false => doesn't cause rerender the SortMenu  */}
+					{productListQuery.isError === false &&
+						productListQuery.data?.page_size !== 0 && (
+							<div className='flex w-full items-center justify-end'>
+								<SortMenu />
+							</div>
 						)}
-					</div>
-				)}
+
+					{productListQuery.isLoading && <ProductListLoading />}
+
+					{productListQuery.isSuccess && (
+						<>
+							{productListQuery.data.page_size > 0 ? (
+								<>
+									<ProductCardsGrid
+										productList={productListQuery.data.items}
+										columns={4}
+										gap='cozy'
+									/>
+									<Pagination
+										next={productListQuery.data.next}
+										prev={productListQuery.data.prev}
+									/>
+								</>
+							) : (
+								<OutOfProductMessage />
+							)}
+						</>
+					)}
+				</div>
+
 				{productListQuery.isError && <ProuductListError />}
 			</div>
 		</div>

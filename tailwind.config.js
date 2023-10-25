@@ -11,6 +11,9 @@ module.exports = {
 			container: {
 				center: true,
 			},
+			backgroundColor: {
+				'light-green': '#ECF4F1',
+			},
 			backgroundImage: {
 				'product-list':
 					"url('https://www.everwallpaper.co.uk/cdn/shop/collections/Bird-and-Floral-Art-Wallpaper-Mural.jpg?v=1660109731')",

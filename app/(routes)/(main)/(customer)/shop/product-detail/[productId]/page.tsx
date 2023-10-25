@@ -11,9 +11,9 @@ export default function ProductDetailPage({
 	}
 }) {
 	return (
-		<div className='flex-col-start gap-comfortable'>
+		<div className='flex-col-start gap-cozy'>
 			<ImageGallery />
-			<div className='grid grid-cols-2 gap-comfortable'>
+			<div className='grid grid-cols-2 gap-cozy'>
 				<DetailContainer />
 				<div className='flex-col-start gap-cozy'>
 					<Price />

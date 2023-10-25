@@ -6,14 +6,15 @@ const imagesList = [
 	'https://bloomscape.com/cdn-cgi/image/quality=75,fit=scale-down,height=580,width=696,metadata=copyright,format=webp/wp-content/uploads/2022/04/bloomscape_stool-sm_clay-scaled.jpg?ver=768047',
 	'https://bloomscape.com/cdn-cgi/image/quality=75,fit=scale-down,height=580,width=696,metadata=copyright,format=webp/wp-content/uploads/2019/03/bloomscape_peopleplants_red-prayer-plant-845x1024.jpg?ver=43381',
 ]
+
 export default function ImageGallery() {
 	return (
-		<div className='grid h-[460px] grid-cols-2 gap-comfortable'>
-			<div className='flex items-center justify-center rounded-[4px] border-[2px] border-primary-580-20 bg-white shadow-38 '>
+		<div className='grid h-[460px] grid-cols-2 gap-cozy'>
+			<div className='flex items-center justify-center rounded-[8px] border-[2px] border-primary-580-20 bg-white shadow-38 '>
 				<ActiveImage imageUrl={imagesList[0]} />
 			</div>
 			<div className='flex h-full items-center justify-center'>
-				<div className='aspect-square h-[80%]'>
+				<div className='aspect-square h-[90%]'>
 					<ImagesGrid />
 				</div>
 			</div>

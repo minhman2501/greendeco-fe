@@ -51,6 +51,10 @@
 	.btn {
 		@apply rounded-[8px] border-[1px] border-primary-5555 bg-primary-625 p-[12px] text-body-md font-bold text-neutral-gray-1 disabled:pointer-events-none disabled:opacity-[70%];
 	}
+
+	.btnSecondary {
+		@apply bg-white text-primary-625;
+	}
 }
 
 @layer utilities {

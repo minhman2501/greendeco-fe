@@ -44,7 +44,6 @@ export default React.memo(function SettingTabList() {
 
 const Tab = React.memo(function Tab({ label, path }: SettingTab) {
 	const currentPath = usePathname()
-	console.log(path, 'render')
 
 	return (
 		<Link

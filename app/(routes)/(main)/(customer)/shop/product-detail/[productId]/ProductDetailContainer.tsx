@@ -1,17 +1,34 @@
 import { HeartIcon } from '@heroicons/react/24/outline'
 import Link from 'next/link'
 import { RecommendList, VariantList } from './components'
+import { ProductData, VariantData } from '@/app/_api/axios/product'
 
-export default function DetailContainer() {
+export type DetailContainerProps = {
+	product: Pick<
+		ProductData,
+		| 'id'
+		| 'detail'
+		| 'description'
+		| 'type'
+		| 'size'
+		| 'name'
+		| 'difficulty'
+		| 'light'
+		| 'water'
+	>
+	variants: Pick<VariantData, 'id' | 'name' | 'color' | 'color_name'>[]
+}
+
+export default function DetailContainer({ product, variants }: DetailContainerProps) {
 	return (
 		<div className='flex-col-start gap-cozy rounded-[8px] border-[1px] border-primary-580 bg-primary-580-20 p-comfortable'>
 			<div className='flex items-center justify-between gap-cozy border-b-[1px] border-primary-5555-80 pb-cozy'>
-				<h1 className='text-heading text-primary-625'>Variegated Pink Lemon Tree</h1>
+				<h1 className='text-heading text-primary-625'>{product.name}</h1>
 				<HeartIcon className='aspect-square w-[36px]' />
 			</div>
 			<div className='flex-col-start gap-compact'>
 				<h2 className='text-body-lg font-semi-bold'>Pot Colors</h2>
-				<VariantList />
+				<VariantList variantList={variants} />
 			</div>
 			<div className='flex-col-start gap-compact'>
 				<h2 className='text-body-lg font-semi-bold'>Better to have</h2>
@@ -27,22 +44,15 @@ export default function DetailContainer() {
 						Read More
 					</Link>
 				</span>
-				<p className='w-full text-justify text-body-sm'>
-					The Ficus Tineke (Ficus elastica), the vibrant younger sibling of our popular
-					Burgundy Rubber Tree. Boasting variegated leaves in hues of creamy pink, yellow,
-					and green, this rubber tree is a captivating presence in any interior setting,
-					whether it graces your space solo or thrives amidst your collection.
-				</p>
+				<p className='w-full text-justify text-body-sm'>{product.description}</p>
 			</div>
 			<div className='flex-col-start gap-compact'>
 				<h2 className='text-body-lg font-semi-bold'>Caring difficulty</h2>
-				<p className='w-full text-justify text-body-sm'>
-					MD—12&quot;-16&quot; tall (including recycled plastic Ecopot).
-				</p>
+				<p className='w-full text-justify text-body-sm'>{product.difficulty}</p>
 			</div>
 			<div className='flex-col-start gap-compact'>
 				<h2 className='text-body-lg font-semi-bold'>Ideal Light Condition</h2>
-				<p className='w-full text-justify text-body-sm'>Bright Indirect to Direct.</p>
+				<p className='w-full text-justify text-body-sm'>{product.light}</p>
 			</div>
 		</div>
 	)

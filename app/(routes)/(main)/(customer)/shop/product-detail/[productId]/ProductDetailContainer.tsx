@@ -27,16 +27,16 @@ export default function DetailContainer({ product, variants }: DetailContainerPr
 				<HeartIcon className='aspect-square w-[36px]' />
 			</div>
 			<div className='flex-col-start gap-compact'>
-				<h2 className='text-body-lg font-semi-bold'>Pot Colors</h2>
+				<h2 className='text-body-lg font-semi-bold capitalize'>Pot Colors</h2>
 				<VariantList variantList={variants} />
 			</div>
 			<div className='flex-col-start gap-compact'>
-				<h2 className='text-body-lg font-semi-bold'>Better to have</h2>
+				<h2 className='text-body-lg font-semi-bold capitalize'>Better to have</h2>
 				<RecommendList />
 			</div>
 			<div className='flex-col-start gap-compact'>
 				<span className='flex items-center justify-between'>
-					<h2 className='text-body-lg font-semi-bold'>Better to have</h2>
+					<h2 className='text-body-lg font-semi-bold capitalize'>Description</h2>
 					<Link
 						href={'/.'}
 						className='text-body-xsm'
@@ -47,12 +47,20 @@ export default function DetailContainer({ product, variants }: DetailContainerPr
 				<p className='w-full text-justify text-body-sm'>{product.description}</p>
 			</div>
 			<div className='flex-col-start gap-compact'>
-				<h2 className='text-body-lg font-semi-bold'>Caring difficulty</h2>
+				<h2 className='text-body-lg font-semi-bold capitalize'>Size</h2>
+				<p className='w-full text-justify text-body-sm'>{product.size}</p>
+			</div>
+			<div className='flex-col-start gap-compact'>
+				<h2 className='text-body-lg font-semi-bold capitalize'>Caring difficulty</h2>
 				<p className='w-full text-justify text-body-sm'>{product.difficulty}</p>
 			</div>
 			<div className='flex-col-start gap-compact'>
-				<h2 className='text-body-lg font-semi-bold'>Ideal Light Condition</h2>
+				<h2 className='text-body-lg font-semi-bold capitalize'>Ideal Light Condition</h2>
 				<p className='w-full text-justify text-body-sm'>{product.light}</p>
+			</div>
+			<div className='flex-col-start gap-compact'>
+				<h2 className='text-body-lg font-semi-bold capitalize'>Watering Rountine</h2>
+				<p className='w-full text-justify text-body-sm'>{product.water}</p>
 			</div>
 		</div>
 	)

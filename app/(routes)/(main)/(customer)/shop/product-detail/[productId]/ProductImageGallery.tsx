@@ -56,9 +56,13 @@ const ImagesGrid = React.memo(function ImagesGrid({
 			{imagesList.map((image) => (
 				<span
 					onClick={() => imageOnClick(image)}
-					className={clsx('relative aspect-square h-full rounded-[4px] border-[2px]', {
-						'border-primary-5555': image == activeImage,
-					})}
+					className={clsx(
+						'relative aspect-square h-full cursor-pointer overflow-hidden rounded-[16px] border-[3px] hover:border-primary-5555-40',
+						{
+							'pointer-events-none border-primary-5555': image === activeImage,
+							'border-transparent': image !== activeImage,
+						},
+					)}
 					key={image}
 				>
 					<Image

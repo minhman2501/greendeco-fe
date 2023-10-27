@@ -60,6 +60,11 @@ export type VariantListResponseData = {
 	prev: boolean
 }
 
+export type ProductDetailData = {
+	product: ProductData
+	variants: VariantData[]
+}
+
 export type FilterParams = {
 	limit?: number
 	offSet?: number
@@ -95,14 +100,26 @@ export const getProductList = async (params?: FilterParams) => {
 		.then((res) => res.data)
 }
 
-export const getProductById = async (productId: string) => {
+export const getProductBaseById = async (productId: string) => {
 	return await productApi
 		.get<ProductByIdResponseData>(`product/${productId}`)
-		.then((res) => res.data.items)
+		.then((res) => res.data)
 }
 
-export const getVariantByProductId = async (productId: string) => {
+export const getVariantsByProductId = async (productId: string) => {
 	return await productApi
 		.get<VariantListResponseData>(`variant/product/${productId}`)
-		.then((res) => res.data.items)
+		.then((res) => res.data)
+}
+
+export const getProductDetailById = (productId: string) => {
+	return Promise.all([getProductBaseById(productId), getVariantsByProductId(productId)]).then(
+		([product, variants]) => {
+			const productDetail: ProductDetailData = {
+				product: product.items,
+				variants: variants.items,
+			}
+			return productDetail
+		},
+	)
 }

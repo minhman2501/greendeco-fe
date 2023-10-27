@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const PRODUCT_URL = `${process.env.NEXT_PUBLIC_GREENDECO_BACKEND_API}/product`
+const PRODUCT_URL = `${process.env.NEXT_PUBLIC_GREENDECO_BACKEND_API}`
 
 export type ProductData = {
 	id: string
@@ -37,6 +37,29 @@ type ProductListData = {
 	prev: boolean
 }
 
+export type VariantData = {
+	id: string
+	available: boolean
+	product: string
+	name: string
+	color: string
+	color_name: string
+	price: string
+	image: string
+	description: string
+	currency: string
+	created_at: string
+	updated_at: string
+}
+
+export type VariantListResponseData = {
+	items: VariantData[]
+	next: boolean
+	page: number
+	page_size: number
+	prev: boolean
+}
+
 export type FilterParams = {
 	limit?: number
 	offSet?: number
@@ -66,7 +89,7 @@ export const getProductList = async (params?: FilterParams) => {
 	}
 
 	return await productApi
-		.get<ProductListData>('', {
+		.get<ProductListData>('/product', {
 			params: { ...paramAfterJSON },
 		})
 		.then((res) => res.data)
@@ -74,6 +97,12 @@ export const getProductList = async (params?: FilterParams) => {
 
 export const getProductById = async (productId: string) => {
 	return await productApi
-		.get<ProductByIdResponseData>(`/${productId}`)
+		.get<ProductByIdResponseData>(`product/${productId}`)
+		.then((res) => res.data.items)
+}
+
+export const getVariantByProductId = async (productId: string) => {
+	return await productApi
+		.get<VariantListResponseData>(`variant/product/${productId}`)
 		.then((res) => res.data.items)
 }

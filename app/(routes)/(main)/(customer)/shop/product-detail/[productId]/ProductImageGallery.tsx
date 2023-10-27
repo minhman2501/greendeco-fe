@@ -12,12 +12,12 @@ export default function ImageGallery({
 }) {
 	const [activeImage, setActiveImage] = useState<string>(variantImage)
 	return (
-		<div className='grid h-[460px] grid-cols-2 gap-cozy'>
+		<div className='grid h-[480px] grid-cols-2 gap-cozy'>
 			<div className='flex items-center justify-center rounded-[8px] border-[2px] border-primary-580-20 bg-white shadow-38 '>
 				<ActiveImage imageUrl={activeImage} />
 			</div>
 			<div className='flex h-full items-center justify-center'>
-				<div className='aspect-square h-[90%]'>
+				<div className='aspect-square h-[75%]'>
 					<ImagesGrid
 						activeImage={activeImage}
 						imageOnClick={setActiveImage}

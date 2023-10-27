@@ -1,21 +1,28 @@
+import { ProductData, VariantData } from '@/app/_api/axios/product'
+import clsx from 'clsx'
 import Image from 'next/image'
+import React, { useState } from 'react'
 
-const imagesList = [
-	'https://bloomscape.com/cdn-cgi/image/quality=75,fit=scale-down,height=580,width=696,metadata=copyright,format=webp/wp-content/uploads/2022/01/bloomscape_red-prayer-pant_sm_angle2-scaled.jpg?ver=660085',
-	'https://bloomscape.com/cdn-cgi/image/quality=75,fit=scale-down,height=922,width=768,metadata=copyright,format=webp/wp-content/uploads/2021/06/bloomscape_red-prayer-plant_stone_0621-scaled-e1626184323634.jpg',
-	'https://bloomscape.com/cdn-cgi/image/quality=75,fit=scale-down,height=580,width=696,metadata=copyright,format=webp/wp-content/uploads/2022/04/bloomscape_stool-sm_clay-scaled.jpg?ver=768047',
-	'https://bloomscape.com/cdn-cgi/image/quality=75,fit=scale-down,height=580,width=696,metadata=copyright,format=webp/wp-content/uploads/2019/03/bloomscape_peopleplants_red-prayer-plant-845x1024.jpg?ver=43381',
-]
-
-export default function ImageGallery() {
+export default function ImageGallery({
+	variantImage,
+	productImages,
+}: {
+	variantImage: VariantData['image']
+	productImages: ProductData['images']
+}) {
+	const [activeImage, setActiveImage] = useState<string>(variantImage)
 	return (
 		<div className='grid h-[460px] grid-cols-2 gap-cozy'>
 			<div className='flex items-center justify-center rounded-[8px] border-[2px] border-primary-580-20 bg-white shadow-38 '>
-				<ActiveImage imageUrl={imagesList[0]} />
+				<ActiveImage imageUrl={activeImage} />
 			</div>
 			<div className='flex h-full items-center justify-center'>
 				<div className='aspect-square h-[90%]'>
-					<ImagesGrid />
+					<ImagesGrid
+						activeImage={activeImage}
+						imageOnClick={setActiveImage}
+						imagesList={[variantImage, ...productImages]}
+					/>
 				</div>
 			</div>
 		</div>
@@ -35,12 +42,23 @@ function ActiveImage({ imageUrl }: { imageUrl: string }) {
 	)
 }
 
-function ImagesGrid() {
+const ImagesGrid = React.memo(function ImagesGrid({
+	activeImage,
+	imagesList,
+	imageOnClick,
+}: {
+	activeImage: string
+	imagesList: string[]
+	imageOnClick: (image: string) => void
+}) {
 	return (
 		<div className='grid grid-cols-2 gap-compact'>
 			{imagesList.map((image) => (
 				<span
-					className='relative aspect-square h-full rounded-[4px] border-[2px] border-primary-5555-60'
+					onClick={() => imageOnClick(image)}
+					className={clsx('relative aspect-square h-full rounded-[4px] border-[2px]', {
+						'border-primary-5555': image == activeImage,
+					})}
 					key={image}
 				>
 					<Image
@@ -52,4 +70,4 @@ function ImagesGrid() {
 			))}
 		</div>
 	)
-}
+})

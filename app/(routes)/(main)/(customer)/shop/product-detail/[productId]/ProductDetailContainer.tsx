@@ -12,24 +12,7 @@ export default function DetailContainer() {
 			</div>
 			<div className='flex-col-start gap-compact'>
 				<h2 className='text-body-lg font-semi-bold'>Pot Colors</h2>
-				<div className='flex gap-cozy'>
-					<div className='flex-col-start items-center justify-center gap-[4px] px-cozy py-[4px]'>
-						<span className='aspect-square w-[40px] rounded-[100%] bg-primary-580'></span>
-						<p className='text-body-sm'>Stone</p>
-					</div>
-					<div className='flex-col-start items-center justify-center gap-[4px] px-cozy py-[4px]'>
-						<span className='aspect-square w-[40px] rounded-[100%] bg-primary-580'></span>
-						<p className='text-body-sm'>Stone</p>
-					</div>
-					<div className='flex-col-start items-center justify-center gap-[4px] px-cozy py-[4px]'>
-						<span className='aspect-square w-[40px] rounded-[100%] bg-primary-580'></span>
-						<p className='text-body-sm'>Stone</p>
-					</div>
-					<div className='flex-col-start items-center justify-center gap-[4px] px-cozy py-[4px]'>
-						<span className='aspect-square w-[40px] rounded-[100%] bg-primary-580'></span>
-						<p className='text-body-sm'>Stone</p>
-					</div>
-				</div>
+				<VariantList />
 			</div>
 			<div className='flex-col-start gap-compact'>
 				<h2 className='text-body-lg font-semi-bold'>Better to have</h2>
@@ -83,6 +66,29 @@ export default function DetailContainer() {
 			<div className='flex-col-start gap-compact'>
 				<h2 className='text-body-lg font-semi-bold'>Ideal Light Condition</h2>
 				<p className='w-full text-justify text-body-sm'>Bright Indirect to Direct.</p>
+			</div>
+		</div>
+	)
+}
+
+function VariantList() {
+	return (
+		<div className='flex gap-cozy'>
+			<div className='flex-col-start items-center justify-center gap-[4px] px-cozy py-[4px]'>
+				<span className='aspect-square w-[40px] rounded-[100%] bg-primary-580'></span>
+				<p className='text-body-sm'>Stone</p>
+			</div>
+			<div className='flex-col-start items-center justify-center gap-[4px] px-cozy py-[4px]'>
+				<span className='aspect-square w-[40px] rounded-[100%] bg-primary-580'></span>
+				<p className='text-body-sm'>Stone</p>
+			</div>
+			<div className='flex-col-start items-center justify-center gap-[4px] px-cozy py-[4px]'>
+				<span className='aspect-square w-[40px] rounded-[100%] bg-primary-580'></span>
+				<p className='text-body-sm'>Stone</p>
+			</div>
+			<div className='flex-col-start items-center justify-center gap-[4px] px-cozy py-[4px]'>
+				<span className='aspect-square w-[40px] rounded-[100%] bg-primary-580'></span>
+				<p className='text-body-sm'>Stone</p>
 			</div>
 		</div>
 	)

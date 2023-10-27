@@ -1,7 +1,6 @@
 import { HeartIcon } from '@heroicons/react/24/outline'
-import { PlusIcon } from '@heroicons/react/24/solid'
-import Image from 'next/image'
 import Link from 'next/link'
+import { RecommendList, VariantList } from './components'
 
 export default function DetailContainer() {
 	return (
@@ -16,29 +15,7 @@ export default function DetailContainer() {
 			</div>
 			<div className='flex-col-start gap-compact'>
 				<h2 className='text-body-lg font-semi-bold'>Better to have</h2>
-				<div className='flex-col-start gap-compact'>
-					<span className='flex overflow-hidden rounded-[8px] border-[1px] border-primary-580-40'>
-						<span className='relative aspect-square w-[80px]'>
-							<Image
-								fill
-								src={
-									'https://bloomscape.com/cdn-cgi/image/quality=75,fit=scale-down,height=922,width=768,metadata=copyright,format=webp/wp-content/uploads/2022/06/bloomscape_watering-can_1b-scaled.jpg'
-								}
-								alt='plants art'
-								style={{ objectFit: 'fill' }}
-							/>
-						</span>
-						<span className='flex flex-1 items-center p-cozy'>
-							<div className='flex-col-start w-full flex-1 gap-[4px]'>
-								<span className='text-body-sm'>Watering Can</span>
-								<span className='text-body-sm'>$ 14</span>
-							</div>
-							<span className='flex items-center justify-center rounded-[4px] border-[1px] border-primary-5555 p-[4px]'>
-								<PlusIcon className='aspect-square w-[24px] text-primary-5555' />
-							</span>
-						</span>
-					</span>
-				</div>
+				<RecommendList />
 			</div>
 			<div className='flex-col-start gap-compact'>
 				<span className='flex items-center justify-between'>
@@ -66,29 +43,6 @@ export default function DetailContainer() {
 			<div className='flex-col-start gap-compact'>
 				<h2 className='text-body-lg font-semi-bold'>Ideal Light Condition</h2>
 				<p className='w-full text-justify text-body-sm'>Bright Indirect to Direct.</p>
-			</div>
-		</div>
-	)
-}
-
-function VariantList() {
-	return (
-		<div className='flex gap-cozy'>
-			<div className='flex-col-start items-center justify-center gap-[4px] px-cozy py-[4px]'>
-				<span className='aspect-square w-[40px] rounded-[100%] bg-primary-580'></span>
-				<p className='text-body-sm'>Stone</p>
-			</div>
-			<div className='flex-col-start items-center justify-center gap-[4px] px-cozy py-[4px]'>
-				<span className='aspect-square w-[40px] rounded-[100%] bg-primary-580'></span>
-				<p className='text-body-sm'>Stone</p>
-			</div>
-			<div className='flex-col-start items-center justify-center gap-[4px] px-cozy py-[4px]'>
-				<span className='aspect-square w-[40px] rounded-[100%] bg-primary-580'></span>
-				<p className='text-body-sm'>Stone</p>
-			</div>
-			<div className='flex-col-start items-center justify-center gap-[4px] px-cozy py-[4px]'>
-				<span className='aspect-square w-[40px] rounded-[100%] bg-primary-580'></span>
-				<p className='text-body-sm'>Stone</p>
 			</div>
 		</div>
 	)

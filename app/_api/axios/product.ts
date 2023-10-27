@@ -21,6 +21,14 @@ export type ProductData = {
 	currency: string
 }
 
+export type ProductByIdResponseData = {
+	items: ProductData
+	page: string
+	page_size: string
+	next: string
+	prev: string
+}
+
 type ProductListData = {
 	items: ProductData[]
 	next: boolean
@@ -62,4 +70,10 @@ export const getProductList = async (params?: FilterParams) => {
 			params: { ...paramAfterJSON },
 		})
 		.then((res) => res.data)
+}
+
+export const getProductById = async (productId: string) => {
+	return await productApi
+		.get<ProductByIdResponseData>(`/${productId}`)
+		.then((res) => res.data.items)
 }

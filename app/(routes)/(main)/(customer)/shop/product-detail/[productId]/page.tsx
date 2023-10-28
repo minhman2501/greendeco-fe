@@ -5,7 +5,8 @@ import CommentSection from './ProductCommentSection'
 import DetailContainer from './ProductDetailContainer'
 import ImageGallery from './ProductImageGallery'
 import Price from './ProductPrice'
-import { getProductDetailById } from '@/app/_api/axios/product'
+import { ProductDetailData, VariantData, getProductDetailById } from '@/app/_api/axios/product'
+import { useState } from 'react'
 
 export default function ProductDetailPage({
 	params,
@@ -22,29 +23,37 @@ export default function ProductDetailPage({
 
 	const { data, isLoading, isSuccess, isError } = productDetailQuery
 
+	return <>{data && <ContetnWrapper {...data} />}</>
+}
+
+function ContetnWrapper(props: ProductDetailData) {
+	const { product, variants } = props
+
+	const defaultVariant = variants.find((variant) => variant.id === product.default_variant)
+
+	const [activeVariant, setActiveVariant] = useState<VariantData>(defaultVariant || variants[0])
+
 	return (
-		<>
-			{data && (
+		<div className='flex-col-start gap-cozy'>
+			<ImageGallery
+				defaultVariant={activeVariant}
+				variantImage={activeVariant.image}
+				productImages={product.images}
+			/>
+			<div className='grid grid-cols-2 gap-cozy'>
+				<DetailContainer
+					product={product}
+					variants={variants}
+					setActiveVariant={setActiveVariant}
+				/>
 				<div className='flex-col-start gap-cozy'>
-					<ImageGallery
-						variantImage={data.variants[0].image}
-						productImages={data.product.images}
+					<Price
+						price={activeVariant.price}
+						currency={activeVariant.currency}
 					/>
-					<div className='grid grid-cols-2 gap-cozy'>
-						<DetailContainer
-							product={data.product}
-							variants={data.variants}
-						/>
-						<div className='flex-col-start gap-cozy'>
-							<Price
-								price={data.variants[0].price}
-								currency={data.variants[0].currency}
-							/>
-							<CommentSection />
-						</div>
-					</div>
+					<CommentSection />
 				</div>
-			)}
-		</>
+			</div>
+		</div>
 	)
 }

@@ -1,16 +1,22 @@
 import { ProductData, VariantData } from '@/app/_api/axios/product'
 import clsx from 'clsx'
 import Image from 'next/image'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 export default function ImageGallery({
+	defaultVariant,
 	variantImage,
 	productImages,
 }: {
+	defaultVariant: VariantData
 	variantImage: VariantData['image']
 	productImages: ProductData['images']
 }) {
-	const [activeImage, setActiveImage] = useState<string>(variantImage)
+	const [activeImage, setActiveImage] = useState<string>(defaultVariant.image)
+
+	useEffect(() => {
+		setActiveImage(defaultVariant.image)
+	}, [defaultVariant])
 	return (
 		<div className='grid h-[480px] grid-cols-2 gap-cozy'>
 			<div className='flex items-center justify-center rounded-[8px] border-[2px] border-primary-580-20 bg-white shadow-38 '>

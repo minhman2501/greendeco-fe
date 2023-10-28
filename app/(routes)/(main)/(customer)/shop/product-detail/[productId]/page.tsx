@@ -7,6 +7,7 @@ import ImageGallery from './ProductImageGallery'
 import Price from './ProductPrice'
 import { ProductDetailData, VariantData, getProductDetailById } from '@/app/_api/axios/product'
 import { useState } from 'react'
+import { useVariantStore } from '@/app/_configs/store/useVariantStore'
 
 export default function ProductDetailPage({
 	params,
@@ -31,26 +32,20 @@ function ContetnWrapper(props: ProductDetailData) {
 
 	const defaultVariant = variants.find((variant) => variant.id === product.default_variant)
 
-	const [activeVariant, setActiveVariant] = useState<VariantData>(defaultVariant || variants[0])
+	const setActiveVariant = useVariantStore((state) => state.setActiveVariant)
+
+	setActiveVariant(defaultVariant || variants[0])
 
 	return (
 		<div className='flex-col-start gap-cozy'>
-			<ImageGallery
-				defaultVariant={activeVariant}
-				variantImage={activeVariant.image}
-				productImages={product.images}
-			/>
+			<ImageGallery productImages={product.images} />
 			<div className='grid grid-cols-2 gap-cozy'>
 				<DetailContainer
 					product={product}
-					variants={variants}
-					setActiveVariant={setActiveVariant}
+					variantList={variants}
 				/>
 				<div className='flex-col-start gap-cozy'>
-					<Price
-						price={activeVariant.price}
-						currency={activeVariant.currency}
-					/>
+					<Price />
 					<CommentSection />
 				</div>
 			</div>

@@ -1,22 +1,16 @@
 import { ProductData, VariantData } from '@/app/_api/axios/product'
+import { useVariantStore } from '@/app/_configs/store/useVariantStore'
 import clsx from 'clsx'
 import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
 
-export default function ImageGallery({
-	defaultVariant,
-	variantImage,
-	productImages,
-}: {
-	defaultVariant: VariantData
-	variantImage: VariantData['image']
-	productImages: ProductData['images']
-}) {
-	const [activeImage, setActiveImage] = useState<string>(defaultVariant.image)
+export default function ImageGallery({ productImages }: { productImages: ProductData['images'] }) {
+	const activeVariant = useVariantStore((state) => state.activeVariant)
+	const [activeImage, setActiveImage] = useState<string>(activeVariant.image)
 
 	useEffect(() => {
-		setActiveImage(defaultVariant.image)
-	}, [defaultVariant])
+		setActiveImage(activeVariant.image)
+	}, [activeVariant])
 	return (
 		<div className='grid h-[480px] grid-cols-2 gap-cozy'>
 			<div className='flex items-center justify-center rounded-[8px] border-[2px] border-primary-580-20 bg-white shadow-38 '>
@@ -27,7 +21,7 @@ export default function ImageGallery({
 					<ImagesGrid
 						activeImage={activeImage}
 						imageOnClick={setActiveImage}
-						imagesList={[variantImage, ...productImages]}
+						imagesList={[activeVariant.image, ...productImages]}
 					/>
 				</div>
 			</div>

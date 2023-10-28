@@ -17,15 +17,10 @@ export type DetailContainerProps = {
 		| 'water'
 		| 'default_variant'
 	>
-	variants: VariantData[]
-	setActiveVariant: (variant: VariantData) => void
+	variantList: VariantData[]
 }
 
-export default function DetailContainer({
-	product,
-	variants,
-	setActiveVariant,
-}: DetailContainerProps) {
+export default function DetailContainer({ product, variantList }: DetailContainerProps) {
 	return (
 		<div className='flex-col-start gap-cozy rounded-[8px] border-[1px] border-primary-580 bg-primary-580-20 p-comfortable'>
 			<div className='flex items-center justify-between gap-cozy border-b-[1px] border-primary-5555-80 pb-cozy'>
@@ -34,10 +29,7 @@ export default function DetailContainer({
 			</div>
 			<div className='flex-col-start gap-compact'>
 				<h2 className='text-body-lg font-semi-bold capitalize'>Pot Colors</h2>
-				<VariantList
-					variantList={variants}
-					handleChangeActiveVariant={setActiveVariant}
-				/>
+				<VariantList variantList={variantList} />
 			</div>
 			<div className='flex-col-start gap-compact'>
 				<h2 className='text-body-lg font-semi-bold capitalize'>Better to have</h2>

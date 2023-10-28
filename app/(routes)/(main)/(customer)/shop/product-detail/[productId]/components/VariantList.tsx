@@ -1,7 +1,9 @@
 import { VariantData } from '@/app/_api/axios/product'
 import { DetailContainerProps } from '../ProductDetailContainer'
+import { useVariantStore } from '@/app/_configs/store/useVariantStore'
 
 const Variant = ({
+	id,
 	name,
 	color,
 	color_name,
@@ -13,6 +15,8 @@ const Variant = ({
 	color_name: string
 	onClick: () => void
 }) => {
+	const activeVariant = useVariantStore((state) => state.activeVariant)
+
 	return (
 		<div
 			className='flex-col-start items-center justify-center gap-[4px] px-cozy py-[4px]'
@@ -29,16 +33,15 @@ const Variant = ({
 
 export const VariantList = ({
 	variantList,
-	handleChangeActiveVariant,
 }: {
-	variantList: DetailContainerProps['variants']
-	handleChangeActiveVariant: (variant: VariantData) => void
+	variantList: DetailContainerProps['variantList']
 }) => {
+	const setActiveVariant = useVariantStore((state) => state.setActiveVariant)
 	return (
 		<div className='flex gap-cozy'>
 			{variantList.map((variant) => (
 				<Variant
-					onClick={() => handleChangeActiveVariant(variant)}
+					onClick={() => setActiveVariant(variant)}
 					{...variant}
 					key={variant.id}
 				/>

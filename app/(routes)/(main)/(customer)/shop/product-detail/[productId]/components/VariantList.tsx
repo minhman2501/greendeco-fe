@@ -1,6 +1,7 @@
 import { VariantData } from '@/app/_api/axios/product'
 import { DetailContainerProps } from '../ProductDetailContainer'
 import { useVariantStore } from '@/app/_configs/store/useVariantStore'
+import clsx from 'clsx'
 
 const Variant = ({
 	id,
@@ -16,17 +17,32 @@ const Variant = ({
 	onClick: () => void
 }) => {
 	const activeVariant = useVariantStore((state) => state.activeVariant)
+	const isActive = id === activeVariant.id
 
 	return (
 		<div
-			className='flex-col-start items-center justify-center gap-[4px] px-cozy py-[4px]'
+			className={clsx(
+				'flex cursor-pointer items-center gap-[8px] border-r-[1px] border-r-primary-625 px-cozy first:pl-0 last:border-none',
+				{
+					'pointer-events-none': isActive,
+				},
+			)}
 			onClick={() => onClick()}
 		>
 			<span
-				className='aspect-square w-[40px] rounded-[100%] border-[1px]'
-				style={{ backgroundColor: color, borderColor: color }}
+				className={clsx('h-[30px] w-[40px] rounded-[4px] ', {
+					'border-[1px] border-primary-625-60': !isActive,
+					'border-[3px] border-primary-625': isActive,
+				})}
+				style={{ backgroundColor: color }}
 			></span>
-			<p className='text-body-sm capitalize'>{color_name}</p>
+			<p
+				className={clsx('text-body-sm capitalize text-primary-418', {
+					'font-semi-bold': isActive,
+				})}
+			>
+				{color_name}
+			</p>
 		</div>
 	)
 }
@@ -38,7 +54,7 @@ export const VariantList = ({
 }) => {
 	const setActiveVariant = useVariantStore((state) => state.setActiveVariant)
 	return (
-		<div className='flex gap-cozy'>
+		<div className='flex'>
 			{variantList.map((variant) => (
 				<Variant
 					onClick={() => setActiveVariant(variant)}

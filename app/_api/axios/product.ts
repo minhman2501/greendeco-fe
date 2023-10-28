@@ -60,6 +60,16 @@ export type VariantListResponseData = {
 	prev: boolean
 }
 
+export type DefaultVariantResponseData = {
+	items: {
+		variant: string
+	}
+	next: boolean
+	page: number
+	page_size: number
+	prev: boolean
+}
+
 export type ProductDetailData = {
 	product: ProductData
 	variants: VariantData[]
@@ -111,15 +121,25 @@ export const getVariantsByProductId = async (productId: string) => {
 		.get<VariantListResponseData>(`variant/product/${productId}`)
 		.then((res) => res.data)
 }
+export const getDefaultVariantByProductId = async (productId: string) => {
+	return await productApi
+		.get<DefaultVariantResponseData>(`variant/default/${productId}`)
+		.then((res) => res.data.items.variant)
+}
 
-export const getProductDetailById = (productId: string) => {
-	return Promise.all([getProductBaseById(productId), getVariantsByProductId(productId)]).then(
-		([product, variants]) => {
-			const productDetail: ProductDetailData = {
-				product: product.items,
-				variants: variants.items,
-			}
-			return productDetail
-		},
-	)
+export const getProductDetailById = async (productId: string) => {
+	return await Promise.all([
+		getProductBaseById(productId),
+		getVariantsByProductId(productId),
+		getDefaultVariantByProductId(productId),
+	]).then(([product, variants, defaultVariant]) => {
+		const responseProduct = product.items
+		responseProduct.default_variant = defaultVariant
+
+		const productDetail: ProductDetailData = {
+			product: responseProduct,
+			variants: variants.items,
+		}
+		return productDetail
+	})
 }

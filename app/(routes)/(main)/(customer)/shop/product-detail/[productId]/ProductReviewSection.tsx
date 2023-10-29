@@ -1,6 +1,7 @@
 import { StarIcon } from '@heroicons/react/24/solid'
+import ReviewForm from './components/ReviewForm'
 
-export default function CommentSection() {
+export default function ReviewSection() {
 	return (
 		<div className='rounded-[8px] bg-white p-comfortable shadow-38'>
 			<h3 className='text-body-lg text-primary-418'>Comments & Ratings</h3>
@@ -9,18 +10,25 @@ export default function CommentSection() {
             '
 			>
 				<OverallRating />
-				<div className='flex-col-start gap-cozy p-cozy'>
-					<CommentItem />
-					<CommentItem />
-					<CommentItem />
-					<CommentItem />
-				</div>
+				<ReviewList />
+				<ReviewForm />
 			</div>
 		</div>
 	)
 }
 
-function CommentItem() {
+function ReviewList() {
+	return (
+		<div className='flex-col-start gap-cozy p-cozy'>
+			<ReviewItem />
+			<ReviewItem />
+			<ReviewItem />
+			<ReviewItem />
+		</div>
+	)
+}
+
+function ReviewItem() {
 	return (
 		<span className='flex-col-start gap-compact'>
 			<div className='flex items-center gap-cozy'>

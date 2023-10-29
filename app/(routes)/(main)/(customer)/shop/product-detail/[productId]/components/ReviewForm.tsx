@@ -6,7 +6,9 @@ export default function CommentForm() {
 			<form className='flex w-full flex-col gap-cozy text-body-sm'>
 				<div>
 					<Input
+						rows={3}
 						placeholder='Leave the comment'
+						className='pt-cozy'
 						multiline
 						error={false}
 					/>

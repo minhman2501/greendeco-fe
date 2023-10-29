@@ -1,12 +1,11 @@
 'use client'
 
 import { useQuery } from '@tanstack/react-query'
-import CommentSection from './ProductCommentSection'
+import ReviewSection from './ProductReviewSection'
 import DetailContainer from './ProductDetailContainer'
 import ImageGallery from './ProductImageGallery'
 import Price from './ProductPrice'
-import { ProductDetailData, VariantData, getProductDetailById } from '@/app/_api/axios/product'
-import { useState } from 'react'
+import { ProductDetailData, getProductDetailById } from '@/app/_api/axios/product'
 import { useVariantStore } from '@/app/_configs/store/useVariantStore'
 
 export default function ProductDetailPage({
@@ -46,7 +45,7 @@ function ContetnWrapper(props: ProductDetailData) {
 				/>
 				<div className='flex-col-start gap-cozy'>
 					<Price />
-					<CommentSection />
+					<ReviewSection />
 				</div>
 			</div>
 		</div>

@@ -13,7 +13,7 @@ export default function ImageGallery({ productImages }: { productImages: Product
 	}, [activeVariant])
 	return (
 		<div className='grid h-[480px] grid-cols-2 gap-cozy'>
-			<div className='flex items-center justify-center rounded-[8px] border-[2px] border-primary-580-20 bg-white shadow-38 '>
+			<div className='flex items-center justify-center rounded-[8px]  bg-white  shadow-18'>
 				<ActiveImage imageUrl={activeImage} />
 			</div>
 			<div className='flex h-full items-center justify-center'>

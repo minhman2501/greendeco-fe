@@ -1,6 +1,6 @@
 import { HeartIcon } from '@heroicons/react/24/outline'
 import Link from 'next/link'
-import { RecommendList, VariantList } from './components'
+import { VariantList } from './components'
 import { ProductData, VariantData } from '@/app/_api/axios/product'
 
 export type DetailContainerProps = {
@@ -28,16 +28,16 @@ export default function DetailContainer({ product, variantList }: DetailContaine
 				<HeartIcon className='aspect-square w-[36px]' />
 			</div>
 			<div className='flex-col-start gap-compact'>
-				<h2 className='text-body-lg font-semi-bold capitalize'>Pot Colors</h2>
+				<h2 className='text-body-lg font-semi-bold capitalize text-primary-418'>
+					Pot Colors
+				</h2>
 				<VariantList variantList={variantList} />
 			</div>
 			<div className='flex-col-start gap-compact'>
-				<h2 className='text-body-lg font-semi-bold capitalize'>Better to have</h2>
-				<RecommendList />
-			</div>
-			<div className='flex-col-start gap-compact'>
 				<span className='flex items-center justify-between'>
-					<h2 className='text-body-lg font-semi-bold capitalize'>Description</h2>
+					<h2 className='text-body-lg font-semi-bold capitalize text-primary-418'>
+						Description
+					</h2>
 					<Link
 						href={'/.'}
 						className='text-body-xsm'
@@ -48,20 +48,26 @@ export default function DetailContainer({ product, variantList }: DetailContaine
 				<p className='w-full text-justify text-body-sm'>{product.description}</p>
 			</div>
 			<div className='flex-col-start gap-compact'>
-				<h2 className='text-body-lg font-semi-bold capitalize'>Size</h2>
+				<h2 className='text-body-lg font-semi-bold capitalize text-primary-418'>Size</h2>
 				<p className='w-full text-justify text-body-sm'>{product.size}</p>
 			</div>
 			<div className='flex-col-start gap-compact'>
-				<h2 className='text-body-lg font-semi-bold capitalize'>Caring difficulty</h2>
-				<p className='w-full text-justify text-body-sm'>{product.difficulty}</p>
+				<h2 className='text-body-lg font-semi-bold capitalize text-primary-418'>
+					Caring difficulty
+				</h2>
+				<p className='w-full text-justify text-body-sm capitalize'>{product.difficulty}</p>
 			</div>
 			<div className='flex-col-start gap-compact'>
-				<h2 className='text-body-lg font-semi-bold capitalize'>Ideal Light Condition</h2>
-				<p className='w-full text-justify text-body-sm'>{product.light}</p>
+				<h2 className='text-body-lg font-semi-bold capitalize text-primary-418'>
+					Ideal Light Condition
+				</h2>
+				<p className='w-full text-justify text-body-sm capitalize'>{product.light}</p>
 			</div>
 			<div className='flex-col-start gap-compact'>
-				<h2 className='text-body-lg font-semi-bold capitalize'>Watering Rountine</h2>
-				<p className='w-full text-justify text-body-sm'>{product.water}</p>
+				<h2 className='text-body-lg font-semi-bold capitalize text-primary-418'>
+					Watering Rountine
+				</h2>
+				<p className='w-full text-justify text-body-sm capitalize'>{product.water}</p>
 			</div>
 		</div>
 	)

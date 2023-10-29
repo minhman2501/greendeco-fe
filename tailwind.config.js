@@ -20,6 +20,8 @@ module.exports = {
 				test: "linear-gradient(to left bottom, rgba(255,255,255,0),rgba(86, 119, 118, 0.2), rgba(70, 79, 65, 0.95)), url('https://www.everwallpaper.co.uk/cdn/shop/collections/Bird-and-Floral-Art-Wallpaper-Mural.jpg?v=1660109731')",
 			},
 			boxShadow: {
+				15: '  0px 1px 1px 0px inset rgba(255, 255, 255, 0.1), 0px 50px 100px -20px rgba(50, 50, 93, 0.25), 0px 30px 60px -30px rgba(0, 0, 0, 0.3)',
+				18: ' 0px 13px 27px -5px rgba(50, 50, 93, 0.25), 0px 8px 16px -8px rgba(0, 0, 0, 0.3) ',
 				30: ' 0px 14px 28px rgba(0, 0, 0, 0.25),0px 10px 10px rgba(0, 0, 0, 0.22) ',
 				38: ' 0px 10px 15px -3px rgba(0, 0, 0, 0.1),0px 4px 6px -2px rgba(0, 0, 0, 0.05) ',
 				63: ' 6px 2px 16px 0px rgba(136, 165, 191, 0.48),-6px -2px 16px 0px  rgba(255, 255, 255, 0.8)',

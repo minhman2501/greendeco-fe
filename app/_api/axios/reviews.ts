@@ -4,6 +4,26 @@ import { UserProfileResponseData } from './user'
 
 const REVIEW_URL = `${process.env.NEXT_PUBLIC_GREENDECO_BACKEND_API}/review`
 
+export type ReviewItemData = {
+	id: string
+	user_id: UserProfileResponseData['id']
+	product_id: ProductData['id']
+	content: string
+	star: number
+	firstName: UserProfileResponseData['firstName']
+	lastName: UserProfileResponseData['lastName']
+	avatar: UserProfileResponseData['avatar']
+	created_at: string
+}
+
+export type ReviewListResponseData = {
+	items: ReviewItemData[]
+	page: number
+	page_size: number
+	next: boolean
+	prev: boolean
+}
+
 export type SendReviewData = {
 	content: string
 	product_id: ProductData['id']
@@ -21,6 +41,12 @@ export const reviewApi = axios.create({
 })
 
 reviewApi.defaults.headers.common['Content-Type'] = 'application/json'
+
+export const getReviewListByProductId = async (productId: ProductData['id']) => {
+	return await reviewApi
+		.get<ReviewListResponseData>(`/product/${productId}`)
+		.then((res) => res.data)
+}
 
 export const sendReviewToProduct = async (data: SendReviewRequestData) => {
 	const { accessToken, reviewData } = data

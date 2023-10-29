@@ -36,6 +36,8 @@ function ActiveImage({ imageUrl }: { imageUrl: string }) {
 				fill
 				src={imageUrl}
 				alt='plants art'
+				className='opacity-0 transition-opacity duration-[.5s]'
+				onLoadingComplete={(image) => image.classList.remove('opacity-0')}
 				style={{ objectFit: 'contain' }}
 			/>
 		</div>
@@ -69,6 +71,8 @@ const ImagesGrid = React.memo(function ImagesGrid({
 						layout='fill'
 						src={image}
 						alt='plants art'
+						className='opacity-0 transition-opacity duration-[.5s]'
+						onLoadingComplete={(image) => image.classList.remove('opacity-0')}
 					/>
 				</span>
 			))}

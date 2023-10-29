@@ -19,7 +19,7 @@ export default function ReviewSection({ productId }: { productId: ProductData['i
 	const { data, isLoading, isSuccess, isError } = useReviewQuery
 	return (
 		<div className='rounded-[8px] bg-white p-comfortable shadow-38'>
-			<h3 className='text-body-lg text-primary-418'>Comments & Ratings</h3>
+			<h3 className='text-heading-3 text-primary-625'>Comments & Ratings</h3>
 			<div
 				className='flex-col-start gap-cozy divide-y divide-primary-625
             '
@@ -80,7 +80,7 @@ function ReviewItem(props: ReviewItemData) {
 					/>
 				</span>
 				<span className='flex-col-start h-full flex-1 justify-center '>
-					<span className='text-body-md font-semi-bold'>
+					<span className='text-body-md font-semi-bold text-primary-418'>
 						{firstName} {lastName}
 					</span>
 					<span className='flex items-center gap-[2px] text-body-xsm'>
@@ -95,7 +95,7 @@ function ReviewItem(props: ReviewItemData) {
 	)
 }
 
-function OverallRating() {
+/* function OverallRating() {
 	return (
 		<div className='flex-col-start items-center gap-[4px]'>
 			<span className='flex items-center gap-compact text-body-sm'>
@@ -120,7 +120,7 @@ function OverallRating() {
 			</div>
 		</div>
 	)
-}
+} */
 
 function NoReviewMessage() {
 	return (

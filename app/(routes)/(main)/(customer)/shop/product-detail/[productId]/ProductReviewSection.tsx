@@ -1,4 +1,4 @@
-import { StarIcon } from '@heroicons/react/24/solid'
+import { BookmarkSlashIcon, StarIcon } from '@heroicons/react/24/solid'
 import Image from 'next/image'
 import { useQuery } from '@tanstack/react-query'
 import { ProductData } from '@/app/_api/axios/product'
@@ -8,6 +8,7 @@ import {
 	getReviewListByProductId,
 } from '@/app/_api/axios/reviews'
 import { DEFAULT_AVATAR } from '@/app/_configs/constants/images'
+import { MutatingDots } from 'react-loader-spinner'
 
 export default function ReviewSection({ productId }: { productId: ProductData['id'] }) {
 	const useReviewQuery = useQuery({
@@ -23,13 +24,27 @@ export default function ReviewSection({ productId }: { productId: ProductData['i
 				className='flex-col-start gap-cozy divide-y divide-primary-625
             '
 			>
-				{isSuccess ? (
+				{isLoading && (
+					<span className='flex  justify-center '>
+						<MutatingDots
+							height='100'
+							width='100'
+							color='#56776C'
+							secondaryColor='#56776C'
+							radius='12.5'
+							ariaLabel='mutating-dots-loading'
+							visible={true}
+						/>
+					</span>
+				)}
+				{isSuccess && (
 					<>
-						<OverallRating />
-						<ReviewList reviewList={data.items} />
+						{data.page_size > 0 ? (
+							<ReviewList reviewList={data.items} />
+						) : (
+							<NoReviewMessage />
+						)}
 					</>
-				) : (
-					<div>no comment</div>
 				)}
 			</div>
 		</div>
@@ -64,14 +79,14 @@ function ReviewItem(props: ReviewItemData) {
 						style={{ objectFit: 'fill' }}
 					/>
 				</span>
-				<span className='flex-col-start h-full flex-1 justify-center gap-[4px]'>
+				<span className='flex-col-start h-full flex-1 justify-center '>
 					<span className='text-body-md font-semi-bold'>
 						{firstName} {lastName}
 					</span>
 					<span className='flex items-center gap-[2px] text-body-xsm'>
 						Rated{' '}
 						<span className='text-body-lg font-bold text-primary-625'>{star}</span> /5
-						<StarIcon className='aspect-square w-[16px] text-primary-625' />
+						<StarIcon className='aspect-square w-[24px] translate-y-[-1px] text-primary-625' />
 					</span>
 				</span>
 			</div>
@@ -103,6 +118,15 @@ function OverallRating() {
 					<StarIcon className='aspect-square w-[48px] text-white' />
 				</span>
 			</div>
+		</div>
+	)
+}
+
+function NoReviewMessage() {
+	return (
+		<div className='flex-col-start  w-full items-center gap-compact p-comfortable'>
+			<BookmarkSlashIcon className='aspect-square w-[60px] text-primary-418' />
+			<p className='text-body-md text-primary-418'>There is no review for this plant yet</p>
 		</div>
 	)
 }

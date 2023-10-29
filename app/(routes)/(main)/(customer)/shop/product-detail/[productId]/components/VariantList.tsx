@@ -21,12 +21,9 @@ const Variant = ({
 
 	return (
 		<div
-			className={clsx(
-				'flex cursor-pointer items-center gap-[8px] border-r-[1px] border-r-primary-625 px-cozy first:pl-0 last:border-none',
-				{
-					'pointer-events-none': isActive,
-				},
-			)}
+			className={clsx('flex cursor-pointer items-center gap-[8px] px-cozy first:pl-0', {
+				'pointer-events-none': isActive,
+			})}
 			onClick={() => onClick()}
 		>
 			<span
@@ -54,7 +51,7 @@ export const VariantList = ({
 }) => {
 	const setActiveVariant = useVariantStore((state) => state.setActiveVariant)
 	return (
-		<div className='flex'>
+		<div className='flex divide-x divide-primary-625'>
 			{variantList.map((variant) => (
 				<Variant
 					onClick={() => setActiveVariant(variant)}

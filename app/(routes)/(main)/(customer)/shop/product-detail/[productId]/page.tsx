@@ -45,7 +45,7 @@ function ContetnWrapper(props: ProductDetailData) {
 				/>
 				<div className='flex-col-start gap-cozy'>
 					<Price />
-					<ReviewSection />
+					<ReviewSection productId={product.id} />
 				</div>
 			</div>
 		</div>

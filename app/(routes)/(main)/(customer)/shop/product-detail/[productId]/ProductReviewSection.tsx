@@ -1,7 +1,21 @@
 import { StarIcon } from '@heroicons/react/24/solid'
-import ReviewForm from './components/ReviewForm'
+import Image from 'next/image'
+import { useQuery } from '@tanstack/react-query'
+import { ProductData } from '@/app/_api/axios/product'
+import {
+	ReviewItemData,
+	ReviewListResponseData,
+	getReviewListByProductId,
+} from '@/app/_api/axios/reviews'
+import { DEFAULT_AVATAR } from '@/app/_configs/constants/images'
 
-export default function ReviewSection() {
+export default function ReviewSection({ productId }: { productId: ProductData['id'] }) {
+	const useReviewQuery = useQuery({
+		queryKey: ['review', productId],
+		queryFn: () => getReviewListByProductId(productId),
+	})
+
+	const { data, isLoading, isSuccess, isError } = useReviewQuery
 	return (
 		<div className='rounded-[8px] bg-white p-comfortable shadow-38'>
 			<h3 className='text-body-lg text-primary-418'>Comments & Ratings</h3>
@@ -9,42 +23,59 @@ export default function ReviewSection() {
 				className='flex-col-start gap-cozy divide-y divide-primary-625
             '
 			>
-				<OverallRating />
-				<ReviewList />
-				<ReviewForm />
+				{isSuccess ? (
+					<>
+						<OverallRating />
+						<ReviewList reviewList={data.items} />
+					</>
+				) : (
+					<div>no comment</div>
+				)}
 			</div>
 		</div>
 	)
 }
 
-function ReviewList() {
+function ReviewList({ reviewList }: { reviewList: ReviewListResponseData['items'] }) {
 	return (
 		<div className='flex-col-start gap-cozy p-cozy'>
-			<ReviewItem />
-			<ReviewItem />
-			<ReviewItem />
-			<ReviewItem />
+			{reviewList.map((review) => (
+				<ReviewItem
+					{...review}
+					key={review.id}
+				/>
+			))}
 		</div>
 	)
 }
 
-function ReviewItem() {
+function ReviewItem(props: ReviewItemData) {
+	const { avatar, firstName, lastName, star, content } = props
 	return (
 		<span className='flex-col-start gap-compact'>
 			<div className='flex items-center gap-cozy'>
-				<span className='aspect-square w-[60px] rounded-[100%] bg-primary-5555'></span>
+				<span className='relative aspect-square w-[60px] overflow-hidden rounded-[100%] bg-primary-5555'>
+					<Image
+						fill
+						src={avatar ? avatar : DEFAULT_AVATAR}
+						alt='customer avatar'
+						className='opacity-0 transition-opacity duration-[.5s]'
+						onLoadingComplete={(image) => image.classList.remove('opacity-0')}
+						style={{ objectFit: 'fill' }}
+					/>
+				</span>
 				<span className='flex-col-start h-full flex-1 justify-center gap-[4px]'>
-					<span className='text-body-md font-semi-bold'>Nguyen Thanh Van</span>
-					<span className='flex gap-[4px]'>
-						<StarIcon className='aspect-square w-[16px] text-primary-625' />
-						<StarIcon className='aspect-square w-[16px] text-primary-625' />
-						<StarIcon className='aspect-square w-[16px] text-primary-625' />
-						<StarIcon className='aspect-square w-[16px] text-primary-625' />
+					<span className='text-body-md font-semi-bold'>
+						{firstName} {lastName}
+					</span>
+					<span className='flex items-center gap-[2px] text-body-xsm'>
+						Rated{' '}
+						<span className='text-body-lg font-bold text-primary-625'>{star}</span> /5
 						<StarIcon className='aspect-square w-[16px] text-primary-625' />
 					</span>
 				</span>
 			</div>
-			<p className='text-body-sm'>Cay rat dep, se ung ho them nua!</p>
+			<p className='text-body-sm'>{content}</p>
 		</span>
 	)
 }

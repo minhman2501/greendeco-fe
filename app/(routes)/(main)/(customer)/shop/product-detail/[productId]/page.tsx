@@ -7,6 +7,7 @@ import ImageGallery from './ProductImageGallery'
 import Price from './ProductPrice'
 import { ProductDetailData, getProductDetailById } from '@/app/_api/axios/product'
 import { useVariantStore } from '@/app/_configs/store/useVariantStore'
+import ProductDetailLoading from './loading'
 
 export default function ProductDetailPage({
 	params,
@@ -18,12 +19,17 @@ export default function ProductDetailPage({
 	const productDetailQuery = useQuery({
 		queryKey: ['product', params.productId],
 		queryFn: () => getProductDetailById(params.productId),
-		onSuccess: (data) => console.log(data),
+		refetchOnWindowFocus: false,
 	})
 
 	const { data, isLoading, isSuccess, isError } = productDetailQuery
 
-	return <>{data && <ContentWrapper {...data} />}</>
+	return (
+		<>
+			{isLoading && <ProductDetailLoading />}
+			{isSuccess && <ContentWrapper {...data} />}
+		</>
+	)
 }
 
 function ContentWrapper(props: ProductDetailData) {

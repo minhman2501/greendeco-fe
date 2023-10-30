@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const PRODUCT_URL = `${process.env.NEXT_PUBLIC_GREENDECO_BACKEND_API}/product`
+const PRODUCT_URL = `${process.env.NEXT_PUBLIC_GREENDECO_BACKEND_API}`
 
 export type ProductData = {
 	id: string
@@ -21,12 +21,58 @@ export type ProductData = {
 	currency: string
 }
 
+export type ProductByIdResponseData = {
+	items: ProductData
+	page: string
+	page_size: string
+	next: string
+	prev: string
+}
+
 type ProductListData = {
 	items: ProductData[]
 	next: boolean
 	page: number
 	page_size: number
 	prev: boolean
+}
+
+export type VariantData = {
+	id: string
+	available: boolean
+	product: string
+	name: string
+	color: string
+	color_name: string
+	price: string
+	image: string
+	description: string
+	currency: string
+	created_at: string
+	updated_at: string
+}
+
+export type VariantListResponseData = {
+	items: VariantData[]
+	next: boolean
+	page: number
+	page_size: number
+	prev: boolean
+}
+
+export type DefaultVariantResponseData = {
+	items: {
+		variant: string
+	}
+	next: boolean
+	page: number
+	page_size: number
+	prev: boolean
+}
+
+export type ProductDetailData = {
+	product: ProductData
+	variants: VariantData[]
 }
 
 export type FilterParams = {
@@ -58,8 +104,42 @@ export const getProductList = async (params?: FilterParams) => {
 	}
 
 	return await productApi
-		.get<ProductListData>('', {
+		.get<ProductListData>('/product', {
 			params: { ...paramAfterJSON },
 		})
 		.then((res) => res.data)
+}
+
+export const getProductBaseById = async (productId: string) => {
+	return await productApi
+		.get<ProductByIdResponseData>(`product/${productId}`)
+		.then((res) => res.data)
+}
+
+export const getVariantsByProductId = async (productId: string) => {
+	return await productApi
+		.get<VariantListResponseData>(`variant/product/${productId}`)
+		.then((res) => res.data)
+}
+export const getDefaultVariantByProductId = async (productId: string) => {
+	return await productApi
+		.get<DefaultVariantResponseData>(`variant/default/${productId}`)
+		.then((res) => res.data.items.variant)
+}
+
+export const getProductDetailById = async (productId: string) => {
+	return await Promise.all([
+		getProductBaseById(productId),
+		getVariantsByProductId(productId),
+		getDefaultVariantByProductId(productId),
+	]).then(([product, variants, defaultVariant]) => {
+		const responseProduct = product.items
+		responseProduct.default_variant = defaultVariant
+
+		const productDetail: ProductDetailData = {
+			product: responseProduct,
+			variants: variants.items,
+		}
+		return productDetail
+	})
 }

@@ -32,21 +32,18 @@ export default function ReviewSection({ productId }: { productId: ProductData['i
 	return (
 		<div className='rounded-[8px] bg-white p-comfortable shadow-38'>
 			<h3 className='text-heading-3 text-primary-625'>Comments & Ratings</h3>
-			<div className='flex items-center justify-between'>
-				<SortByStarMenu
-					currentSelectedStar={reviewSortParams.star}
-					setStar={setReviewSortParams}
-				/>
-				<ReviewSorter
-					disabled={reviewSortParams.star && reviewSortParams.star > 0 ? true : false}
-					currentOption={reviewSortParams}
-					setSortOption={setReviewSortParams}
-				/>
-			</div>
-			<div
-				className='flex-col-start gap-cozy divide-y divide-primary-625
-            '
-			>
+			<div className='flex-col-start mt-compact gap-cozy'>
+				<div className='flex items-center justify-between'>
+					<SortByStarMenu
+						currentSelectedStar={reviewSortParams.star}
+						setStar={setReviewSortParams}
+					/>
+					<ReviewSorter
+						disabled={reviewSortParams.star && reviewSortParams.star > 0 ? true : false}
+						currentOption={reviewSortParams}
+						setSortOption={setReviewSortParams}
+					/>
+				</div>
 				{isLoading && (
 					<span className='flex  justify-center '>
 						<MutatingDots
@@ -78,7 +75,7 @@ export default function ReviewSection({ productId }: { productId: ProductData['i
 
 function ReviewList({ reviewList }: { reviewList: ReviewListResponseData['items'] }) {
 	return (
-		<div className='flex-col-start gap-cozy p-cozy'>
+		<div className='flex-col-start gap-cozy px-cozy'>
 			{reviewList.map((review) => (
 				<ReviewItem
 					{...review}
@@ -184,7 +181,7 @@ function ReviewSorter({
 
 	return (
 		<select
-			className='bg-transparent text-body-xsm font-semi-bold text-primary-418-80'
+			className='rounded-[4px] border-[1px] border-primary-418 bg-transparent p-compact text-body-xsm font-semi-bold text-primary-418-80 disabled:bg-neutral-gray-3'
 			disabled={disabled}
 			onChange={onSelect}
 		>
@@ -234,11 +231,15 @@ function SortByStarMenu({
 		})
 	}
 	return (
-		<div className='flex gap-compact'>
+		<div className='flex items-center gap-compact'>
+			<label className='pointer-events-none flex items-center text-body-sm  text-primary-418 '>
+				Star
+				<StarIcon className='ml-1 aspect-square w-[14px]  text-primary-625' />:
+			</label>
 			{starGrades.map((star) => (
 				<span
 					key={star}
-					className='flex items-center gap-[4px]'
+					className='flex items-center gap-[4px] text-body-sm'
 				>
 					<input
 						type='radio'
@@ -247,7 +248,7 @@ function SortByStarMenu({
 						checked={star === currentSelectedStar}
 						onChange={onSelect}
 					/>
-					<span className='flex items-center gap-[4px]'>
+					<span className='pointer-events-none flex items-center gap-[4px] '>
 						{star}
 						<StarIcon className='aspect-square w-[14px] translate-y-[-1px] text-primary-625' />
 					</span>
@@ -256,11 +257,11 @@ function SortByStarMenu({
 
 			{currentSelectedStar && currentSelectedStar > 0 && (
 				<span
-					className='flex items-center gap-[2px] text-body-xsm text-primary-625'
+					className='flex cursor-pointer items-center gap-[2px] text-body-xsm text-primary-625'
 					onClick={handleResetStar}
 				>
 					Reset
-					<XMarkIcon className='aspect-square w-[16px]' />
+					<XMarkIcon className='aspect-square w-[16px] ' />
 				</span>
 			)}
 		</div>

@@ -30,7 +30,13 @@ export default function ReviewSection({ productId }: { productId: ProductData['i
 	return (
 		<div className='rounded-[8px] bg-white p-comfortable shadow-38'>
 			<h3 className='text-heading-3 text-primary-625'>Comments & Ratings</h3>
-			<ReviewSorter setSortOption={setReviewSortParam} />
+			<div className='flex items-center justify-between'>
+				<SortByStarMenu
+					currentSelectedStar={reviewSortParam.star}
+					setReviewSortParam={setReviewSortParam}
+				/>
+				<ReviewSorter setSortOption={setReviewSortParam} />
+			</div>
 			<div
 				className='flex-col-start gap-cozy divide-y divide-primary-625
             '
@@ -51,7 +57,9 @@ export default function ReviewSection({ productId }: { productId: ProductData['i
 				{isSuccess && (
 					<>
 						{data.page_size > 0 ? (
-							<ReviewList reviewList={data.items} />
+							<>
+								<ReviewList reviewList={data.items} />
+							</>
 						) : (
 							<NoReviewMessage />
 						)}
@@ -184,6 +192,49 @@ function ReviewSorter({
 				</option>
 			))}
 		</select>
+	)
+}
+
+function SortByStarMenu({
+	currentSelectedStar,
+	setReviewSortParam,
+}: {
+	currentSelectedStar: ReviewSortParams['star']
+	setReviewSortParam: Dispatch<SetStateAction<ReviewSortParams>>
+}) {
+	const starGrades: number[] = [1, 2, 3, 4, 5]
+
+	const onSelect = (event: ChangeEvent<HTMLInputElement>) => {
+		console.log(event.target.value)
+
+		setReviewSortParam((prev) => ({
+			...prev,
+			star: parseInt(event.target.value),
+			sort: 'desc',
+			sortBy: 'created_at',
+		}))
+	}
+	return (
+		<div className='flex gap-compact'>
+			{starGrades.map((star) => (
+				<span
+					key={star}
+					className='flex items-center gap-[4px]'
+				>
+					<input
+						type='radio'
+						name='site_name'
+						value={star}
+						checked={star === currentSelectedStar}
+						onChange={onSelect}
+					/>
+					<span className='flex items-center gap-[4px]'>
+						{star}
+						<StarIcon className='aspect-square w-[14px] translate-y-[-1px] text-primary-625' />
+					</span>
+				</span>
+			))}
+		</div>
 	)
 }
 

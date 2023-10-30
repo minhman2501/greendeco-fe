@@ -13,6 +13,7 @@ import { MutatingDots } from 'react-loader-spinner'
 import { ChangeEvent, useState, Dispatch, SetStateAction } from 'react'
 import { Sort, SortBy } from '@/app/_configs/constants/paramKeys'
 import { UseQueryKeys } from '@/app/_configs/constants/queryKey'
+import { json } from 'stream/consumers'
 
 export default function ReviewSection({ productId }: { productId: ProductData['id'] }) {
 	const [reviewSortParams, setReviewSortParams] = useState<ReviewSortParams>({
@@ -35,8 +36,8 @@ export default function ReviewSection({ productId }: { productId: ProductData['i
 			<div className='flex-col-start mt-compact gap-cozy'>
 				<div className='flex items-center justify-between'>
 					<SortByStarMenu
-						currentSelectedStar={reviewSortParams.star}
-						setStar={setReviewSortParams}
+						currentRating={reviewSortParams.star}
+						setRating={setReviewSortParams}
 					/>
 					<ReviewSorter
 						disabled={reviewSortParams.star && reviewSortParams.star > 0 ? true : false}
@@ -204,18 +205,18 @@ function ReviewSorter({
 }
 
 function SortByStarMenu({
-	currentSelectedStar,
-	setStar,
+	currentRating,
+	setRating,
 }: {
-	currentSelectedStar: ReviewSortParams['star']
-	setStar: Dispatch<SetStateAction<ReviewSortParams>>
+	currentRating: ReviewSortParams['star']
+	setRating: Dispatch<SetStateAction<ReviewSortParams>>
 }) {
-	const starGrades: number[] = [1, 2, 3, 4, 5]
+	const ratingGrades: number[] = [1, 2, 3, 4, 5]
 
 	const onSelect = (event: ChangeEvent<HTMLInputElement>) => {
 		console.log(event.target.value)
 
-		setStar((prev) => ({
+		setRating((prev) => ({
 			...prev,
 			star: parseInt(event.target.value),
 			sort: Sort.Descending,
@@ -223,8 +224,8 @@ function SortByStarMenu({
 		}))
 	}
 
-	const handleResetStar = () => {
-		setStar((prev) => {
+	const handleResetRating = () => {
+		setRating((prev) => {
 			const paramWithoutStar = { ...prev }
 			delete paramWithoutStar.star
 			return { ...paramWithoutStar }
@@ -236,32 +237,32 @@ function SortByStarMenu({
 				Star
 				<StarIcon className='ml-1 aspect-square w-[14px]  text-primary-625' />:
 			</label>
-			{starGrades.map((star) => (
+			{ratingGrades.map((grade) => (
 				<span
-					key={star}
+					key={grade}
 					className='flex items-center gap-[4px] text-body-sm'
 				>
 					<input
 						type='radio'
 						name='site_name'
-						value={star}
-						checked={star === currentSelectedStar}
+						value={grade}
+						checked={grade === currentRating}
 						onChange={onSelect}
 					/>
 					<span className='pointer-events-none flex items-center gap-[4px] '>
-						{star}
+						{grade}
 						<StarIcon className='aspect-square w-[14px] translate-y-[-1px] text-primary-625' />
 					</span>
 				</span>
 			))}
 
-			{currentSelectedStar && currentSelectedStar > 0 && (
+			{currentRating && currentRating > 0 && (
 				<span
-					className='flex cursor-pointer items-center gap-[2px] text-body-xsm text-primary-625'
-					onClick={handleResetStar}
+					className='flex translate-y-[-1px] cursor-pointer items-center gap-[2px] text-body-xsm text-primary-625'
+					onClick={handleResetRating}
 				>
 					Reset
-					<XMarkIcon className='aspect-square w-[16px] ' />
+					<XMarkIcon className='aspect-square w-[16px] translate-y-[1px]' />
 				</span>
 			)}
 		</div>

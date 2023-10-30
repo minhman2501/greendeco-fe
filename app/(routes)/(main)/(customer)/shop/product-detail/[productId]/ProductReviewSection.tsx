@@ -5,21 +5,32 @@ import { ProductData } from '@/app/_api/axios/product'
 import {
 	ReviewItemData,
 	ReviewListResponseData,
+	ReviewSortParams,
 	getReviewListByProductId,
 } from '@/app/_api/axios/reviews'
 import { DEFAULT_AVATAR } from '@/app/_configs/constants/images'
 import { MutatingDots } from 'react-loader-spinner'
+import { ChangeEvent, useState, Dispatch, SetStateAction } from 'react'
 
 export default function ReviewSection({ productId }: { productId: ProductData['id'] }) {
+	const [reviewSortParam, setReviewSortParam] = useState<ReviewSortParams>({
+		limit: 5,
+		offSet: 1,
+		sort: 'desc',
+		sortBy: 'created_at',
+	})
+
 	const useReviewQuery = useQuery({
-		queryKey: ['review', productId],
-		queryFn: () => getReviewListByProductId(productId),
+		queryKey: ['review', productId, reviewSortParam],
+		queryFn: () => getReviewListByProductId(productId, reviewSortParam),
+		onError: (e) => console.log(e),
 	})
 
 	const { data, isLoading, isSuccess, isError } = useReviewQuery
 	return (
 		<div className='rounded-[8px] bg-white p-comfortable shadow-38'>
 			<h3 className='text-heading-3 text-primary-625'>Comments & Ratings</h3>
+			<ReviewSorter setSortOption={setReviewSortParam} />
 			<div
 				className='flex-col-start gap-cozy divide-y divide-primary-625
             '
@@ -121,6 +132,60 @@ function ReviewItem(props: ReviewItemData) {
 		</div>
 	)
 } */
+
+type SortOptionsType = {
+	sort?: 'asc' | 'desc'
+	sortBy?: 'created_at' | 'star'
+}
+
+function ReviewSorter({
+	setSortOption,
+}: {
+	setSortOption: Dispatch<SetStateAction<ReviewSortParams>>
+}) {
+	const sortOptionList: SortOptionsType[] = [
+		{
+			sort: 'desc',
+			sortBy: 'created_at',
+		},
+		{
+			sort: 'asc',
+			sortBy: 'star',
+		},
+		{
+			sort: 'desc',
+			sortBy: 'star',
+		},
+	]
+
+	const onSelect = (event: ChangeEvent<HTMLSelectElement>) => {
+		const sortOption: SortOptionsType = JSON.parse(event.target.value)
+
+		setSortOption((prev) => ({ ...prev, sortBy: sortOption.sortBy, sort: sortOption.sort }))
+	}
+
+	return (
+		<select
+			className='bg-transparent text-body-xsm font-semi-bold text-primary-418-80'
+			onChange={onSelect}
+		>
+			{sortOptionList.map((opt) => (
+				<option
+					key={JSON.stringify(opt)}
+					value={JSON.stringify(opt)}
+				>
+					{opt.sortBy === 'star' &&
+						(opt.sort === 'asc'
+							? 'Lowest Rated'
+							: opt.sort === 'desc'
+							? 'Highest Rated'
+							: '')}
+					{opt.sortBy === 'created_at' && 'Newest'}
+				</option>
+			))}
+		</select>
+	)
+}
 
 function NoReviewMessage() {
 	return (

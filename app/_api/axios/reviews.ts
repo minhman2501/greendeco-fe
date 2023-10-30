@@ -36,15 +36,29 @@ export type SendReviewRequestData = {
 	reviewData: SendReviewData
 }
 
+export type ReviewSortParams = {
+	limit: number
+	offSet?: number
+	sort?: 'asc' | 'desc'
+	sortBy?: string
+	star?: number
+	user_id?: string
+}
+
 export const reviewApi = axios.create({
 	baseURL: REVIEW_URL,
 })
 
 reviewApi.defaults.headers.common['Content-Type'] = 'application/json'
 
-export const getReviewListByProductId = async (productId: ProductData['id']) => {
+export const getReviewListByProductId = async (
+	productId: ProductData['id'],
+	params?: ReviewSortParams,
+) => {
 	return await reviewApi
-		.get<ReviewListResponseData>(`/product/${productId}`)
+		.get<ReviewListResponseData>(`/product/${productId}`, {
+			params: params ? { ...params } : null,
+		})
 		.then((res) => res.data)
 }
 

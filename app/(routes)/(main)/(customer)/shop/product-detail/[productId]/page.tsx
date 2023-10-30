@@ -23,10 +23,10 @@ export default function ProductDetailPage({
 
 	const { data, isLoading, isSuccess, isError } = productDetailQuery
 
-	return <>{data && <ContetnWrapper {...data} />}</>
+	return <>{data && <ContentWrapper {...data} />}</>
 }
 
-function ContetnWrapper(props: ProductDetailData) {
+function ContentWrapper(props: ProductDetailData) {
 	const { product, variants } = props
 
 	const defaultVariant = variants.find((variant) => variant.id === product.default_variant)

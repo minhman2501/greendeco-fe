@@ -13,7 +13,6 @@ import { MutatingDots } from 'react-loader-spinner'
 import { ChangeEvent, useState, Dispatch, SetStateAction } from 'react'
 import { Sort, SortBy } from '@/app/_configs/constants/paramKeys'
 import { UseQueryKeys } from '@/app/_configs/constants/queryKey'
-import { json } from 'stream/consumers'
 
 export default function ReviewSection({ productId }: { productId: ProductData['id'] }) {
 	const [reviewSortParams, setReviewSortParams] = useState<ReviewSortParams>({
@@ -182,7 +181,7 @@ function ReviewSorter({
 
 	return (
 		<select
-			className='rounded-[4px] border-[1px] border-primary-418 bg-transparent p-compact text-body-xsm font-semi-bold text-primary-418-80 disabled:bg-neutral-gray-3'
+			className='cursor-pointer rounded-[4px] border-[1px] border-primary-418 bg-transparent p-compact text-body-xsm font-semi-bold text-primary-418-80 disabled:bg-neutral-gray-3'
 			disabled={disabled}
 			onChange={onSelect}
 		>

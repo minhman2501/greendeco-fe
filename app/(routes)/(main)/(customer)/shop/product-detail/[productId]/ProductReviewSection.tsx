@@ -1,4 +1,4 @@
-import { BookmarkSlashIcon, StarIcon } from '@heroicons/react/24/solid'
+import { BookmarkSlashIcon, StarIcon, XMarkIcon } from '@heroicons/react/24/solid'
 import Image from 'next/image'
 import { useQuery } from '@tanstack/react-query'
 import { ProductData } from '@/app/_api/axios/product'
@@ -13,7 +13,7 @@ import { MutatingDots } from 'react-loader-spinner'
 import { ChangeEvent, useState, Dispatch, SetStateAction } from 'react'
 
 export default function ReviewSection({ productId }: { productId: ProductData['id'] }) {
-	const [reviewSortParam, setReviewSortParam] = useState<ReviewSortParams>({
+	const [reviewSortParams, setReviewSortParams] = useState<ReviewSortParams>({
 		limit: 5,
 		offSet: 1,
 		sort: 'desc',
@@ -21,8 +21,8 @@ export default function ReviewSection({ productId }: { productId: ProductData['i
 	})
 
 	const useReviewQuery = useQuery({
-		queryKey: ['review', productId, reviewSortParam],
-		queryFn: () => getReviewListByProductId(productId, reviewSortParam),
+		queryKey: ['review', productId, reviewSortParams],
+		queryFn: () => getReviewListByProductId(productId, reviewSortParams),
 		onError: (e) => console.log(e),
 	})
 
@@ -32,10 +32,14 @@ export default function ReviewSection({ productId }: { productId: ProductData['i
 			<h3 className='text-heading-3 text-primary-625'>Comments & Ratings</h3>
 			<div className='flex items-center justify-between'>
 				<SortByStarMenu
-					currentSelectedStar={reviewSortParam.star}
-					setReviewSortParam={setReviewSortParam}
+					currentSelectedStar={reviewSortParams.star}
+					setStar={setReviewSortParams}
 				/>
-				<ReviewSorter setSortOption={setReviewSortParam} />
+				<ReviewSorter
+					disabled={reviewSortParams.star && reviewSortParams.star > 0 ? true : false}
+					currentOption={reviewSortParams}
+					setSortOption={setReviewSortParams}
+				/>
 			</div>
 			<div
 				className='flex-col-start gap-cozy divide-y divide-primary-625
@@ -147,10 +151,18 @@ type SortOptionsType = {
 }
 
 function ReviewSorter({
+	currentOption,
 	setSortOption,
+	disabled,
 }: {
+	currentOption: Pick<ReviewSortParams, 'sort' | 'sortBy'>
 	setSortOption: Dispatch<SetStateAction<ReviewSortParams>>
+	disabled?: boolean
 }) {
+	console.log('render')
+
+	console.log(currentOption)
+
 	const sortOptionList: SortOptionsType[] = [
 		{
 			sort: 'desc',
@@ -175,6 +187,7 @@ function ReviewSorter({
 	return (
 		<select
 			className='bg-transparent text-body-xsm font-semi-bold text-primary-418-80'
+			disabled={disabled}
 			onChange={onSelect}
 		>
 			{sortOptionList.map((opt) => (
@@ -197,22 +210,30 @@ function ReviewSorter({
 
 function SortByStarMenu({
 	currentSelectedStar,
-	setReviewSortParam,
+	setStar,
 }: {
 	currentSelectedStar: ReviewSortParams['star']
-	setReviewSortParam: Dispatch<SetStateAction<ReviewSortParams>>
+	setStar: Dispatch<SetStateAction<ReviewSortParams>>
 }) {
 	const starGrades: number[] = [1, 2, 3, 4, 5]
 
 	const onSelect = (event: ChangeEvent<HTMLInputElement>) => {
 		console.log(event.target.value)
 
-		setReviewSortParam((prev) => ({
+		setStar((prev) => ({
 			...prev,
 			star: parseInt(event.target.value),
 			sort: 'desc',
 			sortBy: 'created_at',
 		}))
+	}
+
+	const handleResetStar = () => {
+		setStar((prev) => {
+			const paramWithoutStar = { ...prev }
+			delete paramWithoutStar.star
+			return { ...paramWithoutStar }
+		})
 	}
 	return (
 		<div className='flex gap-compact'>
@@ -234,6 +255,16 @@ function SortByStarMenu({
 					</span>
 				</span>
 			))}
+
+			{currentSelectedStar && currentSelectedStar > 0 && (
+				<span
+					className='flex items-center gap-[2px] text-body-xsm text-primary-625'
+					onClick={handleResetStar}
+				>
+					Reset
+					<XMarkIcon className='aspect-square w-[16px]' />
+				</span>
+			)}
 		</div>
 	)
 }

@@ -25,7 +25,6 @@ export default function ReviewSection({ productId }: { productId: ProductData['i
 	const useReviewQuery = useQuery({
 		queryKey: [UseQueryKeys.Review, productId, reviewSortParams],
 		queryFn: () => getReviewListByProductId(productId, reviewSortParams),
-		onError: (e) => console.log(e),
 	})
 
 	const { data, isLoading, isSuccess, isError } = useReviewQuery
@@ -278,7 +277,7 @@ function NoReviewMessage() {
 	return (
 		<div className='flex-col-start  w-full items-center gap-compact p-comfortable'>
 			<BookmarkSlashIcon className='aspect-square w-[60px] text-primary-418' />
-			<p className='text-body-md text-primary-418'>There is no review for this plant yet</p>
+			<p className='text-body-md text-primary-418'>There are no reviews</p>
 		</div>
 	)
 }

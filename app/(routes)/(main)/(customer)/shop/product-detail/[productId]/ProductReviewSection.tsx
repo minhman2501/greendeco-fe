@@ -11,17 +11,19 @@ import {
 import { DEFAULT_AVATAR } from '@/app/_configs/constants/images'
 import { MutatingDots } from 'react-loader-spinner'
 import { ChangeEvent, useState, Dispatch, SetStateAction } from 'react'
+import { Sort, SortBy } from '@/app/_configs/constants/paramKeys'
+import { UseQueryKeys } from '@/app/_configs/constants/queryKey'
 
 export default function ReviewSection({ productId }: { productId: ProductData['id'] }) {
 	const [reviewSortParams, setReviewSortParams] = useState<ReviewSortParams>({
 		limit: 5,
 		offSet: 1,
-		sort: 'desc',
-		sortBy: 'created_at',
+		sort: Sort.Descending,
+		sortBy: SortBy.CreatedAt,
 	})
 
 	const useReviewQuery = useQuery({
-		queryKey: ['review', productId, reviewSortParams],
+		queryKey: [UseQueryKeys.Review, productId, reviewSortParams],
 		queryFn: () => getReviewListByProductId(productId, reviewSortParams),
 		onError: (e) => console.log(e),
 	})
@@ -146,8 +148,8 @@ function ReviewItem(props: ReviewItemData) {
 } */
 
 type SortOptionsType = {
-	sort?: 'asc' | 'desc'
-	sortBy?: 'created_at' | 'star'
+	sort?: Sort.Ascending | Sort.Descending
+	sortBy?: SortBy.CreatedAt | SortBy.Star
 }
 
 function ReviewSorter({
@@ -159,22 +161,18 @@ function ReviewSorter({
 	setSortOption: Dispatch<SetStateAction<ReviewSortParams>>
 	disabled?: boolean
 }) {
-	console.log('render')
-
-	console.log(currentOption)
-
 	const sortOptionList: SortOptionsType[] = [
 		{
-			sort: 'desc',
-			sortBy: 'created_at',
+			sort: Sort.Descending,
+			sortBy: SortBy.CreatedAt,
 		},
 		{
-			sort: 'asc',
-			sortBy: 'star',
+			sort: Sort.Ascending,
+			sortBy: SortBy.Star,
 		},
 		{
-			sort: 'desc',
-			sortBy: 'star',
+			sort: Sort.Descending,
+			sortBy: SortBy.Star,
 		},
 	]
 
@@ -195,13 +193,13 @@ function ReviewSorter({
 					key={JSON.stringify(opt)}
 					value={JSON.stringify(opt)}
 				>
-					{opt.sortBy === 'star' &&
-						(opt.sort === 'asc'
+					{opt.sortBy === SortBy.Star &&
+						(opt.sort === Sort.Ascending
 							? 'Lowest Rated'
-							: opt.sort === 'desc'
+							: opt.sort === Sort.Descending
 							? 'Highest Rated'
 							: '')}
-					{opt.sortBy === 'created_at' && 'Newest'}
+					{opt.sortBy === SortBy.CreatedAt && 'Newest'}
 				</option>
 			))}
 		</select>
@@ -223,8 +221,8 @@ function SortByStarMenu({
 		setStar((prev) => ({
 			...prev,
 			star: parseInt(event.target.value),
-			sort: 'desc',
-			sortBy: 'created_at',
+			sort: Sort.Descending,
+			sortBy: SortBy.CreatedAt,
 		}))
 	}
 

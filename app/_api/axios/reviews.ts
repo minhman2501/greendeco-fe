@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { ProductData } from './product'
 import { UserProfileResponseData } from './user'
+import { Sort } from '@/app/_configs/constants/paramKeys'
 
 const REVIEW_URL = `${process.env.NEXT_PUBLIC_GREENDECO_BACKEND_API}/review`
 
@@ -39,7 +40,7 @@ export type SendReviewRequestData = {
 export type ReviewSortParams = {
 	limit: number
 	offSet?: number
-	sort?: 'asc' | 'desc'
+	sort?: Sort.Ascending | Sort.Descending
 	sortBy?: string
 	star?: number
 	user_id?: string

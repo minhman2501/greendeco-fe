@@ -40,7 +40,10 @@ export default function ReviewSection({ productId }: { productId: ProductData['i
 					/>
 					<ReviewSorter
 						disabled={reviewSortParams.star && reviewSortParams.star > 0 ? true : false}
-						currentOption={reviewSortParams}
+						currentSortOption={{
+							sort: reviewSortParams.sort,
+							sortBy: reviewSortParams.sortBy,
+						}}
 						setSortOption={setReviewSortParams}
 					/>
 				</div>
@@ -150,11 +153,14 @@ type SortOptionsType = {
 }
 
 function ReviewSorter({
-	currentOption,
+	currentSortOption,
 	setSortOption,
 	disabled,
 }: {
-	currentOption: Pick<ReviewSortParams, 'sort' | 'sortBy'>
+	currentSortOption: {
+		sort: ReviewSortParams['sort']
+		sortBy: ReviewSortParams['sortBy']
+	}
 	setSortOption: Dispatch<SetStateAction<ReviewSortParams>>
 	disabled?: boolean
 }) {
@@ -175,13 +181,12 @@ function ReviewSorter({
 
 	const onSelect = (event: ChangeEvent<HTMLSelectElement>) => {
 		const sortOption: SortOptionsType = JSON.parse(event.target.value)
-
 		setSortOption((prev) => ({ ...prev, sortBy: sortOption.sortBy, sort: sortOption.sort }))
 	}
 
 	return (
 		<select
-			className='cursor-pointer rounded-[4px] border-[1px] border-primary-418 bg-transparent p-compact text-body-xsm font-semi-bold text-primary-418-80 disabled:bg-neutral-gray-3'
+			className='cursor-pointer rounded-[4px] border-[1px] border-primary-418 bg-transparent p-compact text-body-xsm font-semi-bold text-primary-418-80 disabled:pointer-events-none disabled:bg-neutral-gray-3'
 			disabled={disabled}
 			onChange={onSelect}
 		>
@@ -189,6 +194,7 @@ function ReviewSorter({
 				<option
 					key={JSON.stringify(opt)}
 					value={JSON.stringify(opt)}
+					selected={JSON.stringify(currentSortOption) === JSON.stringify(opt)}
 				>
 					{opt.sortBy === SortBy.Star &&
 						(opt.sort === Sort.Ascending

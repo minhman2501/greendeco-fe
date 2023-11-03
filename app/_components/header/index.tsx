@@ -1,6 +1,6 @@
-import Button from '../Button'
+import Image from 'next/image'
 import Link from 'next/link'
-import { motion, useTransform } from 'framer-motion'
+import BrandLogoSmall from '@/public/BrandLogoSmall.svg'
 import AuthenticationHandler from './AuthenticationMenu'
 
 export default function Header() {
@@ -18,12 +18,25 @@ export default function Header() {
 }
 
 function Logo() {
-	return <span className='aspect-square h-full  bg-primary-625'></span>
+	return (
+		<Link
+			href={'/'}
+			className='relative aspect-square h-full  overflow-hidden rounded-[8px] bg-primary-625 p-compact shadow-30'
+		>
+			<Image
+				src={BrandLogoSmall}
+				alt='Welcome to GreenDeco'
+				width={0}
+				height={0}
+				sizes='100vw'
+			/>
+		</Link>
+	)
 }
 
 function NavBar() {
 	return (
-		<div className='flex-col-start h-full flex-1 justify-center border-[1px] border-primary-625 bg-white px-cozy shadow-15'>
+		<div className='flex-col-start h-full flex-1 justify-center rounded-[8px] border-[1px] border-primary-625 bg-white px-cozy shadow-30'>
 			<div className='flex items-center justify-between'>
 				<NavigationList />
 			</div>

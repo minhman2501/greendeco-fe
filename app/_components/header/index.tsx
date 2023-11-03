@@ -1,6 +1,7 @@
 import Button from '../Button'
 import Link from 'next/link'
 import { motion, useTransform } from 'framer-motion'
+import AuthenticationHandler from './AuthenticationMenu'
 
 export default function Header() {
 	return (
@@ -9,7 +10,7 @@ export default function Header() {
 				<div className='mx-[-20px] mt-[-60px] flex h-[60px] items-center gap-cozy'>
 					<Logo />
 					<NavBar />
-					<Button className='h-full px-cozy'>Login</Button>
+					<AuthenticationHandler />
 				</div>
 			</div>
 		</header>

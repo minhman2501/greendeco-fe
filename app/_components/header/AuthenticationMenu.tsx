@@ -24,7 +24,7 @@ export default function AuthenticationHandler() {
 	const { data, isLoading, isSuccess, isError } = userQuery
 
 	return (
-		<div className='h-full'>
+		<div className='h-full w-[220px] overflow-hidden rounded-[8px] bg-primary-625 shadow-30'>
 			{isSuccess && <UserSettingMenu {...data} />}
 			{isError && (
 				<Button
@@ -40,7 +40,7 @@ export default function AuthenticationHandler() {
 
 function UserSettingMenu({ avatar, firstName, lastName }: UserProfileResponseData) {
 	return (
-		<span className='flex h-full max-w-[200px] items-center justify-center gap-compact rounded-[8px] bg-primary-625 px-cozy py-[12px] shadow-30'>
+		<span className='flex h-full max-w-full items-center justify-center gap-compact px-cozy py-[12px] '>
 			<span className='aspect-square h-full overflow-hidden rounded-[100%]'>
 				<Image
 					width={0}

@@ -60,17 +60,24 @@ export const getCartInfoFromUser = async (accessToken: AccessTokenType) => {
 
 export const createNewCart = async (accessToken: AccessTokenType) => {
 	return await cartApi
-		.post<CreateNewCartResponseData>('', {
-			headers: {
-				Authorization: `Bearer ${accessToken}`,
+		.post<CreateNewCartResponseData>(
+			'',
+			{
+				//NOTE: In the future, the description will have username + Cart
+				description: 'User Cart',
 			},
-		})
+			{
+				headers: {
+					Authorization: `Bearer ${accessToken}`,
+				},
+			},
+		)
 		.then((res) => res.data)
 }
 
 export const getCartItemListFromCartId = async (cartId: string, accessToken: AccessTokenType) => {
 	return await cartApi
-		.get<CartItemListResponseData>(`/${cartId}`, {
+		.get<CartItemListResponseData>(`/${cartId}/product`, {
 			headers: {
 				Authorization: `Bearer ${accessToken}`,
 			},

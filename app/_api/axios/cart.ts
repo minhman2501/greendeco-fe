@@ -64,6 +64,11 @@ type RemoveItemCartRequestData = {
 	accessToken: AccessTokenType
 }
 
+type ClearItemCartResquestData = {
+	cartId: CartInfoData['id']
+	accessToken: AccessTokenType
+}
+
 export const cartApi = axios.create({
 	baseURL: CART_URL,
 })
@@ -143,10 +148,8 @@ export const removeCartItem = async (data: RemoveItemCartRequestData) => {
 	})
 }
 
-export const clearCartItemList = async (
-	cartId: CartInfoData['id'],
-	accessToken: AccessTokenType,
-) => {
+export const clearCartItemList = async (data: ClearItemCartResquestData) => {
+	const { cartId, accessToken } = data
 	return await cartApi.delete(`/${cartId}/clear`, {
 		headers: {
 			Authorization: `Bearer ${accessToken}`,

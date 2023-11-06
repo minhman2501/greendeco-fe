@@ -1,6 +1,8 @@
 'use client'
+
 import {
 	CartItemData,
+	addCartItem,
 	changeCartItemQuantity,
 	clearCartItemList,
 	removeCartItem,
@@ -25,6 +27,13 @@ export default function CartItem(props: CartItemData) {
 
 	const deleteCartItemMutation = useMutation({
 		mutationFn: removeCartItem,
+		onSuccess: () => {
+			queryClient.invalidateQueries({ queryKey: ['cart'] })
+		},
+	})
+
+	const addCartItemMutation = useMutation({
+		mutationFn: addCartItem,
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: ['cart'] })
 		},

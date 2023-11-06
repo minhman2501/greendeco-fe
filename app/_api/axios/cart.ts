@@ -44,6 +44,11 @@ type CartItemListResponseData = {
 }
 
 type AddItemRequestData = {
+	itemData: ItemAddData
+	accessToken: AccessTokenType
+}
+
+type ItemAddData = {
 	cart_id: CartInfoData['id']
 	quantity: number
 	variant_id: VariantData['id']
@@ -112,10 +117,11 @@ export const getCartItemListFromCartId = async (cartId: string, accessToken: Acc
 		.then((res) => res.data)
 }
 
-export const addCartItem = async (data: AddItemRequestData, accessToken: AccessTokenType) => {
+export const addCartItem = async (data: AddItemRequestData) => {
+	const { itemData, accessToken } = data
 	return await cartApi.post<CartItemListResponseData>(
 		'/product',
-		{ ...data },
+		{ ...itemData },
 		{
 			headers: {
 				Authorization: `Bearer ${accessToken}`,

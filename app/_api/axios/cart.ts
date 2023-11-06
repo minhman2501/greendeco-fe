@@ -2,6 +2,7 @@ import { AccessTokenType } from '@/app/_types'
 import axios from 'axios'
 import { UserProfileResponseData } from './user'
 import { VariantData } from './product'
+import { headers } from 'next/dist/client/components/headers'
 
 const CART_URL = `${process.env.NEXT_PUBLIC_GREENDECO_BACKEND_API}/cart`
 
@@ -40,6 +41,16 @@ type CartItemListResponseData = {
 	page_size: number
 	next: Boolean
 	prev: Boolean
+}
+
+type AddItemRequestData = {
+	cart_id: CartInfoData['id']
+	quantity: number
+	variant_id: VariantData['id']
+}
+
+type AddItemResponseData = {
+	id: CartItemData['id']
 }
 
 export const cartApi = axios.create({
@@ -83,4 +94,34 @@ export const getCartItemListFromCartId = async (cartId: string, accessToken: Acc
 			},
 		})
 		.then((res) => res.data)
+}
+
+export const addCartItem = async (data: AddItemRequestData, accessToken: AccessTokenType) => {
+	return await cartApi.post<CartItemListResponseData>(
+		'/product',
+		{ ...data },
+		{
+			headers: {
+				Authorization: `Bearer ${accessToken}`,
+			},
+		},
+	)
+}
+
+export const changeCartItemQuantity = async (
+	itemId: CartItemData['id'],
+	quantity: number,
+	accessToken: AccessTokenType,
+) => {
+	return await cartApi.put(
+		`/product/${itemId}`,
+		{
+			quantity: quantity,
+		},
+		{
+			headers: {
+				Authorization: `Bearer ${accessToken}`,
+			},
+		},
+	)
 }

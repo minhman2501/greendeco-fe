@@ -26,7 +26,7 @@ type CreateNewCartResponseData = {
 	id: CartInfoData['id']
 }
 
-type CartItemData = {
+export type CartItemData = {
 	id: string
 	cart: CartInfoData['id']
 	variant: VariantData['id']
@@ -51,6 +51,17 @@ type AddItemRequestData = {
 
 type AddItemResponseData = {
 	id: CartItemData['id']
+}
+
+type ChangeItemQuantityRequestData = {
+	itemId: CartItemData['id']
+	quantity: number
+	accessToken: AccessTokenType
+}
+
+type RemoveItemCartRequestData = {
+	itemId: CartItemData['id']
+	accessToken: AccessTokenType
 }
 
 export const cartApi = axios.create({
@@ -108,11 +119,8 @@ export const addCartItem = async (data: AddItemRequestData, accessToken: AccessT
 	)
 }
 
-export const changeCartItemQuantity = async (
-	itemId: CartItemData['id'],
-	quantity: number,
-	accessToken: AccessTokenType,
-) => {
+export const changeCartItemQuantity = async (data: ChangeItemQuantityRequestData) => {
+	const { itemId, quantity, accessToken } = data
 	return await cartApi.put(
 		`/product/${itemId}`,
 		{
@@ -126,7 +134,8 @@ export const changeCartItemQuantity = async (
 	)
 }
 
-export const removeCartItem = async (itemId: CartItemData['id'], accessToken: AccessTokenType) => {
+export const removeCartItem = async (data: RemoveItemCartRequestData) => {
+	const { itemId, accessToken } = data
 	return await cartApi.delete(`/product/${itemId}`, {
 		headers: {
 			Authorization: `Bearer ${accessToken}`,

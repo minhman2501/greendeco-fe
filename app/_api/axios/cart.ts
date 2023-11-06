@@ -125,3 +125,22 @@ export const changeCartItemQuantity = async (
 		},
 	)
 }
+
+export const removeCartItem = async (itemId: CartItemData['id'], accessToken: AccessTokenType) => {
+	return await cartApi.delete(`/product/${itemId}`, {
+		headers: {
+			Authorization: `Bearer ${accessToken}`,
+		},
+	})
+}
+
+export const clearCartItemList = async (
+	cartId: CartInfoData['id'],
+	accessToken: AccessTokenType,
+) => {
+	return await cartApi.delete(`/${cartId}/clear`, {
+		headers: {
+			Authorization: `Bearer ${accessToken}`,
+		},
+	})
+}

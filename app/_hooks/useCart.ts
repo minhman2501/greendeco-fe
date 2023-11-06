@@ -1,10 +1,4 @@
-import {
-	getCartInfoFromUser,
-	getCartItemListFromCartId,
-	CartInfoFromUserResponseData,
-	createNewCart,
-	cartApi,
-} from '../_api/axios/cart'
+import { getCartInfoFromUser, getCartItemListFromCartId, createNewCart } from '../_api/axios/cart'
 import { getCookie } from 'cookies-next'
 import { ACCESS_TOKEN_COOKIE_NAME } from '../_configs/constants/cookies'
 import { AxiosError } from 'axios'

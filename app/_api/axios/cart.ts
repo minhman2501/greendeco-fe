@@ -34,7 +34,7 @@ export type CartItemData = {
 	updated_at: string
 }
 
-type CartItemListResponseData = {
+export type CartItemListResponseData = {
 	items: CartItemData[]
 	page: number
 	page_size: number

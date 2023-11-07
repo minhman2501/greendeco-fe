@@ -2,11 +2,10 @@ import { AccessTokenType } from '@/app/_types'
 import axios from 'axios'
 import { UserProfileResponseData } from './user'
 import { VariantData } from './product'
-import { headers } from 'next/dist/client/components/headers'
 
 const CART_URL = `${process.env.NEXT_PUBLIC_GREENDECO_BACKEND_API}/cart`
 
-type CartInfoData = {
+export type CartInfoData = {
 	id: string
 	owner: UserProfileResponseData['id']
 	description: string

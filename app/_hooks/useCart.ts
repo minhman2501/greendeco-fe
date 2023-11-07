@@ -8,6 +8,7 @@ import {
 	removeCartItem,
 	CartInfoData,
 	clearCartItemList,
+	CartItemListResponseData,
 	addCartItem,
 } from '../_api/axios/cart'
 import { VariantData, getVariantById } from '../_api/axios/product'
@@ -46,48 +47,44 @@ export default function useCart() {
 					return createNewCart(accessToken).then((data) => data.id)
 				}
 			})
-			.then((data) => data)
+			.then((cartId) => cartId)
 	}
 
-	const handleGetCartItemListByCartId = async () => {
+	const handleGetCartFullDetail = (cartList: CartItemListResponseData) => {
+		const newList = cartList.items.map(async (item) => {
+			const variant = await getVariantById(item.variant).then((data) => data)
+			return {
+				...item,
+				variant: variant.items,
+			}
+		})
+		return Promise.all(newList).then((cartItemArray: CartItemWithFullVariantInfo[]) => {
+			const cartListFullDetail: CartListFullDetail = {
+				...cartList,
+				items: cartItemArray,
+			}
+			return cartListFullDetail
+		})
+	}
+
+	const getCartListWithFullDetail = async () => {
 		const accessToken = getCookie(ACCESS_TOKEN_COOKIE_NAME)
 		return await handleGetCartId(accessToken)
 			.then((cartId) => {
-				if (cartId) {
-					setCookie('cartId', cartId)
-					return getCartItemListFromCartId(cartId, accessToken)
+				if (cartId) return getCartItemListFromCartId(cartId, accessToken)
+			})
+			.then((cartListWithoutVariantInfo) => {
+				if (cartListWithoutVariantInfo) {
+					return handleGetCartFullDetail(cartListWithoutVariantInfo)
 				}
 			})
-			.then((data) => {
-				if (data) {
-					const newList = data.items.map(async (item) => {
-						const variant = await getVariantById(item.variant).then((data) => data)
-						return {
-							...item,
-							variant: variant.items,
-						}
-					})
-					return Promise.all(newList).then(
-						(cartItemArray: CartItemWithFullVariantInfo[]) => {
-							const cartListFullInfo: CartListFullDetail = {
-								...data,
-								items: cartItemArray,
-							}
-							return cartListFullInfo
-						},
-					)
-				}
-			})
-			.then((data) => data)
 	}
-
-	const handleGetFullDetailOfCartList = async () => {}
 
 	const queryClient = useQueryClient()
 
 	const cartQuery = useQuery({
 		queryKey: ['cart'],
-		queryFn: handleGetCartItemListByCartId,
+		queryFn: getCartListWithFullDetail,
 		onError: (e) => console.log(e),
 		retry: false,
 	})

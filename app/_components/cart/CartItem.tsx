@@ -1,107 +1,28 @@
 'use client'
 
-import {
-	CartItemData,
-	addCartItem,
-	changeCartItemQuantity,
-	clearCartItemList,
-	removeCartItem,
-} from '@/app/_api/axios/cart'
-import { ACCESS_TOKEN_COOKIE_NAME } from '@/app/_configs/constants/cookies'
-import { UseMutateFunction, useMutation, useQueryClient } from '@tanstack/react-query'
+import { CartItemData } from '@/app/_api/axios/cart'
+import useCart from '@/app/_hooks/useCart'
 import clsx from 'clsx'
-import { getCookie } from 'cookies-next'
 import { useState } from 'react'
 
 export default function CartItem(props: CartItemData) {
-	const { variant, quantity, id, cart } = props
+	const { variant, quantity, id } = props
 
-	const queryClient = useQueryClient()
-
-	const changeQuantityMutation = useMutation({
-		mutationFn: changeCartItemQuantity,
-		onSuccess: () => {
-			queryClient.invalidateQueries({ queryKey: ['cart'] })
-		},
-	})
-
-	const deleteCartItemMutation = useMutation({
-		mutationFn: removeCartItem,
-		onSuccess: () => {
-			queryClient.invalidateQueries({ queryKey: ['cart'] })
-		},
-	})
-
-	const addCartItemMutation = useMutation({
-		mutationFn: addCartItem,
-		onSuccess: () => {
-			queryClient.invalidateQueries({ queryKey: ['cart'] })
-		},
-	})
-
-	const clearCartItemMutation = useMutation({
-		mutationFn: clearCartItemList,
-		onSuccess: () => {
-			queryClient.invalidateQueries({ queryKey: ['cart'] })
-		},
-	})
-
-	const handleIncreaseQuantity = () => {
-		const accessToken = getCookie(ACCESS_TOKEN_COOKIE_NAME)?.toString()
-		changeQuantityMutation.mutate({
-			itemId: id,
-			quantity: quantity + 1,
-			accessToken: accessToken,
-		})
-	}
-
-	const handleDecreaseQuantity = () => {
-		const accessToken = getCookie(ACCESS_TOKEN_COOKIE_NAME)?.toString()
-		if (quantity > 1)
-			changeQuantityMutation.mutate({
-				itemId: id,
-				quantity: quantity - 1,
-				accessToken: accessToken,
-			})
-	}
-
-	const handleDeleteCartItem = () => {
-		const accessToken = getCookie(ACCESS_TOKEN_COOKIE_NAME)
-		deleteCartItemMutation.mutate({
-			itemId: id,
-			accessToken: accessToken,
-		})
-	}
-
-	const handleClearCartList = () => {
-		const accessToken = getCookie(ACCESS_TOKEN_COOKIE_NAME)
-		clearCartItemMutation.mutate({
-			cartId: cart,
-			accessToken: accessToken,
-		})
-	}
+	const { increaseQuantity, decreaseQuantity } = useCart()
 
 	return (
 		<div className='flex-col-center p-cozy'>
 			<span>{variant}</span>
 			<div className={clsx('flex items-center gap-cozy ')}>
-				<button onClick={() => handleDecreaseQuantity()}>Decrease</button>
+				<button onClick={() => decreaseQuantity(id, quantity)}>Decrease</button>
 				<span>{quantity}</span>
-				<button onClick={() => handleIncreaseQuantity()}>Increase</button>
+				<button onClick={() => increaseQuantity(id, quantity)}>Increase</button>
 			</div>
-			<button onClick={() => handleDeleteCartItem()}>remove item</button>
-			<button onClick={() => handleClearCartList()}>Clear</button>
 		</div>
 	)
 }
 
-function QuantityController({
-	initialQuantity = 1,
-	mutateFn,
-}: {
-	initialQuantity: number
-	mutateFn: UseMutateFunction
-}) {
+function QuantityController({ initialQuantity = 1 }: { initialQuantity: number }) {
 	const [quantity, setQuantity] = useState<number>(initialQuantity)
 
 	return (

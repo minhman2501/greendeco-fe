@@ -70,6 +70,13 @@ export type DefaultVariantResponseData = {
 	prev: boolean
 }
 
+export type VariantInfoResponseData = {
+	items: VariantData
+	next: boolean
+	page: number
+	page_size: number
+	prev: boolean
+}
 export type ProductDetailData = {
 	product: ProductData
 	variants: VariantData[]
@@ -125,6 +132,12 @@ export const getDefaultVariantByProductId = async (productId: string) => {
 	return await productApi
 		.get<DefaultVariantResponseData>(`variant/default/${productId}`)
 		.then((res) => res.data.items.variant)
+}
+
+export const getVariantById = async (variantId: string) => {
+	return await productApi
+		.get<VariantInfoResponseData>(`variant/${variantId}`)
+		.then((res) => res.data)
 }
 
 export const getProductDetailById = async (productId: string) => {

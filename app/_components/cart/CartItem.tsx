@@ -1,18 +1,27 @@
 'use client'
 
 import { CartItemData } from '@/app/_api/axios/cart'
+import { VariantData } from '@/app/_api/axios/product'
 import useCart from '@/app/_hooks/useCart'
 import clsx from 'clsx'
 import { useState } from 'react'
 
-export default function CartItem(props: CartItemData) {
-	const { variant, quantity, id } = props
+export default function CartItem({
+	cartItem,
+	variantInfo,
+}: {
+	cartItem: CartItemData
+	variantInfo: VariantData
+}) {
+	const { variant, quantity, id } = cartItem
 
 	const { increaseQuantity, decreaseQuantity } = useCart()
 
 	return (
 		<div className='flex-col-center p-cozy'>
-			<span>{variant}</span>
+			<span>
+				<ItemDetail {...variantInfo} />
+			</span>
 			<div className={clsx('flex items-center gap-cozy ')}>
 				<button onClick={() => decreaseQuantity(id, quantity)}>Decrease</button>
 				<span>{quantity}</span>
@@ -20,6 +29,11 @@ export default function CartItem(props: CartItemData) {
 			</div>
 		</div>
 	)
+}
+
+function ItemDetail(props: VariantData) {
+	const { image, name, color, color_name, price, currency } = props
+	return <div>{name}</div>
 }
 
 function QuantityController({ initialQuantity = 1 }: { initialQuantity: number }) {

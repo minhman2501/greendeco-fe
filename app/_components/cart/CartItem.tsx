@@ -1,13 +1,12 @@
 'use client'
 
-import { CartItemData } from '@/app/_api/axios/cart'
 import Image from 'next/image'
 import { VariantData } from '@/app/_api/axios/product'
 import useCart, { CartItemWithFullVariantInfo } from '@/app/_hooks/useCart'
 import clsx from 'clsx'
-import { useState } from 'react'
 import { TrashIcon } from '@heroicons/react/24/solid'
 import Button from '../Button'
+import QuantityController from '../QuantityController'
 
 export default function CartItem({ cartItem }: { cartItem: CartItemWithFullVariantInfo }) {
 	const { variant, quantity, id } = cartItem
@@ -23,11 +22,11 @@ export default function CartItem({ cartItem }: { cartItem: CartItemWithFullVaria
 			<div className='flex-col-start flex-1 justify-between'>
 				<ItemDetail {...variant} />
 				<div className='flex items-center justify-between'>
-					<div className={clsx('flex items-center gap-cozy ')}>
-						<button onClick={() => decreaseQuantity(id, quantity)}>Decrease</button>
-						<span>{quantity}</span>
-						<button onClick={() => increaseQuantity(id, quantity)}>Increase</button>
-					</div>
+					<QuantityController
+						quantity={quantity}
+						decrease={() => decreaseQuantity(id, quantity)}
+						increase={() => increaseQuantity(id, quantity)}
+					/>
 					<Button className='w-fit rounded-[6px] bg-primary-5555 p-compact'>
 						<TrashIcon className='aspect-square h-[16px] text-white' />
 					</Button>
@@ -75,24 +74,6 @@ function ItemDetail({ name, color, color_name, price, currency }: VariantData) {
 					<span className='capitalize text-primary-418'>{color_name}</span>
 				</div>
 			</div>
-		</div>
-	)
-}
-
-function QuantityController({ initialQuantity = 1 }: { initialQuantity: number }) {
-	const [quantity, setQuantity] = useState<number>(initialQuantity)
-
-	return (
-		<div className='flex items-center gap-cozy'>
-			<button
-				onClick={() => {
-					if (quantity > 1) setQuantity((prev) => prev - 1)
-				}}
-			>
-				Decrease
-			</button>
-			<span>{quantity}</span>
-			<button onClick={() => setQuantity((prev) => prev + 1)}>Increase</button>
 		</div>
 	)
 }

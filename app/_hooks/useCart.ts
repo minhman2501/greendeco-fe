@@ -185,6 +185,6 @@ export default function useCart() {
 		increaseQuantity: handleIncreaseQuantity,
 		decreaseQuantity: handleDecreaseQuantity,
 		removeCartItem: handleRemoveCartItem,
-		clearCartItemMutation: handleClearCartList,
+		clearCartItem: handleClearCartList,
 	}
 }

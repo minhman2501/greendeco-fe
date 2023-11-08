@@ -3,7 +3,7 @@ import CartItem from './CartItem'
 import Button from '../Button'
 import { getCookie } from 'cookies-next'
 
-export default function CartList(props: CartListFullDetail) {
+export function CartList(props: CartListFullDetail) {
 	const { items } = props
 	const { clearCartItem } = useCart()
 

@@ -1,8 +1,10 @@
 'use client'
 import useCart from '@/app/_hooks/useCart'
 import clsx from 'clsx'
-import CartList from './CartList'
-import CartCalculator from './CartCalculator'
+import { CartList as List } from './CartList'
+import { CartCalculator as Calculator } from './CartCalculator'
+import Button from '../Button'
+import { ArchiveBoxXMarkIcon } from '@heroicons/react/24/solid'
 
 export default function Cart() {
 	const { cartQuery } = useCart()
@@ -22,15 +24,33 @@ export default function Cart() {
 							'opacity-60': isLoading,
 						})}
 					>
-						<CartList {...data} />
+						<List {...data} />
 					</div>
 					<div className='p-comfortable pt-cozy'>
-						<CartCalculator {...data} />
+						<Calculator {...data} />
 					</div>
 				</>
+			)}
+			{data?.page_size === 0 && (
+				<div className='flex-col-start h-full justify-end'>
+					<NoItemMessage />
+				</div>
 			)}
 		</div>
 	)
 }
 
-function NoItemMessage() {}
+function NoItemMessage() {
+	return (
+		<div className='p-comfortable'>
+			<div className='mb-compact flex items-center gap-comfortable'>
+				<span className='flex-1 text-body-sm text-primary-625-80'>
+					Seems like there are no items in your cart...
+				</span>
+			</div>
+			<Button className='w-full border-primary-625-40 bg-primary-625-20 font-semi-bold text-primary-625'>
+				Continue Shopping
+			</Button>
+		</div>
+	)
+}

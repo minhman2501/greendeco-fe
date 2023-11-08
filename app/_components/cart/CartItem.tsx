@@ -11,7 +11,7 @@ import QuantityController from '../QuantityController'
 export default function CartItem({ cartItem }: { cartItem: CartItemWithFullVariantInfo }) {
 	const { variant, quantity, id } = cartItem
 
-	const { increaseQuantity, decreaseQuantity } = useCart()
+	const { increaseQuantity, decreaseQuantity, removeCartItem } = useCart()
 
 	return (
 		<div className='flex gap-cozy '>
@@ -27,7 +27,10 @@ export default function CartItem({ cartItem }: { cartItem: CartItemWithFullVaria
 						decrease={() => decreaseQuantity(id, quantity)}
 						increase={() => increaseQuantity(id, quantity)}
 					/>
-					<Button className='w-fit rounded-[6px] bg-primary-5555 p-compact'>
+					<Button
+						className='w-fit rounded-[6px] bg-primary-5555 p-compact'
+						onClick={() => removeCartItem(id)}
+					>
 						<TrashIcon className='aspect-square h-[16px] text-white' />
 					</Button>
 				</div>

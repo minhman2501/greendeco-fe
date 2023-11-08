@@ -13,14 +13,14 @@ export default function CartList(props: CartListFullDetail) {
 	}
 
 	return (
-		<div className='flex-col-start h-full max-h-full gap-compact divide-y divide-primary-5555-60 overflow-hidden'>
+		<div className='flex-col-start h-full max-h-full gap-compact divide-y divide-primary-5555-60 p-comfortable pt-0 '>
 			<Button
 				onClick={() => handleClearCart()}
-				className='w-fit self-end rounded-none border-none bg-transparent p-0 text-body-sm font-medium text-primary-418'
+				className='w-fit self-end rounded-none border-none bg-transparent p-0 text-body-sm font-medium text-primary-418 hover:font-semi-bold hover:underline'
 			>
 				Clear
 			</Button>
-			<ul className='flex-col-start h-full max-h-full divide-y divide-primary-5555-20 overflow-y-auto py-cozy '>
+			<ul className='flex-col-start max-h-full divide-y divide-primary-5555-20  py-cozy '>
 				{items.map((item) => (
 					<li
 						className='py-cozy first:pt-0 last:pb-0'

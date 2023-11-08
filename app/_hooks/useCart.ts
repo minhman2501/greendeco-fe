@@ -158,6 +158,9 @@ export default function useCart() {
 				quantity: quantity - 1,
 				accessToken: accessToken,
 			})
+		if (quantity === 1) {
+			handleRemoveCartItem(itemId)
+		}
 	}
 
 	const handleRemoveCartItem = (itemId: CartItemData['id']) => {

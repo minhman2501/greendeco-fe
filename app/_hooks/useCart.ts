@@ -21,6 +21,7 @@ import { CartItemData } from '../_api/axios/cart'
 import { setCookie } from 'cookies-next'
 import { useRouter } from 'next/navigation'
 import useCartDialog from './dialog/useCartDialog'
+import { CONFLICT_STATUS, NOT_FOUND_STATUS } from '../_configs/constants/status'
 
 export type CartItemWithFullVariantInfo = {
 	id: CartItemData['id']
@@ -49,7 +50,7 @@ export default function useCart() {
 		return await getCartInfoFromUser(accessToken)
 			.then((data) => data.items.id)
 			.catch((e: AxiosError) => {
-				if (e.response?.status === 404) {
+				if (e.response?.status === NOT_FOUND_STATUS) {
 					return createNewCart(accessToken).then((newCartId) => newCartId.id)
 				}
 			})
@@ -112,7 +113,7 @@ export default function useCart() {
 		},
 		onError: (e) => {
 			if (e instanceof AxiosError) {
-				e.response?.status === 409 && openCart()
+				e.response?.status === CONFLICT_STATUS && openCart()
 			}
 		},
 	})

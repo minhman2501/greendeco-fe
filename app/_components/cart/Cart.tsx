@@ -1,15 +1,17 @@
 'use client'
 import useCart from '@/app/_hooks/useCart'
-import clsx from 'clsx'
 import { CartList as List } from './CartList'
 import { CartCalculator as Calculator } from './CartCalculator'
 import Button from '../Button'
-import { ArchiveBoxXMarkIcon } from '@heroicons/react/24/solid'
+import useCartDialog from '@/app/_hooks/dialog/useCartDialog'
+import { useDialogStore } from '@/app/_configs/store/useDialogStore'
 
 export default function Cart() {
 	const { cartQuery } = useCart()
 
-	const { isSuccess, data, isLoading } = cartQuery
+	const { closeDialog } = useDialogStore()
+
+	const { data } = cartQuery
 
 	return (
 		<div className='flex-col-start h-full max-h-full w-[550px] gap-compact overflow-hidden rounded-[8px]  bg-white  shadow-26'>
@@ -19,11 +21,7 @@ export default function Cart() {
 			</div>
 			{data && data.page_size > 0 && (
 				<>
-					<div
-						className={clsx('flex-1 overflow-y-auto', {
-							'opacity-60': isLoading,
-						})}
-					>
+					<div className='flex-1 overflow-y-auto'>
 						<List {...data} />
 					</div>
 					<div className='p-comfortable pt-cozy'>
@@ -33,14 +31,14 @@ export default function Cart() {
 			)}
 			{data?.page_size === 0 && (
 				<div className='flex-col-start h-full justify-end'>
-					<NoItemMessage />
+					<NoItemMessage closeDialogFn={() => closeDialog()} />
 				</div>
 			)}
 		</div>
 	)
 }
 
-function NoItemMessage() {
+function NoItemMessage({ closeDialogFn }: { closeDialogFn?: () => void }) {
 	return (
 		<div className='p-comfortable'>
 			<div className='mb-compact flex items-center gap-comfortable'>
@@ -48,7 +46,10 @@ function NoItemMessage() {
 					Seems like there are no items in your cart...
 				</span>
 			</div>
-			<Button className='w-full border-primary-625-40 bg-primary-625-20 font-semi-bold text-primary-625'>
+			<Button
+				onClick={closeDialogFn}
+				className='w-full border-primary-625-40 bg-primary-625-20 font-semi-bold text-primary-625'
+			>
 				Continue Shopping
 			</Button>
 		</div>

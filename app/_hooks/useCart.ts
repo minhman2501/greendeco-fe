@@ -59,6 +59,7 @@ export default function useCart() {
 			})
 	}
 
+	//NOTE: Go through the cartList to get Variant full information by Id
 	const handleGetCartFullDetail = async (cartList: CartItemListResponseData) => {
 		const fullInfoCartList = cartList.items.map(async (item) => {
 			const variantInfo = await getVariantById(item.variant).then((data) => data)
@@ -68,6 +69,8 @@ export default function useCart() {
 			}
 			return itemWithVariantInfo
 		})
+
+		//NOTE: Invoke the Promise[] to get the CartItemWithFullVariantInfo[]
 		return await Promise.all(fullInfoCartList).then((cartItemArray) => {
 			const cartListFullDetail: CartListFullDetail = {
 				...cartList,
@@ -95,7 +98,7 @@ export default function useCart() {
 	const cartQuery = useQuery({
 		queryKey: ['cart'],
 		queryFn: getCartListWithFullDetail,
-		onError: (e) => {
+		onError: () => {
 			router.push('/login')
 		},
 		retry: false,
@@ -106,6 +109,11 @@ export default function useCart() {
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: ['cart'] })
 			openCart()
+		},
+		onError: (e) => {
+			if (e instanceof AxiosError) {
+				e.response?.status === 409 && openCart()
+			}
 		},
 	})
 
@@ -129,24 +137,6 @@ export default function useCart() {
 			queryClient.invalidateQueries({ queryKey: ['cart'] })
 		},
 	})
-
-	const checkCartItemAvailablity = async (
-		cart_id: CartInfoData['id'],
-		quantity: CartItemData['quantity'],
-		variant_id: VariantData['id'],
-	) => {
-		const accessToken = getCookie(ACCESS_TOKEN_COOKIE_NAME)?.toString()
-		return await addCartItem({
-			itemData: {
-				variant_id: variant_id,
-				cart_id: cart_id,
-				quantity: quantity,
-			},
-			accessToken: accessToken,
-		}).catch((e: AxiosError) => {
-			if (e.status === 409) console.log(e)
-		})
-	}
 
 	const handleAddCartItem = (
 		cart_id: CartInfoData['id'],

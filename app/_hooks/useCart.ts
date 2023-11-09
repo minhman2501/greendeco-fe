@@ -20,6 +20,7 @@ import { AccessTokenType } from '../_types'
 import { CartItemData } from '../_api/axios/cart'
 import { setCookie } from 'cookies-next'
 import { useRouter } from 'next/navigation'
+import useCartDialog from './dialog/useCartDialog'
 
 export type CartItemWithFullVariantInfo = {
 	id: CartItemData['id']
@@ -40,6 +41,9 @@ export type CartListFullDetail = {
 
 export default function useCart() {
 	const router = useRouter()
+
+	const { openCart } = useCartDialog()
+
 	//NOTE: Handle getCartId - if there isn't any cart -> create new one
 	const handleGetCartId = async (accessToken: AccessTokenType) => {
 		return await getCartInfoFromUser(accessToken)
@@ -101,6 +105,7 @@ export default function useCart() {
 		mutationFn: addCartItem,
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: ['cart'] })
+			openCart()
 		},
 	})
 

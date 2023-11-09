@@ -16,9 +16,10 @@ import { getCookie } from 'cookies-next'
 import { useQueryClient, useMutation, useQuery } from '@tanstack/react-query'
 import { ACCESS_TOKEN_COOKIE_NAME } from '../_configs/constants/cookies'
 import { AxiosError } from 'axios'
-import { setCookie } from 'cookies-next'
 import { AccessTokenType } from '../_types'
 import { CartItemData } from '../_api/axios/cart'
+import { setCookie } from 'cookies-next'
+import { useRouter } from 'next/navigation'
 
 export type CartItemWithFullVariantInfo = {
 	id: CartItemData['id']
@@ -38,27 +39,32 @@ export type CartListFullDetail = {
 }
 
 export default function useCart() {
+	const router = useRouter()
 	//NOTE: Handle getCartId - if there isn't any cart -> create new one
 	const handleGetCartId = async (accessToken: AccessTokenType) => {
 		return await getCartInfoFromUser(accessToken)
 			.then((data) => data.items.id)
 			.catch((e: AxiosError) => {
 				if (e.response?.status === 404) {
-					return createNewCart(accessToken).then((data) => data.id)
+					return createNewCart(accessToken).then((newCartId) => newCartId.id)
 				}
 			})
-			.then((cartId) => cartId)
+			.then((cartId) => {
+				setCookie('cartId', cartId)
+				return cartId
+			})
 	}
 
-	const handleGetCartFullDetail = (cartList: CartItemListResponseData) => {
-		const newList = cartList.items.map(async (item) => {
-			const variant = await getVariantById(item.variant).then((data) => data)
-			return {
+	const handleGetCartFullDetail = async (cartList: CartItemListResponseData) => {
+		const fullInfoCartList = cartList.items.map(async (item) => {
+			const variantInfo = await getVariantById(item.variant).then((data) => data)
+			const itemWithVariantInfo: CartItemWithFullVariantInfo = {
 				...item,
-				variant: variant.items,
+				variant: variantInfo.items,
 			}
+			return itemWithVariantInfo
 		})
-		return Promise.all(newList).then((cartItemArray: CartItemWithFullVariantInfo[]) => {
+		return await Promise.all(fullInfoCartList).then((cartItemArray) => {
 			const cartListFullDetail: CartListFullDetail = {
 				...cartList,
 				items: cartItemArray,
@@ -85,7 +91,9 @@ export default function useCart() {
 	const cartQuery = useQuery({
 		queryKey: ['cart'],
 		queryFn: getCartListWithFullDetail,
-		onError: (e) => console.log(e),
+		onError: (e) => {
+			router.push('/login')
+		},
 		retry: false,
 	})
 
@@ -116,6 +124,24 @@ export default function useCart() {
 			queryClient.invalidateQueries({ queryKey: ['cart'] })
 		},
 	})
+
+	const checkCartItemAvailablity = async (
+		cart_id: CartInfoData['id'],
+		quantity: CartItemData['quantity'],
+		variant_id: VariantData['id'],
+	) => {
+		const accessToken = getCookie(ACCESS_TOKEN_COOKIE_NAME)?.toString()
+		return await addCartItem({
+			itemData: {
+				variant_id: variant_id,
+				cart_id: cart_id,
+				quantity: quantity,
+			},
+			accessToken: accessToken,
+		}).catch((e: AxiosError) => {
+			if (e.status === 409) console.log(e)
+		})
+	}
 
 	const handleAddCartItem = (
 		cart_id: CartInfoData['id'],

@@ -1,11 +1,11 @@
-import useCart, { CartListFullDetail } from '@/app/_hooks/useCart'
+import { useCartMutation, CartListFullDetail } from '@/app/_hooks/useCart'
 import CartItem from './CartItem'
 import Button from '../Button'
 import { getCookie } from 'cookies-next'
 
 export function CartList(props: CartListFullDetail) {
 	const { items } = props
-	const { clearCartItem } = useCart()
+	const { clearCartItem } = useCartMutation()
 
 	const handleClearCart = () => {
 		const cartId = getCookie('cartId')

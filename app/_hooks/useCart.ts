@@ -40,10 +40,8 @@ export type CartListFullDetail = {
 	prev: Boolean
 }
 
-export default function useCart() {
+export function useCartQuery() {
 	const router = useRouter()
-
-	const { openCart } = useCartDialog()
 
 	//NOTE: Handle getCartId - if there isn't any cart -> create new one
 	const handleGetCartId = async (accessToken: AccessTokenType) => {
@@ -94,8 +92,6 @@ export default function useCart() {
 			})
 	}
 
-	const queryClient = useQueryClient()
-
 	const cartQuery = useQuery({
 		queryKey: ['cart'],
 		queryFn: getCartListWithFullDetail,
@@ -104,6 +100,15 @@ export default function useCart() {
 		},
 		retry: false,
 	})
+
+	return {
+		cartQuery: { ...cartQuery },
+	}
+}
+export function useCartMutation() {
+	const queryClient = useQueryClient()
+	const { openCart } = useCartDialog()
+	const router = useRouter()
 
 	const addCartItemMutation = useMutation({
 		mutationFn: addCartItem,
@@ -140,20 +145,24 @@ export default function useCart() {
 	})
 
 	const handleAddCartItem = (
-		cart_id: CartInfoData['id'],
+		cart_id: CartInfoData['id'] | undefined,
 		quantity: CartItemData['quantity'],
 		variant_id: VariantData['id'],
 	) => {
 		const accessToken = getCookie(ACCESS_TOKEN_COOKIE_NAME)?.toString()
 
-		addCartItemMutation.mutate({
-			itemData: {
-				variant_id: variant_id,
-				cart_id: cart_id,
-				quantity: quantity,
-			},
-			accessToken: accessToken,
-		})
+		if (cart_id && accessToken) {
+			addCartItemMutation.mutate({
+				itemData: {
+					variant_id: variant_id,
+					cart_id: cart_id,
+					quantity: quantity,
+				},
+				accessToken: accessToken,
+			})
+		} else {
+			router.replace('/login')
+		}
 	}
 
 	const handleIncreaseQuantity = (
@@ -202,7 +211,6 @@ export default function useCart() {
 	}
 
 	return {
-		cartQuery: { ...cartQuery },
 		addCartItem: handleAddCartItem,
 		increaseQuantity: handleIncreaseQuantity,
 		decreaseQuantity: handleDecreaseQuantity,

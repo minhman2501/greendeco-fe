@@ -2,7 +2,7 @@
 
 import Image from 'next/image'
 import { VariantData } from '@/app/_api/axios/product'
-import useCart, { CartItemWithFullVariantInfo } from '@/app/_hooks/useCart'
+import { useCartMutation, CartItemWithFullVariantInfo } from '@/app/_hooks/useCart'
 import clsx from 'clsx'
 import { TrashIcon } from '@heroicons/react/24/solid'
 import Button from '../Button'
@@ -11,7 +11,7 @@ import QuantityController from '../QuantityController'
 export default function CartItem({ cartItem }: { cartItem: CartItemWithFullVariantInfo }) {
 	const { variant, quantity, id } = cartItem
 
-	const { increaseQuantity, decreaseQuantity, removeCartItem } = useCart()
+	const { increaseQuantity, decreaseQuantity, removeCartItem } = useCartMutation()
 
 	return (
 		<div className='flex gap-cozy '>

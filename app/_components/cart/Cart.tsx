@@ -1,5 +1,5 @@
 'use client'
-import useCart from '@/app/_hooks/useCart'
+import { useCartQuery } from '@/app/_hooks/useCart'
 import { CartList as List } from './CartList'
 import { CartCalculator as Calculator } from './CartCalculator'
 import Button from '../Button'
@@ -8,9 +8,11 @@ import { useDialogStore } from '@/app/_configs/store/useDialogStore'
 import { ArrowRightIcon } from '@heroicons/react/24/solid'
 
 export default function Cart() {
-	const { cartQuery } = useCart()
+	const { cartQuery } = useCartQuery()
 
 	const { closeDialog } = useDialogStore()
+
+	console.log('cart render')
 
 	const { data } = cartQuery
 

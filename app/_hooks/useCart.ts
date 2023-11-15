@@ -229,8 +229,12 @@ export function useCartMutation() {
 			handle: handleAddCartItem,
 			loading: addCartItemMutation.isLoading,
 		},
-		increaseQuantity: handleIncreaseQuantity,
-		decreaseQuantity: handleDecreaseQuantity,
+
+		changeQuantity: {
+			increase: handleIncreaseQuantity,
+			decrease: handleDecreaseQuantity,
+			loading: changeQuantityMutation.isLoading,
+		},
 		removeCartItem: handleRemoveCartItem,
 		clearCartItem: handleClearCartList,
 	}

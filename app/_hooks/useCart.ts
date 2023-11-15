@@ -21,7 +21,7 @@ import { CartItemData } from '../_api/axios/cart'
 import { setCookie } from 'cookies-next'
 import { useRouter } from 'next/navigation'
 import useCartDialog from './dialog/useCartDialog'
-import { CONFLICT_STATUS, NOT_FOUND_STATUS } from '../_configs/constants/status'
+import { CONFLICT_STATUS, NOT_FOUND_STATUS, UNAUTHORIZE_STATUS } from '../_configs/constants/status'
 
 export type CartItemWithFullVariantInfo = {
 	id: CartItemData['id']
@@ -95,9 +95,7 @@ export function useCartQuery() {
 	const cartQuery = useQuery({
 		queryKey: ['cart'],
 		queryFn: getCartListWithFullDetail,
-		onError: () => {
-			router.push('/login')
-		},
+		onError: () => {},
 		retry: false,
 	})
 
@@ -119,6 +117,7 @@ export function useCartMutation() {
 		onError: (e) => {
 			if (e instanceof AxiosError) {
 				e.response?.status === CONFLICT_STATUS && openCart()
+				e.response?.status === UNAUTHORIZE_STATUS && router.push('/login')
 			}
 		},
 	})
@@ -128,6 +127,11 @@ export function useCartMutation() {
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: ['cart'] })
 		},
+		onError: (e) => {
+			if (e instanceof AxiosError) {
+				e.response?.status === UNAUTHORIZE_STATUS && router.push('/login')
+			}
+		},
 	})
 
 	const removeCartItemMutation = useMutation({
@@ -135,12 +139,22 @@ export function useCartMutation() {
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: ['cart'] })
 		},
+		onError: (e) => {
+			if (e instanceof AxiosError) {
+				e.response?.status === UNAUTHORIZE_STATUS && router.push('/login')
+			}
+		},
 	})
 
 	const clearCartItemMutation = useMutation({
 		mutationFn: clearCartItemList,
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: ['cart'] })
+		},
+		onError: (e) => {
+			if (e instanceof AxiosError) {
+				e.response?.status === UNAUTHORIZE_STATUS && router.push('/login')
+			}
 		},
 	})
 
@@ -211,9 +225,16 @@ export function useCartMutation() {
 	}
 
 	return {
-		addCartItem: handleAddCartItem,
-		increaseQuantity: handleIncreaseQuantity,
-		decreaseQuantity: handleDecreaseQuantity,
+		addCartItem: {
+			handle: handleAddCartItem,
+			loading: addCartItemMutation.isLoading,
+		},
+
+		changeQuantity: {
+			increase: handleIncreaseQuantity,
+			decrease: handleDecreaseQuantity,
+			loading: changeQuantityMutation.isLoading,
+		},
 		removeCartItem: handleRemoveCartItem,
 		clearCartItem: handleClearCartList,
 	}

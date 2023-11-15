@@ -11,10 +11,10 @@ import QuantityController from '../QuantityController'
 export default function CartItem({ cartItem }: { cartItem: CartItemWithFullVariantInfo }) {
 	const { variant, quantity, id } = cartItem
 
-	const { increaseQuantity, decreaseQuantity, removeCartItem } = useCartMutation()
+	const { changeQuantity, removeCartItem } = useCartMutation()
 
 	return (
-		<div className='flex gap-cozy '>
+		<div className='flex gap-cozy'>
 			<ItemImage
 				imageSrc={variant.image}
 				name={variant.name}
@@ -22,11 +22,17 @@ export default function CartItem({ cartItem }: { cartItem: CartItemWithFullVaria
 			<div className='flex-col-start flex-1 justify-between'>
 				<ItemDetail {...variant} />
 				<div className='flex items-center justify-between'>
-					<QuantityController
-						quantity={quantity}
-						decrease={() => decreaseQuantity(id, quantity)}
-						increase={() => increaseQuantity(id, quantity)}
-					/>
+					<div
+						className={clsx({
+							'pointer-events-none opacity-90': changeQuantity.loading,
+						})}
+					>
+						<QuantityController
+							quantity={quantity}
+							decrease={() => changeQuantity.decrease(id, quantity)}
+							increase={() => changeQuantity.increase(id, quantity)}
+						/>
+					</div>
 					<Button
 						className='w-fit rounded-[6px] bg-primary-5555 p-compact'
 						onClick={() => removeCartItem(id)}

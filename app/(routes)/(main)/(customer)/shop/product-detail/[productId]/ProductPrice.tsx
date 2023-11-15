@@ -10,14 +10,17 @@ export default function Price() {
 	const { addCartItem } = useCartMutation()
 	const handleAddCartItem = () => {
 		const cartId = getCookie('cartId')?.toString()
-		addCartItem(cartId, 1, id)
+		addCartItem.handle(cartId, 1, id)
 	}
 
 	return (
 		<div className='flex items-center justify-between rounded-[8px] bg-primary-625 px-comfortable py-cozy'>
 			<span className='text-[3rem] font-semi-bold text-white'>{`${price} ${currency}`}</span>
 			<div>
-				<Button className='btnSecondary flex items-center gap-[4px]'>
+				<Button
+					disabled={addCartItem.loading}
+					className='btnSecondary flex items-center gap-[4px] disabled:opacity-90'
+				>
 					<span
 						className='font-semi-bold'
 						onClick={() => handleAddCartItem()}

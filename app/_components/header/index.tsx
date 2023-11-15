@@ -5,10 +5,30 @@ import Link from 'next/link'
 import BrandLogoSmall from '@/public/BrandLogoSmall.svg'
 import AuthenticationHandler from './AuthenticationMenu'
 import CartDisplayButton from './CartDisplayButton'
+import { motion, useScroll, useMotionValueEvent } from 'framer-motion'
+import { useState } from 'react'
 
 export default function Header() {
+	const [hidden, setHidden] = useState(false)
+
+	const { scrollY } = useScroll()
+
+	useMotionValueEvent(scrollY, 'change', (latestWindowY) => {
+		const previousWindowY = scrollY.getPrevious()
+		if (latestWindowY > previousWindowY && latestWindowY > 90) {
+			setHidden(true)
+		} else setHidden(false)
+	})
 	return (
-		<header className='sticky top-cozy z-20'>
+		<motion.header
+			variants={{
+				visible: { y: 0 },
+				hidden: { y: '-140%' },
+			}}
+			animate={hidden ? 'hidden' : 'visible'}
+			transition={{ duration: 0.35, ease: 'easeInOut' }}
+			className='sticky top-cozy z-20'
+		>
 			<div className='container'>
 				<div className='mx-[-20px] mt-[-60px] flex h-[60px] items-center gap-cozy'>
 					<Logo />
@@ -16,7 +36,7 @@ export default function Header() {
 					<AuthenticationHandler />
 				</div>
 			</div>
-		</header>
+		</motion.header>
 	)
 }
 

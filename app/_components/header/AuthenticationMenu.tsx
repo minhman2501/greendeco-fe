@@ -46,7 +46,7 @@ function UserSettingMenu(props: UserProfileResponseData) {
 
 	const handleLogOut = () => {
 		deleteCookie(ACCESS_TOKEN_COOKIE_NAME)
-		router.push('login')
+		router.push('/login')
 	}
 	return (
 		<div

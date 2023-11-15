@@ -1,7 +1,10 @@
+'use client'
+
 import Image from 'next/image'
 import Link from 'next/link'
 import BrandLogoSmall from '@/public/BrandLogoSmall.svg'
 import AuthenticationHandler from './AuthenticationMenu'
+import CartDisplayButton from './CartDisplayButton'
 
 export default function Header() {
 	return (
@@ -39,6 +42,7 @@ function NavBar() {
 		<div className='flex-col-start h-full flex-1 justify-center rounded-[8px] border-[1px] border-primary-625 bg-white px-cozy shadow-30'>
 			<div className='flex items-center justify-between'>
 				<NavigationList />
+				<CartDisplayButton />
 			</div>
 		</div>
 	)

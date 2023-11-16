@@ -1,8 +1,10 @@
+'use client'
 import Button from '@/app/_components/Button'
 import Image from 'next/image'
 import BrandLogoFullGreen from '@/public/BrandLogoFullGreen.svg'
 import Link from 'next/link'
 import { ArrowLeftOnRectangleIcon, Bars3Icon } from '@heroicons/react/24/solid'
+import useSidebar from '@/app/_hooks/dialog/useAdminSidebarDialog'
 
 export const AdministratorHeader = () => {
 	return (
@@ -17,8 +19,12 @@ export const AdministratorHeader = () => {
 }
 
 function SideBarButton() {
+	const { openSidebar } = useSidebar()
 	return (
-		<Button className='flex h-full items-center gap-cozy rounded-none border-none bg-primary-580-20 p-cozy text-body-lg text-primary-625'>
+		<Button
+			onClick={() => openSidebar()}
+			className='flex h-full items-center gap-cozy rounded-none border-none bg-primary-580-20 p-cozy text-body-lg text-primary-625'
+		>
 			<Bars3Icon className='aspect-square h-[20px]' />
 			SideBar
 		</Button>

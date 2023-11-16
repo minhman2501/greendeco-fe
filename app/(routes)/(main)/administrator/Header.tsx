@@ -6,17 +6,19 @@ import { ArrowLeftOnRectangleIcon, Bars3Icon } from '@heroicons/react/24/solid'
 
 export const AdministratorHeader = () => {
 	return (
-		<header className='flex h-[60px] w-full items-center justify-between bg-neutral-gray-1 pr-comfortable shadow-63'>
-			<SideBarButton />
-			<Logo />
-			<LogoutButton />
+		<header className=''>
+			<div className='relative flex h-[60px] w-full items-center justify-between bg-neutral-gray-1 pr-comfortable shadow-63'>
+				<SideBarButton />
+				<Logo />
+				<LogoutButton />
+			</div>
 		</header>
 	)
 }
 
 function SideBarButton() {
 	return (
-		<Button className='flex h-full items-center gap-compact rounded-none border-none bg-primary-580-20 text-body-lg text-primary-625'>
+		<Button className='flex h-full items-center gap-cozy rounded-none border-none bg-primary-580-20 p-cozy text-body-lg text-primary-625'>
 			<Bars3Icon className='aspect-square h-[20px]' />
 			SideBar
 		</Button>
@@ -25,18 +27,20 @@ function SideBarButton() {
 
 function Logo() {
 	return (
-		<Link
-			href={'/'}
-			className='relative  h-full w-[140px]  overflow-hidden  '
-		>
-			<Image
-				src={BrandLogoFullGreen}
-				alt='Welcome to GreenDeco'
-				width={0}
-				height={0}
-				sizes='100vw'
-			/>
-		</Link>
+		<span className='absolute inset-y-0 left-[50%] translate-x-[-50%]  '>
+			<Link
+				href={'/'}
+				className='relative inline-block h-full w-[180px]  overflow-hidden  '
+			>
+				<Image
+					src={BrandLogoFullGreen}
+					alt='Welcome to GreenDeco'
+					width={0}
+					height={0}
+					sizes='100vw'
+				/>
+			</Link>
+		</span>
 	)
 }
 

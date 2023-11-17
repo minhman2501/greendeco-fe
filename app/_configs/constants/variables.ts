@@ -3,6 +3,8 @@ export const MAX_PASSWORD = 50
 
 export const IMAGE_MAX_SIZE_IN_MB = 5
 
+export const REQUIRED_FIELD_STRING = 'This field is required'
+
 export const ADMINISTRATOR_ROUTE = {
 	PRODUCT: {
 		LINK: '/administrator/product',

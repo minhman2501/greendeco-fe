@@ -3,15 +3,25 @@
 import { ADMINISTRATOR_ROUTE } from '@/app/_configs/constants/variables'
 import { useDialogStore } from '@/app/_configs/store/useDialogStore'
 import useActivePath from '@/app/_hooks/useActivePath'
+import { XMarkIcon } from '@heroicons/react/24/solid'
 import clsx from 'clsx'
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
 import { ReactNode } from 'react'
 
 export default function AdministratorSidebar() {
+	const { closeDialog } = useDialogStore()
 	return (
-		<div className='sticky left-0 top-0 flex h-full max-h-screen w-fit max-w-fit items-center bg-primary-625 p-comfortable pr-0'>
-			<NavigationList />
+		<div className='sticky left-0 top-0  h-full max-h-screen w-[300px]  bg-primary-625 p-comfortable pr-0'>
+			<div className='relative flex h-full w-full items-center'>
+				<span
+					onClick={() => closeDialog()}
+					className='absolute left-0 top-0  flex items-center gap-compact self-start text-body-sm text-neutral-gray-1 hover:cursor-pointer'
+				>
+					<XMarkIcon className='aspect-square h-[20px]' />
+					Close
+				</span>
+				<NavigationList />
+			</div>
 		</div>
 	)
 }

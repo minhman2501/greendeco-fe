@@ -5,7 +5,9 @@ export default function AdministratorMainLayout({ children }: { children: ReactN
 	return (
 		<>
 			<Header />
-			<main>{children}</main>
+			<main>
+				<div className='container'>{children}</div>
+			</main>
 		</>
 	)
 }

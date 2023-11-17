@@ -31,16 +31,16 @@ function NavigationList() {
 	return (
 		<ul className='flex-col-start w-full gap-compact'>
 			<NavItem
-				href={ADMINISTRATOR_ROUTE.PRODUCT}
-				active={isPathActive(ADMINISTRATOR_ROUTE.PRODUCT)}
+				href={ADMINISTRATOR_ROUTE.PRODUCT.LINK}
+				active={isPathActive(ADMINISTRATOR_ROUTE.PRODUCT.LINK)}
 			>
-				Product Management
+				{ADMINISTRATOR_ROUTE.PRODUCT.LABEL}
 			</NavItem>
 			<NavItem
-				href={ADMINISTRATOR_ROUTE.ORDER}
-				active={isPathActive(ADMINISTRATOR_ROUTE.ORDER)}
+				href={ADMINISTRATOR_ROUTE.ORDER.LINK}
+				active={isPathActive(ADMINISTRATOR_ROUTE.ORDER.LINK)}
 			>
-				Order Management
+				{ADMINISTRATOR_ROUTE.ORDER.LABEL}
 			</NavItem>
 		</ul>
 	)

@@ -5,6 +5,8 @@ import BrandLogoFullGreen from '@/public/BrandLogoFullGreen.svg'
 import Link from 'next/link'
 import { ArrowLeftOnRectangleIcon, Bars3Icon } from '@heroicons/react/24/solid'
 import useSidebar from '@/app/_hooks/dialog/useAdminSidebarDialog'
+import useActivePath from '@/app/_hooks/useActivePath'
+import { ADMINISTRATOR_ROUTE } from '@/app/_configs/constants/variables'
 
 export const AdministratorHeader = () => {
 	return (
@@ -20,13 +22,17 @@ export const AdministratorHeader = () => {
 
 function SideBarButton() {
 	const { openSidebar } = useSidebar()
+	const { isPathActive } = useActivePath()
 	return (
 		<Button
 			onClick={() => openSidebar()}
 			className='flex h-full items-center gap-cozy rounded-none border-none bg-primary-580-20 p-cozy text-body-lg text-primary-625'
 		>
 			<Bars3Icon className='aspect-square h-[20px]' />
-			SideBar
+			{isPathActive(ADMINISTRATOR_ROUTE.ORDER.LINK)
+				? ADMINISTRATOR_ROUTE.ORDER.LABEL
+				: isPathActive(ADMINISTRATOR_ROUTE.PRODUCT.LINK) &&
+				  ADMINISTRATOR_ROUTE.PRODUCT.LABEL}
 		</Button>
 	)
 }

@@ -1,5 +1,5 @@
 'use client'
-import { TextField, Input } from '@/app/_components/form'
+import { TextField, Input, MultiplelineTextField } from '@/app/_components/form'
 import Button from '@/app/_components/Button'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -10,15 +10,16 @@ import {
 import { useMutation } from '@tanstack/react-query'
 import { registerAccount } from '@/app/_api/axios/authentication'
 import { AxiosError } from 'axios'
+import { SIZE_OPTIONS, TYPE_OPTIONS, DIFFICULTY_OPTIONS } from '@/app/_configs/constants/variables'
 
 export default function CreateProductForm() {
 	const defaultInputValues: CreateProductFormInputType = {
 		name: '',
-		size: '',
-		type: '',
+		size: SIZE_OPTIONS[0],
+		type: TYPE_OPTIONS[0],
 		light: '',
 		water: '',
-		difficulty: '',
+		difficulty: DIFFICULTY_OPTIONS[0],
 		detail: '',
 		description: '',
 		images: [],
@@ -53,11 +54,13 @@ export default function CreateProductForm() {
 
 	const onSubmitHandler: SubmitHandler<CreateProductFormInputType> = (values, e) => {
 		e?.preventDefault()
+		console.log(values)
+
 		//NOTE: Execute the Mutation
 	}
 	return (
 		<form
-			// onSubmit={}
+			onSubmit={handleSubmit(onSubmitHandler)}
 			className='w-full'
 		>
 			<div className='grid w-full grid-cols-2 gap-comfortable'>
@@ -76,31 +79,46 @@ export default function CreateProductForm() {
 						<div className='flex-1'>
 							<Input
 								multiline
-								placeholder='Product description must have at least 20 characters'
-								className='min-h-[300px]'
 								{...register('description')}
 							/>
+							<span>{errors?.description?.message}</span>
 						</div>
 						<div className='flex flex-wrap gap-cozy'>
 							<div>
-								<TextField
-									type='text'
-									label='Type of plant'
-									placeholder=''
-									register={register('type')}
-									error={Boolean(errors?.type)}
-									helperText={errors?.type?.message}
-								/>
+								<select {...register('type')}>
+									{TYPE_OPTIONS.map((option) => (
+										<option
+											key={option}
+											value={option}
+										>
+											{option}
+										</option>
+									))}
+								</select>
 							</div>
 							<div>
-								<TextField
-									type='text'
-									label='Size'
-									placeholder=''
-									register={register('size')}
-									error={Boolean(errors?.size)}
-									helperText={errors?.size?.message}
-								/>
+								<select {...register('size')}>
+									{SIZE_OPTIONS.map((option) => (
+										<option
+											key={option}
+											value={option}
+										>
+											{option}
+										</option>
+									))}
+								</select>
+							</div>
+							<div>
+								<select {...register('difficulty')}>
+									{DIFFICULTY_OPTIONS.map((option) => (
+										<option
+											key={option}
+											value={option}
+										>
+											{option}
+										</option>
+									))}
+								</select>
 							</div>
 							<div>
 								<TextField
@@ -110,16 +128,6 @@ export default function CreateProductForm() {
 									register={register('water')}
 									error={Boolean(errors?.water)}
 									helperText={errors?.water?.message}
-								/>
-							</div>
-							<div>
-								<TextField
-									type='text'
-									label='Caring Difficulty'
-									placeholder=''
-									register={register('difficulty')}
-									error={Boolean(errors?.difficulty)}
-									helperText={errors?.difficulty?.message}
 								/>
 							</div>
 

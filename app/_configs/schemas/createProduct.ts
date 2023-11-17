@@ -12,7 +12,6 @@ export const CreateProductSchema = z.object({
 		.min(20, 'The detail of the product must contain at least 20 characters')
 		.max(200, 'Detail must be less than 200 characters'),
 	type: z.string().min(1, REQUIRED_FIELD_STRING),
-	images: z.array(z.string()).max(3, 'Required 3 pictures of a product'),
 	size: z.string().min(1, REQUIRED_FIELD_STRING),
 	water: z.string().min(1, REQUIRED_FIELD_STRING),
 	difficulty: z.string().min(1, REQUIRED_FIELD_STRING),

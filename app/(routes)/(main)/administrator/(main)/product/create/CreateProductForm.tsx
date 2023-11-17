@@ -1,5 +1,5 @@
 'use client'
-import { TextField, Input, MultiplelineTextField } from '@/app/_components/form'
+import { TextField, Input } from '@/app/_components/form'
 import Button from '@/app/_components/Button'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -11,8 +11,12 @@ import { useMutation } from '@tanstack/react-query'
 import { registerAccount } from '@/app/_api/axios/authentication'
 import { AxiosError } from 'axios'
 import { SIZE_OPTIONS, TYPE_OPTIONS, DIFFICULTY_OPTIONS } from '@/app/_configs/constants/variables'
+import { error } from 'console'
+import { useState } from 'react'
+import ImageUploadGrid from './ImagesUploadGrid'
 
 export default function CreateProductForm() {
+	const [images, setImages] = useState<string[]>(['', '', ''])
 	const defaultInputValues: CreateProductFormInputType = {
 		name: '',
 		size: SIZE_OPTIONS[0],
@@ -22,7 +26,6 @@ export default function CreateProductForm() {
 		difficulty: DIFFICULTY_OPTIONS[0],
 		detail: '',
 		description: '',
-		images: [],
 	}
 
 	//NOTE: Validation with useForm
@@ -156,10 +159,9 @@ export default function CreateProductForm() {
 				</>
 				<div>
 					<label>Product Images</label>
-					<input
-						type='file'
-						id='upload-photo'
-						accept='image/*'
+					<ImageUploadGrid
+						images={images}
+						setImages={setImages}
 					/>
 				</div>
 			</div>

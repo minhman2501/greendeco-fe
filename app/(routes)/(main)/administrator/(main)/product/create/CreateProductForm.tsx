@@ -8,16 +8,15 @@ import {
 	CreateProductFormInputType,
 } from '@/app/_configs/schemas/createProduct'
 import { useMutation } from '@tanstack/react-query'
-import { registerAccount } from '@/app/_api/axios/authentication'
-import { AxiosError } from 'axios'
+import { createProduct } from '@/app/_api/axios/admin/product'
 import { SIZE_OPTIONS, TYPE_OPTIONS, DIFFICULTY_OPTIONS } from '@/app/_configs/constants/variables'
-import { error } from 'console'
-import { useState } from 'react'
 import ImageUploadGrid from './ImagesUploadGrid'
 import { useImageUploadStore } from '@/app/_configs/store/useImagesUploadStore'
+import { getCookie } from 'cookies-next'
+import { ADMIN_ACCESS_TOKEN_COOKIE_NAME } from '@/app/_configs/constants/cookies'
 
 export default function CreateProductForm() {
-	const { images } = useImageUploadStore()
+	const { isFulfilled, images, resetImages } = useImageUploadStore()
 	const defaultInputValues: CreateProductFormInputType = {
 		name: '',
 		size: SIZE_OPTIONS[0],
@@ -42,12 +41,12 @@ export default function CreateProductForm() {
 		defaultValues: defaultInputValues,
 	})
 
-	const registerMutation = useMutation({
+	const createProductMutation = useMutation({
 		//NOTE: The callback used for the mutation
-		mutationFn: registerAccount,
+		mutationFn: createProduct,
 		//NOTE: Execuse after receiving suscess responses
-		onSuccess: () => {
-			reset()
+		onSuccess: (data) => {
+			handleResetForm()
 		},
 		//NOTE: Execuse after receving failure responses
 		/* onError: (e) => {
@@ -58,9 +57,21 @@ export default function CreateProductForm() {
 
 	const onSubmitHandler: SubmitHandler<CreateProductFormInputType> = (values, e) => {
 		e?.preventDefault()
-		console.log(values)
+		const adminAcessToken = getCookie(ADMIN_ACCESS_TOKEN_COOKIE_NAME)?.toString()
+		console.log({
+			...values,
+			images: [...images],
+		})
+		createProductMutation.mutate({
+			productData: { ...values, images: [...images] },
+			adminAccessToken:
+				'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbiI6dHJ1ZSwiZXhwIjoxNzAwMzY3MjEzLCJ1c2VyX2lkIjoiM2NkNDZhOTUtNWFhYi00MTk1LTkzNTgtMzg1YWQ5YTMyZGU5In0.GS4aIFzscPOu6MWheBH4kfO2T3IqfJlxF6zpEUoxRnQ',
+		})
+	}
 
-		//NOTE: Execute the Mutation
+	const handleResetForm = () => {
+		resetImages()
+		reset()
 	}
 	return (
 		<form
@@ -165,10 +176,9 @@ export default function CreateProductForm() {
 			</div>
 			<Button
 				type='submit'
-				// disabled={registerMutation.isLoading}
+				disabled={createProductMutation.isLoading || isFulfilled() === false}
 			>
-				{/* {registerMutation.isLoading ? 'Sending...' : 'Sign Up'} */}
-				Lmao
+				{createProductMutation.isLoading ? 'Creating...' : 'Create'}
 			</Button>
 		</form>
 	)

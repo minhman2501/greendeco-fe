@@ -174,12 +174,15 @@ export default function CreateProductForm() {
 					<ImageUploadGrid />
 				</div>
 			</div>
-			<Button
-				type='submit'
-				disabled={createProductMutation.isLoading || isFulfilled() === false}
-			>
-				{createProductMutation.isLoading ? 'Creating...' : 'Create'}
-			</Button>
+			<div className='mt-cozy flex w-full justify-end'>
+				<Button
+					className=''
+					type='submit'
+					disabled={createProductMutation.isLoading || isFulfilled() === false}
+				>
+					{createProductMutation.isLoading ? 'Creating...' : 'Create'}
+				</Button>
+			</div>
 		</form>
 	)
 }

@@ -6,7 +6,9 @@ export default function CreateProductPage() {
 		<div className='min-h-screen py-comfortable'>
 			<Block>
 				<h1>Create a new product</h1>
-				<CreateProductForm />
+				<div className='mt-comfortable border-x-[1px] border-x-primary-625-60 px-comfortable'>
+					<CreateProductForm />
+				</div>
 			</Block>
 		</div>
 	)

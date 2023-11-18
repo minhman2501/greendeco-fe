@@ -1,10 +1,9 @@
 import axios from 'axios'
 
 const PRODUCT_URL = `${process.env.NEXT_PUBLIC_GREENDECO_BACKEND_API}`
-const PLANT_CATEGORY_ID = `${process.env.PLANT_CATEGORY_ID}`
+const PLANT_CATEGORY_ID = `${process.env.NEXT_PUBLIC_PLANT_CATEGORY_ID}`
 
 import { ProductData, VariantData } from '../product'
-import { headers } from 'next/dist/client/components/headers'
 
 type CreateProductData = Omit<
 	ProductData,

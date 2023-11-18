@@ -14,9 +14,10 @@ import { SIZE_OPTIONS, TYPE_OPTIONS, DIFFICULTY_OPTIONS } from '@/app/_configs/c
 import { error } from 'console'
 import { useState } from 'react'
 import ImageUploadGrid from './ImagesUploadGrid'
+import { useImageUploadStore } from '@/app/_configs/store/useImagesUploadStore'
 
 export default function CreateProductForm() {
-	const [images, setImages] = useState<string[]>(['', '', ''])
+	const { images } = useImageUploadStore()
 	const defaultInputValues: CreateProductFormInputType = {
 		name: '',
 		size: SIZE_OPTIONS[0],
@@ -159,10 +160,7 @@ export default function CreateProductForm() {
 				</>
 				<div>
 					<label>Product Images</label>
-					<ImageUploadGrid
-						images={images}
-						setImages={setImages}
-					/>
+					<ImageUploadGrid />
 				</div>
 			</div>
 			<Button

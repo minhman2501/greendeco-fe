@@ -2,35 +2,36 @@
 import { useMutation } from '@tanstack/react-query'
 import { uploadImage } from '@/app/_api/axios/media'
 import { IMAGE_MAX_SIZE_IN_MB } from '@/app/_configs/constants/variables'
-import React, { Dispatch } from 'react'
+import React, { Dispatch, useEffect, useState } from 'react'
 import { PhotoIcon } from '@heroicons/react/24/solid'
 import Image from 'next/image'
+import { useImageUploadStore } from '@/app/_configs/store/useImagesUploadStore'
 
-type ImageUploadProps = {
-	images: string[]
-	setImages: Dispatch<string[]>
-}
+function ImageUploadGrid() {
+	const { images } = useImageUploadStore()
 
-export default function ImageUploadGrid({ images, setImages }: ImageUploadProps) {
 	return (
 		<div className='grid grid-cols-3 gap-compact'>
-			{images.map((image) => (
-				<ImageUploadInput
-					key={image}
+			{images.map((image, index) => (
+				<ImageUploadItem
+					key={index}
 					image={image}
-					setImages={setImages}
+					index={index}
 				/>
 			))}
 		</div>
 	)
 }
 
-function ImageUploadInput({ image, setImages }: { image: string; setImages: Dispatch<string[]> }) {
+const UploadInput = React.memo(function UploadInput({ index }: { index: number }) {
+	const { replaceImages } = useImageUploadStore()
 	const imageUploadMutation = useMutation({
 		//NOTE: The callback used for the mutation
 		mutationFn: uploadImage,
-		onSuccess: (data) => console.log('success', data),
 		//NOTE: Execuse after receiving suscess responses
+		onSuccess: (data) => {
+			replaceImages(data, index)
+		},
 	})
 
 	function handleImageChange(imageFile: File) {
@@ -45,37 +46,52 @@ function ImageUploadInput({ image, setImages }: { image: string; setImages: Disp
 	const onFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		event.target.files && handleImageChange(event.target.files[0])
 	}
-
 	return (
-		<div className='aspect-square'>
+		<>
 			<label
-				htmlFor='upload-photo'
-				className='block h-full w-full cursor-pointer'
-			>
-				{image ? (
-					<Image
-						width={0}
-						height={0}
-						sizes='100vw'
-						src={image}
-						alt='product image'
-					></Image>
-				) : (
-					<span className='flex-center h-full w-full bg-neutral-gray-4'>
-						<PhotoIcon className='aspect-square h-[30px]' />
-					</span>
-				)}
-			</label>
+				htmlFor={`product-upload-${index}`}
+				className='absolute inset-0 cursor-pointer'
+			></label>
 			<input
 				className='hidden'
 				type='file'
-				id='upload-photo'
+				id={`product-upload-${index}`}
 				accept='image/*'
 				onChange={onFileChange}
 			/>
+		</>
+	)
+})
+
+//NOTE: useMutation causes a lot of re-rendering, so it is better to seperate the
+//image display and the upload input to minimize rendering the item
+
+const ImageUploadItem = React.memo(function ImageUploadInput({
+	image,
+	index,
+}: {
+	image: string
+	index: number
+}) {
+	return (
+		<div className=' relative aspect-square overflow-hidden rounded-[4px] border-[4px] border-primary-625-20 hover:border-primary-625'>
+			{image && image !== 'empty' ? (
+				<Image
+					width={0}
+					height={0}
+					sizes='100vw'
+					src={image}
+					alt='product image'
+				></Image>
+			) : (
+				<span className='flex-center h-full w-full bg-neutral-gray-4'>
+					<PhotoIcon className='aspect-square h-[30px]' />
+				</span>
+			)}
+			<UploadInput index={index} />
 		</div>
 	)
-}
+})
 
 function validateImageSize(image: File) {
 	const maxSize = IMAGE_MAX_SIZE_IN_MB * 1000 * 1024
@@ -86,3 +102,5 @@ function validateImageSize(image: File) {
 		} else rejects(`Image size must be lower than ${IMAGE_MAX_SIZE_IN_MB} MB`)
 	})
 }
+
+export default React.memo(ImageUploadGrid)

@@ -6,7 +6,7 @@ type imageUploadState = {
 	setImages: (images: string[]) => void
 	replaceImages: (image: string, position: number) => void
 	isFulfilled: () => boolean
-	reset: () => void
+	resetImages: () => void
 }
 
 const initialImageUploadState: imageUploadState['images'] = [
@@ -25,7 +25,7 @@ export const useImageUploadStore = create<imageUploadState>()((set, get) => ({
 	isFulfilled: () => {
 		return get().images.every((image) => image !== 'empty')
 	},
-	reset: () => set({ images: [...initialImageUploadState] }),
+	resetImages: () => set({ images: [...initialImageUploadState] }),
 }))
 
 function replaceImage(imageArray: string[], replaceImage: string, replacePosition: number) {

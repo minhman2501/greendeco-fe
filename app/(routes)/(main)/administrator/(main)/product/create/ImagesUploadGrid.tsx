@@ -3,6 +3,7 @@ import { useMutation } from '@tanstack/react-query'
 import { uploadImage } from '@/app/_api/axios/media'
 import { IMAGE_MAX_SIZE_IN_MB } from '@/app/_configs/constants/variables'
 import React, { Dispatch, useEffect, useState } from 'react'
+import { EMPTY_STRING } from '@/app/_configs/constants/variables'
 import { PhotoIcon } from '@heroicons/react/24/solid'
 import Image from 'next/image'
 import { useImageUploadStore } from '@/app/_configs/store/useImagesUploadStore'
@@ -64,7 +65,8 @@ const UploadInput = React.memo(function UploadInput({ index }: { index: number }
 })
 
 //NOTE: useMutation causes a lot of re-rendering, so it is better to seperate the
-//image display and the upload input to minimize rendering the item
+//image display and the upload input to minimize re-rendering for
+//ImageUploadItem
 
 const ImageUploadItem = React.memo(function ImageUploadInput({
 	image,
@@ -75,7 +77,7 @@ const ImageUploadItem = React.memo(function ImageUploadInput({
 }) {
 	return (
 		<div className=' relative aspect-square overflow-hidden rounded-[4px] border-[4px] border-primary-625-20 hover:border-primary-625'>
-			{image && image !== 'empty' ? (
+			{image && image !== EMPTY_STRING ? (
 				<Image
 					width={0}
 					height={0}

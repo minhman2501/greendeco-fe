@@ -4,8 +4,8 @@ import Button from '@/app/_components/Button'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import {
-	CreateProductSchema,
-	CreateProductFormInputType,
+	ProductDetailSchema,
+	ProductDetailFormInputType,
 } from '@/app/_configs/schemas/createProduct'
 import { useMutation } from '@tanstack/react-query'
 import { createProduct } from '@/app/_api/axios/admin/product'
@@ -17,7 +17,7 @@ import { ADMIN_ACCESS_TOKEN_COOKIE_NAME } from '@/app/_configs/constants/cookies
 
 export default function CreateProductForm() {
 	const { isFulfilled, images, resetImages } = useImageUploadStore()
-	const defaultInputValues: CreateProductFormInputType = {
+	const defaultInputValues: ProductDetailFormInputType = {
 		name: '',
 		size: SIZE_OPTIONS[0],
 		type: TYPE_OPTIONS[0],
@@ -34,10 +34,10 @@ export default function CreateProductForm() {
 		register,
 		handleSubmit,
 		formState: { errors },
-	} = useForm<CreateProductFormInputType>({
+	} = useForm<ProductDetailFormInputType>({
 		mode: 'onBlur',
 		reValidateMode: 'onBlur',
-		resolver: zodResolver(CreateProductSchema),
+		resolver: zodResolver(ProductDetailSchema),
 		defaultValues: defaultInputValues,
 	})
 
@@ -55,7 +55,7 @@ export default function CreateProductForm() {
 		}, */
 	})
 
-	const onSubmitHandler: SubmitHandler<CreateProductFormInputType> = (values, e) => {
+	const onSubmitHandler: SubmitHandler<ProductDetailFormInputType> = (values, e) => {
 		e?.preventDefault()
 		const adminAcessToken = getCookie(ADMIN_ACCESS_TOKEN_COOKIE_NAME)?.toString()
 		console.log({

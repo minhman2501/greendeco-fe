@@ -4,8 +4,8 @@ import Button from '@/app/_components/Button'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import {
-	CreateProductSchema,
-	CreateProductFormInputType,
+	ProductDetailSchema,
+	ProductDetailFormInputType,
 } from '@/app/_configs/schemas/createProduct'
 import { useMutation } from '@tanstack/react-query'
 import { createProduct } from '@/app/_api/axios/admin/product'
@@ -18,7 +18,7 @@ import { ProductData } from '@/app/_api/axios/product'
 import { useEffect } from 'react'
 
 export default function ProductEditingForm({ product }: { product: ProductData }) {
-	const { isFulfilled, images, resetImages, setImages } = useImageUploadStore()
+	const { isFulfilled, images, setImages } = useImageUploadStore()
 
 	const initImages: ProductData['images'] = product.images
 
@@ -26,7 +26,7 @@ export default function ProductEditingForm({ product }: { product: ProductData }
 		setImages(initImages)
 	}, [])
 
-	const defaultInputValues: CreateProductFormInputType = {
+	const defaultInputValues: ProductDetailFormInputType = {
 		name: product.name,
 		size: product.size,
 		type: product.type,
@@ -42,11 +42,11 @@ export default function ProductEditingForm({ product }: { product: ProductData }
 		reset,
 		register,
 		handleSubmit,
-		formState: { errors },
-	} = useForm<CreateProductFormInputType>({
+		formState: { errors, isDirty },
+	} = useForm<ProductDetailFormInputType>({
 		mode: 'onBlur',
 		reValidateMode: 'onBlur',
-		resolver: zodResolver(CreateProductSchema),
+		resolver: zodResolver(ProductDetailSchema),
 		defaultValues: defaultInputValues,
 	})
 
@@ -64,7 +64,7 @@ export default function ProductEditingForm({ product }: { product: ProductData }
 		}, */
 	})
 
-	const onSubmitHandler: SubmitHandler<CreateProductFormInputType> = (values, e) => {
+	const onSubmitHandler: SubmitHandler<ProductDetailFormInputType> = (values, e) => {
 		e?.preventDefault()
 		const adminAcessToken = getCookie(ADMIN_ACCESS_TOKEN_COOKIE_NAME)?.toString()
 		console.log({
@@ -79,7 +79,6 @@ export default function ProductEditingForm({ product }: { product: ProductData }
 	}
 
 	const handleResetForm = () => {
-		resetImages()
 		reset()
 	}
 	return (
@@ -186,9 +185,13 @@ export default function ProductEditingForm({ product }: { product: ProductData }
 			<div className='mt-cozy flex w-full justify-end gap-cozy'>
 				<Button
 					type='submit'
-					disabled={createProductMutation.isLoading || isFulfilled() === false}
+					disabled={
+						createProductMutation.isLoading ||
+						isFulfilled() === false ||
+						(!isDirty && images === initImages)
+					}
 				>
-					{createProductMutation.isLoading ? 'Creating...' : 'Create'}
+					{createProductMutation.isLoading ? 'Saving...' : 'Save'}
 				</Button>
 				<Button
 					className='btnSecondary'

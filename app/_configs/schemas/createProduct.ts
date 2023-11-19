@@ -1,7 +1,7 @@
 import * as z from 'zod'
 import { REQUIRED_FIELD_STRING } from '../constants/variables'
 
-export const CreateProductSchema = z.object({
+export const ProductDetailSchema = z.object({
 	name: z.string().min(1, REQUIRED_FIELD_STRING).max(32, 'Name must be less than 32 characters'),
 	description: z
 		.string()
@@ -14,4 +14,4 @@ export const CreateProductSchema = z.object({
 	light: z.string().min(1, REQUIRED_FIELD_STRING),
 })
 
-export type CreateProductFormInputType = z.infer<typeof CreateProductSchema>
+export type ProductDetailFormInputType = z.infer<typeof ProductDetailSchema>

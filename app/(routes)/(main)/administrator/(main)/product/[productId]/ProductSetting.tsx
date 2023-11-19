@@ -16,6 +16,7 @@ import { getCookie } from 'cookies-next'
 import { ADMIN_ACCESS_TOKEN_COOKIE_NAME } from '@/app/_configs/constants/cookies'
 import { ProductData } from '@/app/_api/axios/product'
 import { useEffect } from 'react'
+import LabelProvider from '@/app/_components/form/LabelProvider'
 
 export default function ProductEditingForm({ product }: { product: ProductData }) {
 	const { isFulfilled, images, setImages } = useImageUploadStore()
@@ -178,8 +179,13 @@ export default function ProductEditingForm({ product }: { product: ProductData }
 					</div>
 				</>
 				<div>
-					<label>Product Images</label>
-					<ImagesUploadGrid />
+					<LabelProvider
+						className='text-body-md'
+						label='Product Images'
+						direction='vertical'
+					>
+						<ImagesUploadGrid />
+					</LabelProvider>
 				</div>
 			</div>
 			<div className='mt-cozy flex w-full justify-end gap-cozy'>

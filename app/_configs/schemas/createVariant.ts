@@ -14,7 +14,7 @@ export const CreateVariantSchema = z
 			.max(10, 'Color name must be less than 10 character'),
 		description: z
 			.string()
-			.min(20, 'The detail of the product must contain at least 20 characters'),
+			.min(10, 'The detail of the product must contain at least 10 characters'),
 		is_default: z.boolean(),
 		available: z.boolean(),
 		price: z.string().min(1, REQUIRED_FIELD_STRING),

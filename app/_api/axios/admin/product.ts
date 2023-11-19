@@ -9,9 +9,25 @@ type CreateProductData = Omit<
 	ProductData,
 	'id' | 'available' | 'created_at' | 'currency' | 'default_variant' | 'price' | 'category'
 >
+type CreateVariantData = {
+	available: boolean
+	product_id: string
+	name: string
+	color: string
+	color_name: string
+	price: number
+	image: string
+	description: string
+	currency: string
+	is_default: boolean
+}
 
 type CreateProductRequestData = {
 	productData: CreateProductData
+	adminAccessToken: string | undefined
+}
+type CreateVariantRequestData = {
+	variantData: CreateVariantData
 	adminAccessToken: string | undefined
 }
 
@@ -33,6 +49,22 @@ export const createProduct = async (data: CreateProductRequestData) => {
 		{
 			category_id: PLANT_CATEGORY_ID,
 			...productData,
+		},
+		{
+			headers: {
+				Authorization: `Bearer ${adminAccessToken}`,
+			},
+		},
+	)
+}
+
+export const createVariant = async (data: CreateVariantRequestData) => {
+	const { variantData, adminAccessToken } = data
+
+	return await adminProductApi.post<CreateProductResponseData>(
+		'/variant',
+		{
+			...variantData,
 		},
 		{
 			headers: {

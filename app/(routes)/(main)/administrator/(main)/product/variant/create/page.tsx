@@ -13,7 +13,7 @@ export default function VariantManagement() {
 	return (
 		<Block>
 			<h1>Create Variant</h1>
-			{productId && <CreateVariantForm />}
+			{productId && <CreateVariantForm productId={productId} />}
 		</Block>
 	)
 }

@@ -10,11 +10,15 @@ import {
 import { useMutation } from '@tanstack/react-query'
 import { getCookie } from 'cookies-next'
 import { ADMIN_ACCESS_TOKEN_COOKIE_NAME } from '@/app/_configs/constants/cookies'
+import { AxiosError } from 'axios'
 import VariantImage from '../VariantImage'
 import LabelProvider from '@/app/_components/form/LabelProvider'
 import { useState } from 'react'
+import { ProductData } from '@/app/_api/axios/product'
+import { createVariant } from '@/app/_api/axios/admin/product'
+import { VARIANT_CURRENCY } from '@/app/_configs/constants/variables'
 
-export default function CreateVariantForm() {
+export default function CreateVariantForm({ productId }: { productId: ProductData['id'] }) {
 	const [variantImage, setVariantImage] = useState<string | undefined>()
 	const defaultInputValues: CreateVariantFormInputType = {
 		name: '',
@@ -39,19 +43,20 @@ export default function CreateVariantForm() {
 		defaultValues: defaultInputValues,
 	})
 
-	// const createProductMutation = useMutation({
-	// 	//NOTE: The callback used for the mutation
-	// 	mutationFn: createProduct,
-	// 	//NOTE: Execuse after receiving suscess responses
-	// 	onSuccess: (data) => {
-	// 		handleResetForm()
-	// 	},
-	// 	//NOTE: Execuse after receving failure responses
-	// 	/* onError: (e) => {
-	// 		if (e instanceof AxiosError) {
-	// 		}
-	// 	}, */
-	// })
+	const createVariantMutation = useMutation({
+		//NOTE: The callback used for the mutation
+		mutationFn: createVariant,
+		//NOTE: Execuse after receiving suscess responses
+		onSuccess: (data) => {
+			console.log(data)
+		},
+		//NOTE: Execuse after receving failure responses
+		onError: (e) => {
+			if (e instanceof AxiosError) {
+				console.log(e)
+			}
+		},
+	})
 
 	const onSubmitHandler: SubmitHandler<CreateVariantFormInputType> = (values, e) => {
 		e?.preventDefault()
@@ -59,11 +64,21 @@ export default function CreateVariantForm() {
 			...values,
 			variantImage,
 		})
-		/* createProductMutation.mutate({
-			productData: { ...values, images: [...images] },
-			adminAccessToken:
-				'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbiI6dHJ1ZSwiZXhwIjoxNzAwMzY3MjEzLCJ1c2VyX2lkIjoiM2NkNDZhOTUtNWFhYi00MTk1LTkzNTgtMzg1YWQ5YTMyZGU5In0.GS4aIFzscPOu6MWheBH4kfO2T3IqfJlxF6zpEUoxRnQ',
-		}) */
+		const { price, ...restValues } = values
+
+		if (variantImage) {
+			createVariantMutation.mutate({
+				variantData: {
+					...restValues,
+					product_id: productId,
+					price: parseInt(price),
+					image: variantImage,
+					currency: VARIANT_CURRENCY,
+				},
+				adminAccessToken:
+					'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbiI6dHJ1ZSwiZXhwIjoxNzAwNDU0Mzg0LCJ1c2VyX2lkIjoiM2NkNDZhOTUtNWFhYi00MTk1LTkzNTgtMzg1YWQ5YTMyZGU5In0.HbshGL7X73QyWg2wEik91A_qYaOjeYGqCzO74Qm3mnA',
+			})
+		}
 	}
 
 	const handleResetForm = () => {

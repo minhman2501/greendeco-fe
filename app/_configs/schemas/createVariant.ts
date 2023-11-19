@@ -15,7 +15,6 @@ export const CreateVariantSchema = z
 		description: z
 			.string()
 			.min(20, 'The detail of the product must contain at least 20 characters'),
-		image: z.string().min(1, REQUIRED_FIELD_STRING),
 		is_default: z.boolean(),
 		available: z.boolean(),
 		price: z.string().min(1, REQUIRED_FIELD_STRING),

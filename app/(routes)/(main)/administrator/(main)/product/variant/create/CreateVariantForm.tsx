@@ -10,7 +10,7 @@ import {
 import { useMutation } from '@tanstack/react-query'
 import { getCookie } from 'cookies-next'
 import { ADMIN_ACCESS_TOKEN_COOKIE_NAME } from '@/app/_configs/constants/cookies'
-import VariantImage from './VariantImage'
+import VariantImage from '../VariantImage'
 import LabelProvider from '@/app/_components/form/LabelProvider'
 import { useState } from 'react'
 

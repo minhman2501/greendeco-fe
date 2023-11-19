@@ -1,14 +1,14 @@
 import { useMutation } from '@tanstack/react-query'
 import { uploadImage } from '@/app/_api/axios/media'
 import { IMAGE_MAX_SIZE_IN_MB } from '@/app/_configs/constants/variables'
-import React, { Dispatch, SetStateAction, useEffect, useState } from 'react'
+import React, { Dispatch, SetStateAction } from 'react'
 import { EMPTY_STRING } from '@/app/_configs/constants/variables'
 import { PhotoIcon } from '@heroicons/react/24/solid'
 import Image from 'next/image'
 
 type VariantImageProps = {
 	image: string | undefined
-	setImage: Dispatch<SetStateAction<string | undefined>>
+	setImage?: Dispatch<SetStateAction<string | undefined>>
 }
 
 export default function VariantImage({ image, setImage }: VariantImageProps) {
@@ -43,7 +43,7 @@ const ImageUploadItem = React.memo(function ImageUploadInput({
 					<PhotoIcon className='aspect-square h-[30px]' />
 				</span>
 			)}
-			<UploadInput setImage={setImage} />
+			{setImage && <UploadInput setImage={setImage} />}
 		</div>
 	)
 })

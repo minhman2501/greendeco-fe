@@ -15,7 +15,7 @@ type CreateVariantData = {
 	name: string
 	color: string
 	color_name: string
-	price: number
+	price: string
 	image: string
 	description: string
 	currency: string
@@ -32,7 +32,7 @@ type CreateVariantRequestData = {
 }
 
 type CreateProductResponseData = {
-	productId: ProductData['id']
+	id: ProductData['id']
 }
 
 export const adminProductApi = axios.create({

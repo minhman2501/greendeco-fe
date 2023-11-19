@@ -14,6 +14,7 @@ import ImageUploadGrid from './ImagesUploadGrid'
 import { useImageUploadStore } from '@/app/_configs/store/useImagesUploadStore'
 import { getCookie } from 'cookies-next'
 import { ADMIN_ACCESS_TOKEN_COOKIE_NAME } from '@/app/_configs/constants/cookies'
+import { notifyCreateProductSuccess } from '../Notifications'
 
 export default function CreateProductForm() {
 	const { isFulfilled, images, resetImages } = useImageUploadStore()
@@ -47,6 +48,7 @@ export default function CreateProductForm() {
 		//NOTE: Execuse after receiving suscess responses
 		onSuccess: (data) => {
 			handleResetForm()
+			notifyCreateProductSuccess(data.data.id)
 		},
 		//NOTE: Execuse after receving failure responses
 		/* onError: (e) => {
@@ -65,7 +67,7 @@ export default function CreateProductForm() {
 		createProductMutation.mutate({
 			productData: { ...values, images: [...images] },
 			adminAccessToken:
-				'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbiI6dHJ1ZSwiZXhwIjoxNzAwMzY3MjEzLCJ1c2VyX2lkIjoiM2NkNDZhOTUtNWFhYi00MTk1LTkzNTgtMzg1YWQ5YTMyZGU5In0.GS4aIFzscPOu6MWheBH4kfO2T3IqfJlxF6zpEUoxRnQ',
+				'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbiI6dHJ1ZSwiZXhwIjoxNzAwNDU0Mzg0LCJ1c2VyX2lkIjoiM2NkNDZhOTUtNWFhYi00MTk1LTkzNTgtMzg1YWQ5YTMyZGU5In0.HbshGL7X73QyWg2wEik91A_qYaOjeYGqCzO74Qm3mnA',
 		})
 	}
 

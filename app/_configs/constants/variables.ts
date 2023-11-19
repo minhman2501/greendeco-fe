@@ -7,6 +7,8 @@ export const REQUIRED_FIELD_STRING = 'This field is required'
 
 export const EMPTY_STRING = 'empty'
 
+export const VARIANT_CURRENCY = 'USD'
+
 export const SIZE_OPTIONS = ['S', 'M', 'L', 'XL']
 export const DIFFICULTY_OPTIONS = ['Easy', 'Medium', 'Hard']
 export const TYPE_OPTIONS = ['Outdoor', 'Indoor']

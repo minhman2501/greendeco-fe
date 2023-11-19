@@ -1,24 +1,33 @@
-'use client'
 import { useMutation } from '@tanstack/react-query'
 import { uploadImage } from '@/app/_api/axios/media'
 import { IMAGE_MAX_SIZE_IN_MB } from '@/app/_configs/constants/variables'
-import React, { Dispatch, useEffect, useState } from 'react'
+import React, { Dispatch, SetStateAction, useEffect, useState } from 'react'
 import { EMPTY_STRING } from '@/app/_configs/constants/variables'
 import { PhotoIcon } from '@heroicons/react/24/solid'
 import Image from 'next/image'
-import { useImageUploadStore } from '@/app/_configs/store/useImagesUploadStore'
 
-export default function VariantImage() {
+type VariantImageProps = {
+	image: string | undefined
+	setImage: Dispatch<SetStateAction<string | undefined>>
+}
+
+export default function VariantImage({ image, setImage }: VariantImageProps) {
 	return (
 		<div className=' h-[300px] w-full'>
-			<ImageUploadItem image={EMPTY_STRING} />
+			<ImageUploadItem
+				image={image ? image : EMPTY_STRING}
+				setImage={setImage}
+			/>
 		</div>
 	)
 }
 //NOTE: useMutation causes a lot of re-rendering, so it is better to seperate the
 //image display and the upload input to minimize re-rendering for
 //ImageUploadItem
-const ImageUploadItem = React.memo(function ImageUploadInput({ image }: { image: string }) {
+const ImageUploadItem = React.memo(function ImageUploadInput({
+	image,
+	setImage,
+}: VariantImageProps) {
 	return (
 		<div className=' relative aspect-square h-full overflow-hidden rounded-[4px] border-[4px] border-primary-625-20 hover:border-primary-625'>
 			{image && image !== EMPTY_STRING ? (
@@ -34,17 +43,23 @@ const ImageUploadItem = React.memo(function ImageUploadInput({ image }: { image:
 					<PhotoIcon className='aspect-square h-[30px]' />
 				</span>
 			)}
-			<UploadInput />
+			<UploadInput setImage={setImage} />
 		</div>
 	)
 })
 
-const UploadInput = React.memo(function UploadInput() {
+const UploadInput = React.memo(function UploadInput({
+	setImage,
+}: {
+	setImage: Dispatch<SetStateAction<string | undefined>>
+}) {
 	const imageUploadMutation = useMutation({
 		//NOTE: The callback used for the mutation
 		mutationFn: uploadImage,
 		//NOTE: Execuse after receiving suscess responses
-		onSuccess: (data) => {},
+		onSuccess: (data) => {
+			setImage(data)
+		},
 	})
 
 	function handleImageChange(imageFile: File) {

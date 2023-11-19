@@ -8,20 +8,16 @@ import {
 	CreateVariantFormInputType,
 } from '@/app/_configs/schemas/createVariant'
 import { useMutation } from '@tanstack/react-query'
-import { createProduct } from '@/app/_api/axios/admin/product'
-import { SIZE_OPTIONS, TYPE_OPTIONS, DIFFICULTY_OPTIONS } from '@/app/_configs/constants/variables'
-import { useImageUploadStore } from '@/app/_configs/store/useImagesUploadStore'
 import { getCookie } from 'cookies-next'
 import { ADMIN_ACCESS_TOKEN_COOKIE_NAME } from '@/app/_configs/constants/cookies'
-import Link from 'next/link'
 import VariantImage from './VariantImage'
 import LabelProvider from '@/app/_components/form/LabelProvider'
+import { useState } from 'react'
 
 export default function CreateVariantForm() {
-	const { isFulfilled, images, resetImages } = useImageUploadStore()
+	const [variantImage, setVariantImage] = useState<string | undefined>()
 	const defaultInputValues: CreateVariantFormInputType = {
 		name: '',
-		image: '',
 		color: '',
 		is_default: false,
 		available: false,
@@ -61,6 +57,7 @@ export default function CreateVariantForm() {
 		e?.preventDefault()
 		console.log({
 			...values,
+			variantImage,
 		})
 		/* createProductMutation.mutate({
 			productData: { ...values, images: [...images] },
@@ -70,7 +67,6 @@ export default function CreateVariantForm() {
 	}
 
 	const handleResetForm = () => {
-		resetImages()
 		reset()
 	}
 	return (
@@ -159,14 +155,17 @@ export default function CreateVariantForm() {
 						label='Variant Image'
 						direction='vertical'
 					>
-						<VariantImage />
+						<VariantImage
+							image={variantImage}
+							setImage={setVariantImage}
+						/>
 					</LabelProvider>
 				</div>
 			</div>
 			<div className='mt-cozy flex w-full justify-end gap-cozy'>
 				<Button
 					type='submit'
-					// disabled={createProductMutation.isLoading || isFulfilled() === false}
+					disabled={variantImage === undefined}
 				>
 					{/* {createProductMutation.isLoading ? 'Creating...' : 'Create'} */}
 					Create

@@ -15,7 +15,7 @@ type CreateVariantData = {
 	name: string
 	color: string
 	color_name: string
-	price: string
+	price: number
 	image: string
 	description: string
 	currency: string

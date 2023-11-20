@@ -1,6 +1,5 @@
-'use client'
-import { ProductData, VariantData } from '@/app/_api/axios/product'
-import { EMPTY_STRING } from '@/app/_configs/constants/variables'
+import { VariantData } from '@/app/_api/axios/product'
+import formatDate from '@/app/_hooks/useFormatDate'
 import { CheckBadgeIcon } from '@heroicons/react/24/solid'
 import clsx from 'clsx'
 import Image from 'next/image'
@@ -22,7 +21,7 @@ function VariantImage({ image }: { image: VariantData['image'] }) {
 				fill
 				style={{ objectFit: 'contain' }}
 				src={image}
-				alt='product image'
+				alt='variant image'
 			></Image>
 		</div>
 	)
@@ -73,9 +72,15 @@ function Detail({ description, color_name, name, price, currency, available, col
 
 function Dates({ created_at, updated_at }: VariantData) {
 	return (
-		<div className='flex-col-start gap-compact'>
-			<span>Date Created: {created_at}</span>
-			<span>Last Updated: {updated_at}</span>
+		<div className='flex-col-start gap-cozy'>
+			<span className='flex-col-start gap-[4px]'>
+				<h3 className='text-body-sm'>Date Created:</h3>
+				<span className='text-body-md'>{formatDate(new Date(created_at))}</span>
+			</span>
+			<span className='flex-col-start gap-[4px]'>
+				<h3 className='text-body-sm'>Last Updated:</h3>
+				<span className='text-body-md'>{formatDate(new Date(updated_at))}</span>
+			</span>
 		</div>
 	)
 }

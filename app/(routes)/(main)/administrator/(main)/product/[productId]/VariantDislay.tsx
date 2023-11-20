@@ -1,14 +1,10 @@
 import { VariantData } from '@/app/_api/axios/product'
 import clsx from 'clsx'
 import VariantDetailDisplay from './VariantDetailDisplay'
-import { useVariantStore } from '@/app/_configs/store/useVariantStore'
-import { useEffect } from 'react'
+import { useState } from 'react'
 
 export default function VariantDisplay({ variantList }: { variantList: VariantData[] }) {
-	const { activeVariant, setActiveVariant } = useVariantStore()
-	useEffect(() => {
-		setActiveVariant(variantList[0])
-	}, [])
+	const [currentVariant, setCurrentVariant] = useState<VariantData>(variantList[0])
 	return (
 		<>
 			<div className='flex items-center gap-cozy'>
@@ -17,7 +13,7 @@ export default function VariantDisplay({ variantList }: { variantList: VariantDa
 					{variantList.map((variant) => (
 						<li
 							key={variant.id}
-							onClick={() => setActiveVariant(variant)}
+							onClick={() => setCurrentVariant(variant)}
 							className='px-cozy first:pl-0 last:pr-0'
 						>
 							<VariantListItem {...variant} />
@@ -25,7 +21,7 @@ export default function VariantDisplay({ variantList }: { variantList: VariantDa
 					))}
 				</ul>
 			</div>
-			<VariantDetailDisplay variant={{ ...activeVariant }} />
+			<VariantDetailDisplay variant={{ ...currentVariant }} />
 		</>
 	)
 }

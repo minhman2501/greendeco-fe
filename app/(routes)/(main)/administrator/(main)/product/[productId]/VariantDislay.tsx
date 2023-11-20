@@ -2,7 +2,6 @@ import { ProductData, VariantData } from '@/app/_api/axios/product'
 import clsx from 'clsx'
 import VariantDetailDisplay from './VariantDetailDisplay'
 import { useState } from 'react'
-import Button from '@/app/_components/Button'
 import Link from 'next/link'
 import { ADMINISTRATOR_ROUTE } from '@/app/_configs/constants/variables'
 
@@ -18,7 +17,7 @@ export default function VariantDisplay({
 	const [currentVariant, setCurrentVariant] = useState<VariantData>(variantList[0])
 	return (
 		<>
-			<div className='mb-cozy flex items-center justify-between'>
+			<div className='mb-comfortable flex  items-center justify-between'>
 				<div className=' flex items-center gap-cozy'>
 					<h2>Variants</h2>
 					<ul className='flex divide-x'>

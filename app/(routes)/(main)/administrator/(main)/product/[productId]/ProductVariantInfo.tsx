@@ -2,6 +2,7 @@ import { ProductData, getVariantsByProductId } from '@/app/_api/axios/product'
 import { ADMINISTRATOR_ROUTE } from '@/app/_configs/constants/variables'
 import { useQuery } from '@tanstack/react-query'
 import Link from 'next/link'
+import VariantDisplay from './VariantDislay'
 
 export default function ProductVariantInfo({
 	productName,
@@ -19,7 +20,7 @@ export default function ProductVariantInfo({
 
 	return (
 		<>
-			{data && data?.page_size > 0 && <h2>Variants</h2>}
+			{data && data?.page_size > 0 && <VariantDisplay variantList={...data.items} />}
 			{data && data?.page_size === 0 && (
 				<div>
 					There is no variant

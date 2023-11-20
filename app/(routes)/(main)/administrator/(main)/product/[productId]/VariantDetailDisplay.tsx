@@ -1,6 +1,8 @@
 'use client'
 import { ProductData, VariantData } from '@/app/_api/axios/product'
 import { EMPTY_STRING } from '@/app/_configs/constants/variables'
+import { CheckBadgeIcon } from '@heroicons/react/24/solid'
+import clsx from 'clsx'
 import Image from 'next/image'
 
 export default function VariantDetailDisplay({ variant }: { variant: VariantData }) {
@@ -26,14 +28,45 @@ function VariantImage({ image }: { image: VariantData['image'] }) {
 	)
 }
 
-function Detail({ description, color_name, name, price, available, color }: VariantData) {
+function Detail({ description, color_name, name, price, currency, available, color }: VariantData) {
 	return (
-		<div className='flex-col-start gap-compact'>
-			<span>Name: {name}</span>
-			<span>Description: {description}</span>
-			<span>Color: {color_name}</span>
-			<span>Price: {price}</span>
-			<span>Available: {available ? 'true' : 'false'}</span>
+		<div className='flex-col-start gap-cozy'>
+			<span className='flex-col-start gap-[4px]'>
+				<h3 className='text-body-sm'>Name:</h3>
+				<span className='text-body-md'>{name}</span>
+			</span>
+			<span className='flex-col-start gap-[4px]'>
+				<h3 className='text-body-sm'>Description:</h3>
+				<span className='text-body-md'>{description}</span>
+			</span>
+			<span className='flex-col-start gap-[4px]'>
+				<h3 className='text-body-sm'>Pot Color:</h3>
+				<span className='flex items-center gap-compact'>
+					<span className='text-body-md capitalize'>{color_name}</span>
+					<span
+						className='aspect-square h-[40px] rounded-[100%]'
+						style={{ backgroundColor: color }}
+					/>
+				</span>
+			</span>
+			<span className='flex-col-start gap-[4px]'>
+				<h3 className='text-body-sm'>Price:</h3>
+				<span className='text-body-md'>
+					{price} {currency}
+				</span>
+			</span>
+
+			<span
+				className={clsx(
+					'flex w-fit items-center gap-compact rounded-[8px]  p-cozy text-body-lg font-semi-bold text-white',
+					{
+						'bg-action-link text-white': available,
+						'bg-neutral-gray-6 text-white': !available,
+					},
+				)}
+			>
+				Available <CheckBadgeIcon className='aspect-square h-[24px]' />
+			</span>
 		</div>
 	)
 }

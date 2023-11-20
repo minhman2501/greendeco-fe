@@ -1,5 +1,6 @@
 import { VariantData } from '@/app/_api/axios/product'
 import clsx from 'clsx'
+import VariantDetailDisplay from './VariantDetailDisplay'
 
 export default function VariantDisplay({ variantList }: { variantList: VariantData[] }) {
 	return (
@@ -17,6 +18,7 @@ export default function VariantDisplay({ variantList }: { variantList: VariantDa
 					))}
 				</ul>
 			</div>
+			<VariantDetailDisplay variant={{ ...variantList[1] }} />
 		</>
 	)
 }

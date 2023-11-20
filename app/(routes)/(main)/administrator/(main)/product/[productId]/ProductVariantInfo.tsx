@@ -20,7 +20,13 @@ export default function ProductVariantInfo({
 
 	return (
 		<>
-			{data && data?.page_size > 0 && <VariantDisplay variantList={...data.items} />}
+			{data && data?.page_size > 0 && (
+				<VariantDisplay
+					variantList={...data.items}
+					productId={productId}
+					productName={productName}
+				/>
+			)}
 			{data && data?.page_size === 0 && (
 				<div>
 					There is no variant
@@ -29,6 +35,7 @@ export default function ProductVariantInfo({
 							pathname: `${ADMINISTRATOR_ROUTE.PRODUCT.LINK}/variant/create`,
 							query: {
 								productId: productId,
+								productName: productName,
 							},
 						}}
 					>

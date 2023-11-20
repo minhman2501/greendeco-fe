@@ -3,7 +3,7 @@ import { ADMINISTRATOR_ROUTE } from '@/app/_configs/constants/variables'
 import { useQuery } from '@tanstack/react-query'
 import Link from 'next/link'
 
-export default function VariantList({
+export default function ProductVariantInfo({
 	productName,
 	productId,
 }: {

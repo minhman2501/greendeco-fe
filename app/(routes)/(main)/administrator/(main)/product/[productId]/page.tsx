@@ -4,7 +4,7 @@ import { getProductBaseById } from '@/app/_api/axios/product'
 import Block from '@/app/_components/Block'
 import { useQuery } from '@tanstack/react-query'
 import ProductEditingForm from './ProductSetting'
-import VariantList from './VariantList'
+import ProductVariantInfo from './ProductVariantInfo'
 export default function ProductDetailManagementPage({
 	params,
 }: {
@@ -31,7 +31,7 @@ export default function ProductDetailManagementPage({
 					</Block>
 
 					<Block>
-						<VariantList
+						<ProductVariantInfo
 							productName={data.items.name}
 							productId={data.items.id}
 						/>

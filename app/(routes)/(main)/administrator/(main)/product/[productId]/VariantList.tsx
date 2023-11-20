@@ -1,5 +1,4 @@
 import { ProductData, getVariantsByProductId } from '@/app/_api/axios/product'
-import Block from '@/app/_components/Block'
 import { ADMINISTRATOR_ROUTE } from '@/app/_configs/constants/variables'
 import { useQuery } from '@tanstack/react-query'
 import Link from 'next/link'
@@ -12,7 +11,7 @@ export default function VariantList({
 	productId: ProductData['id']
 }) {
 	const variantQuery = useQuery({
-		queryKey: ['variants', 'admin'],
+		queryKey: ['variants', 'admin', productId],
 		queryFn: () => getVariantsByProductId(productId),
 	})
 

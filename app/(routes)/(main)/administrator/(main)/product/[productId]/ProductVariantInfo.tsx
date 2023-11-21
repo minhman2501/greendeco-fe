@@ -3,6 +3,7 @@ import { ADMINISTRATOR_ROUTE } from '@/app/_configs/constants/variables'
 import { useQuery } from '@tanstack/react-query'
 import Link from 'next/link'
 import VariantDisplay from './VariantDislay'
+import { ADMIN_QUERY_KEY, UseQueryKeys } from '@/app/_configs/constants/queryKey'
 
 export default function ProductVariantInfo({
 	productName,
@@ -12,7 +13,7 @@ export default function ProductVariantInfo({
 	productId: ProductData['id']
 }) {
 	const variantQuery = useQuery({
-		queryKey: ['variants', 'admin', productId],
+		queryKey: [UseQueryKeys.Variant, ADMIN_QUERY_KEY, productId],
 		queryFn: () => getVariantsByProductId(productId),
 	})
 

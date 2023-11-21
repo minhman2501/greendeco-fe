@@ -3,10 +3,6 @@ import { REQUIRED_FIELD_STRING } from '../constants/variables'
 
 export const CreateVariantSchema = z
 	.object({
-		name: z
-			.string()
-			.min(1, REQUIRED_FIELD_STRING)
-			.max(32, 'Name must be less than 32 characters'),
 		color: z.string().min(1, REQUIRED_FIELD_STRING).max(10, 'HEX color code only'),
 		color_name: z
 			.string()

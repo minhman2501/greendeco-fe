@@ -18,10 +18,15 @@ import { ProductData } from '@/app/_api/axios/product'
 import { createVariant } from '@/app/_api/axios/admin/product'
 import { VARIANT_CURRENCY } from '@/app/_configs/constants/variables'
 
-export default function CreateVariantForm({ productId }: { productId: ProductData['id'] }) {
+export default function CreateVariantForm({
+	productId,
+	productName,
+}: {
+	productId: ProductData['id']
+	productName: ProductData['name']
+}) {
 	const [variantImage, setVariantImage] = useState<string | undefined>()
 	const defaultInputValues: CreateVariantFormInputType = {
-		name: '',
 		color: '',
 		is_default: false,
 		available: false,
@@ -64,19 +69,21 @@ export default function CreateVariantForm({ productId }: { productId: ProductDat
 			...values,
 			variantImage,
 		})
-		const { price, ...restValues } = values
+		const { price, color_name, ...restValues } = values
 
 		if (variantImage) {
 			createVariantMutation.mutate({
 				variantData: {
 					...restValues,
 					product_id: productId,
+					name: `${productName} ${color_name}`,
+					color_name: color_name,
 					price: parseInt(price),
 					image: variantImage,
 					currency: VARIANT_CURRENCY,
 				},
 				adminAccessToken:
-					'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbiI6dHJ1ZSwiZXhwIjoxNzAwNDU0Mzg0LCJ1c2VyX2lkIjoiM2NkNDZhOTUtNWFhYi00MTk1LTkzNTgtMzg1YWQ5YTMyZGU5In0.HbshGL7X73QyWg2wEik91A_qYaOjeYGqCzO74Qm3mnA',
+					'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbiI6dHJ1ZSwiZXhwIjoxNzAwNTc2NzA2LCJ1c2VyX2lkIjoiM2NkNDZhOTUtNWFhYi00MTk1LTkzNTgtMzg1YWQ5YTMyZGU5In0.VX-HfeXDgoHtNeu1thWBAiwGg7oBlhJPVJkh5AduwU4',
 			})
 		}
 	}
@@ -92,15 +99,27 @@ export default function CreateVariantForm({ productId }: { productId: ProductDat
 			<div className='grid w-full grid-cols-2 gap-comfortable'>
 				<>
 					<div className='flex-col-start gap-cozy text-body-md'>
-						<div className='flex-1'>
+						<div>
 							<TextField
 								type='text'
-								label='Variant Name'
-								placeholder='The name is idealy should be plant name + color name'
-								register={register('name')}
-								error={Boolean(errors?.name)}
-								helperText={errors?.name?.message}
+								label='Pot Color Name'
+								placeholder='Name of the pot'
+								register={register('color_name')}
+								error={Boolean(errors?.color_name)}
+								helperText={errors?.color_name?.message}
 							/>
+						</div>
+						<div>
+							<LabelProvider
+								label='Color'
+								className='items-center'
+							>
+								<input
+									className=' h-[40px] w-[40px]'
+									type='color'
+									{...register('color')}
+								/>
+							</LabelProvider>
 						</div>
 						<div className='flex-1'>
 							<TextField
@@ -119,29 +138,7 @@ export default function CreateVariantForm({ productId }: { productId: ProductDat
 							/>
 							<span>{errors?.description?.message}</span>
 						</div>
-						<div>
-							<LabelProvider
-								label='Color'
-								className='items-center'
-							>
-								<input
-									className=' h-[40px] w-[40px]'
-									type='color'
-									{...register('color')}
-								/>
-							</LabelProvider>
-						</div>
 
-						<div>
-							<TextField
-								type='text'
-								label='Pot Color Name'
-								placeholder='Name of the pot'
-								register={register('color_name')}
-								error={Boolean(errors?.color_name)}
-								helperText={errors?.color_name?.message}
-							/>
-						</div>
 						<div>
 							<LabelProvider label='Default'>
 								<input

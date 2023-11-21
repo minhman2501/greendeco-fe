@@ -8,12 +8,18 @@ type QueryParam = {
 }
 
 export default function VariantManagement() {
-	const { queryParams } = useQueryParams<QueryParam>()
+	const { queryParams } = useQueryParams()
 	const productId = queryParams.get('productId')
+	const productName = queryParams.get('productName')
 	return (
 		<Block>
 			<h1>Create Variant</h1>
-			{productId && <CreateVariantForm productId={productId} />}
+			{productId && productName && (
+				<CreateVariantForm
+					productId={productId}
+					productName={productName}
+				/>
+			)}
 		</Block>
 	)
 }

@@ -19,6 +19,11 @@ export const notifyCreateVariantSuccess = () => {
 	})
 }
 
+export const notifyUpdateVariantSuccess = () => {
+	toast.success(<UpdateVariantSuccessMessage />, {
+		position: 'top-center',
+	})
+}
 const CreateProductSuccessMessage = ({ productId }: { productId: ProductData['id'] }) => (
 	<div className='flex flex-col gap-[4px] pl-compact pr-common text-body-sm'>
 		<h3 className='capitalize text-primary-625'>Product Has Been Created</h3>
@@ -37,5 +42,11 @@ const CreateProductSuccessMessage = ({ productId }: { productId: ProductData['id
 const CreateVariantSuccessMessage = () => (
 	<div className='flex flex-col gap-[4px] pl-compact pr-common text-body-sm'>
 		<h3 className='capitalize text-primary-625'>Successfully Created Variant</h3>
+	</div>
+)
+
+const UpdateVariantSuccessMessage = () => (
+	<div className='flex flex-col gap-[4px] pl-compact pr-common text-body-sm'>
+		<h3 className='capitalize text-primary-625'>Successfully Updated Variant</h3>
 	</div>
 )

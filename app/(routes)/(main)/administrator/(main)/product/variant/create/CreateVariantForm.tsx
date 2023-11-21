@@ -7,7 +7,7 @@ import {
 	CreateVariantSchema,
 	CreateVariantFormInputType,
 } from '@/app/_configs/schemas/createVariant'
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { getCookie } from 'cookies-next'
 import { ADMIN_ACCESS_TOKEN_COOKIE_NAME } from '@/app/_configs/constants/cookies'
 import { AxiosError } from 'axios'
@@ -16,7 +16,9 @@ import LabelProvider from '@/app/_components/form/LabelProvider'
 import { useState } from 'react'
 import { ProductData } from '@/app/_api/axios/product'
 import { createVariant } from '@/app/_api/axios/admin/product'
-import { VARIANT_CURRENCY } from '@/app/_configs/constants/variables'
+import { ADMINISTRATOR_ROUTE, VARIANT_CURRENCY } from '@/app/_configs/constants/variables'
+import { notifyCreateVariantSuccess } from '../../Notifications'
+import { useRouter } from 'next/navigation'
 
 export default function CreateVariantForm({
 	productId,
@@ -25,6 +27,9 @@ export default function CreateVariantForm({
 	productId: ProductData['id']
 	productName: ProductData['name']
 }) {
+	const queryClient = useQueryClient()
+	const router = useRouter()
+
 	const [variantImage, setVariantImage] = useState<string | undefined>()
 	const defaultInputValues: CreateVariantFormInputType = {
 		color: '',
@@ -53,7 +58,9 @@ export default function CreateVariantForm({
 		mutationFn: createVariant,
 		//NOTE: Execuse after receiving suscess responses
 		onSuccess: (data) => {
-			console.log(data)
+			notifyCreateVariantSuccess()
+			queryClient.invalidateQueries({ queryKey: ['variants', 'admin', productId] })
+			router.replace(`${ADMINISTRATOR_ROUTE.PRODUCT.LINK}/${productId}`)
 		},
 		//NOTE: Execuse after receving failure responses
 		onError: (e) => {

@@ -3,6 +3,7 @@ import Block from '@/app/_components/Block'
 import ProductEditForm from './ProductEditForm'
 import { useQuery } from '@tanstack/react-query'
 import { getProductBaseById } from '@/app/_api/axios/product'
+import { ADMIN_QUERY_KEY, UseQueryKeys } from '@/app/_configs/constants/queryKey'
 
 export default function EditProductPage({
 	params: { productId },
@@ -12,7 +13,7 @@ export default function EditProductPage({
 	}
 }) {
 	const productQuery = useQuery({
-		queryKey: ['product', 'admin', productId],
+		queryKey: [UseQueryKeys.Product, ADMIN_QUERY_KEY, productId],
 		queryFn: () => getProductBaseById(productId),
 	})
 

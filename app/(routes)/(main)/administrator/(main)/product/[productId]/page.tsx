@@ -7,6 +7,7 @@ import ProductDetail from './ProductDetail'
 import ProductVariantInfo from './ProductVariantInfo'
 import Link from 'next/link'
 import { ADMINISTRATOR_ROUTE } from '@/app/_configs/constants/variables'
+import { ADMIN_QUERY_KEY, UseQueryKeys } from '@/app/_configs/constants/queryKey'
 export default function ProductDetailManagementPage({
 	params,
 }: {
@@ -17,7 +18,7 @@ export default function ProductDetailManagementPage({
 	const { productId } = params
 
 	const productQuery = useQuery({
-		queryKey: ['product', 'admin', productId],
+		queryKey: [UseQueryKeys.Product, ADMIN_QUERY_KEY, productId],
 		queryFn: () => getProductBaseById(productId),
 	})
 

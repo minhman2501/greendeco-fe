@@ -3,10 +3,7 @@ import { TextField, Input } from '@/app/_components/form'
 import Button from '@/app/_components/Button'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import {
-	CreateVariantSchema,
-	CreateVariantFormInputType,
-} from '@/app/_configs/schemas/createVariant'
+import { VariantSchema, VariantFormInputType } from '@/app/_configs/schemas/variantMangement'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { getCookie } from 'cookies-next'
 import { ADMIN_ACCESS_TOKEN_COOKIE_NAME } from '@/app/_configs/constants/cookies'
@@ -28,7 +25,7 @@ export default function EditVariantForm(variant: VariantData) {
 	const [variantImage, setVariantImage] = useState<VariantData['image'] | undefined>(
 		variant.image,
 	)
-	const defaultInputValues: CreateVariantFormInputType = {
+	const defaultInputValues: VariantFormInputType = {
 		color: variant.color,
 		is_default: false,
 		available: variant.available,
@@ -43,10 +40,10 @@ export default function EditVariantForm(variant: VariantData) {
 		register,
 		handleSubmit,
 		formState: { errors },
-	} = useForm<CreateVariantFormInputType>({
+	} = useForm<VariantFormInputType>({
 		mode: 'onBlur',
 		reValidateMode: 'onBlur',
-		resolver: zodResolver(CreateVariantSchema),
+		resolver: zodResolver(VariantSchema),
 		defaultValues: defaultInputValues,
 	})
 
@@ -69,12 +66,8 @@ export default function EditVariantForm(variant: VariantData) {
 		},
 	})
 
-	const onSubmitHandler: SubmitHandler<CreateVariantFormInputType> = (values, e) => {
+	const onSubmitHandler: SubmitHandler<VariantFormInputType> = (values, e) => {
 		e?.preventDefault()
-		console.log({
-			...values,
-			variantImage,
-		})
 		const { price, color_name, ...restValues } = values
 
 		if (variantImage) {

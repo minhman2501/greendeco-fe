@@ -1,7 +1,7 @@
 import * as z from 'zod'
 import { REQUIRED_FIELD_STRING } from '../constants/variables'
 
-export const CreateVariantSchema = z
+export const VariantSchema = z
 	.object({
 		color: z.string().min(1, REQUIRED_FIELD_STRING).max(10, 'HEX color code only'),
 		color_name: z
@@ -25,4 +25,4 @@ function isOnlyNumer(data: string) {
 	if (isNaN(num)) return false
 	return true
 }
-export type CreateVariantFormInputType = z.infer<typeof CreateVariantSchema>
+export type VariantFormInputType = z.infer<typeof VariantSchema>

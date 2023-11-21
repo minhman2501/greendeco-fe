@@ -51,11 +51,7 @@ export default function VariantDisplay({
 					<Link
 						className='btn btnSecondary'
 						href={{
-							pathname: `${ADMINISTRATOR_ROUTE.PRODUCT.LINK}/variant/edit`,
-							query: {
-								productId: productId,
-								productName: productName,
-							},
+							pathname: `${ADMINISTRATOR_ROUTE.PRODUCT.LINK}/variant/edit/${currentVariant.id}`,
 						}}
 					>
 						Edit Variant

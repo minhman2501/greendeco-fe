@@ -16,6 +16,7 @@ import { createVariant } from '@/app/_api/axios/admin/product'
 import { ADMINISTRATOR_ROUTE, VARIANT_CURRENCY } from '@/app/_configs/constants/variables'
 import { notifyCreateVariantSuccess } from '../../Notifications'
 import { useRouter } from 'next/navigation'
+import { ADMIN_QUERY_KEY, UseQueryKeys } from '@/app/_configs/constants/queryKey'
 
 export default function CreateVariantForm({
 	productId,
@@ -56,7 +57,9 @@ export default function CreateVariantForm({
 		//NOTE: Execuse after receiving suscess responses
 		onSuccess: (data) => {
 			notifyCreateVariantSuccess()
-			queryClient.invalidateQueries({ queryKey: ['variants', 'admin', productId] })
+			queryClient.invalidateQueries({
+				queryKey: [UseQueryKeys.Variant, ADMIN_QUERY_KEY, productId],
+			})
 			router.replace(`${ADMINISTRATOR_ROUTE.PRODUCT.LINK}/${productId}`)
 		},
 		//NOTE: Execuse after receving failure responses
@@ -83,7 +86,7 @@ export default function CreateVariantForm({
 					currency: VARIANT_CURRENCY,
 				},
 				adminAccessToken:
-					'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbiI6dHJ1ZSwiZXhwIjoxNzAwNTc2NzA2LCJ1c2VyX2lkIjoiM2NkNDZhOTUtNWFhYi00MTk1LTkzNTgtMzg1YWQ5YTMyZGU5In0.VX-HfeXDgoHtNeu1thWBAiwGg7oBlhJPVJkh5AduwU4',
+					'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbiI6dHJ1ZSwiZXhwIjoxNzAwNzE5NDAzLCJ1c2VyX2lkIjoiM2NkNDZhOTUtNWFhYi00MTk1LTkzNTgtMzg1YWQ5YTMyZGU5In0.iUmzbN3UNPPlZzaQw8uz_iSFU-DoktphKkntmAwtvtY',
 			})
 		}
 	}

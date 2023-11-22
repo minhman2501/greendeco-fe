@@ -60,6 +60,11 @@ type UpdateProductRequestData = {
 	adminAccessToken: string | undefined
 }
 
+type DeleteProductRequestData = {
+	productId: ProductData['id']
+	adminAccessToken: string | undefined
+}
+
 type CreateVariantRequestData = {
 	variantData: CreateVariantData
 	adminAccessToken: string | undefined
@@ -113,6 +118,16 @@ export const updateProduct = async (data: UpdateProductRequestData) => {
 			},
 		},
 	)
+}
+
+export const deleteProduct = async (data: DeleteProductRequestData) => {
+	const { productId, adminAccessToken } = data
+
+	return await adminProductApi.delete(`/product/${productId}`, {
+		headers: {
+			Authorization: `Bearer ${adminAccessToken}`,
+		},
+	})
 }
 
 export const createVariant = async (data: CreateVariantRequestData) => {

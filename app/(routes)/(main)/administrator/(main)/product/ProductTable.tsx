@@ -11,6 +11,7 @@ import {
 } from '@tanstack/react-table'
 import { ProductData } from '@/app/_api/axios/product'
 import { ADMINISTRATOR_ROUTE, VARIANT_CURRENCY } from '@/app/_configs/constants/variables'
+import DeleteProduct from './DeleteProduct'
 
 const columnHelper = createColumnHelper<ProductData>()
 
@@ -53,6 +54,7 @@ const columns = [
 			return (
 				<span>
 					<Link href={`${ADMINISTRATOR_ROUTE.PRODUCT.LINK}/${id}`}>Edit</Link>
+					<DeleteProduct productId={id} />
 				</span>
 			)
 		},

@@ -38,7 +38,7 @@ export default function ProductEditForm(product: ProductData) {
 	const defaultInputValues: UpdateProductDetailFormInputType = {
 		size: product.size,
 		available: product.available,
-		is_publish: false,
+		is_publish: product.is_publish,
 		type: product.type,
 		light: product.light,
 		water: product.water,

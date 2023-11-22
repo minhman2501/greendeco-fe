@@ -9,6 +9,7 @@ export type ProductData = {
 	price: string
 	size: string
 	available: boolean
+	is_publish: boolean
 	type: string
 	images: string[]
 	detail: string

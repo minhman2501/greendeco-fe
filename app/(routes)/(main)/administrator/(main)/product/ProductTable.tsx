@@ -12,6 +12,7 @@ import {
 import { ProductData } from '@/app/_api/axios/product'
 import { ADMINISTRATOR_ROUTE, VARIANT_CURRENCY } from '@/app/_configs/constants/variables'
 import DeleteProduct from './DeleteProduct'
+import { CheckCircleIcon, XCircleIcon } from '@heroicons/react/24/solid'
 
 const columnHelper = createColumnHelper<ProductData>()
 
@@ -26,17 +27,19 @@ const columns = [
 	}),
 	columnHelper.accessor('available', {
 		id: 'available',
-		cell: (info) => {
-			if (info.getValue()) return 'yes'
-			return 'no'
-		},
+		cell: (info) => (
+			<span className='flex items-center justify-center'>
+				<ResultIndicator result={info.getValue()} />
+			</span>
+		),
 		header: () => <span>Available</span>,
 	}),
 	columnHelper.accessor('is_publish', {
-		cell: (info) => {
-			if (info.getValue()) return 'yes'
-			return 'no'
-		},
+		cell: (info) => (
+			<span className='flex items-center justify-center'>
+				<ResultIndicator result={info.getValue()} />
+			</span>
+		),
 		header: () => <span>Published</span>,
 	}),
 	columnHelper.accessor('created_at', {
@@ -130,5 +133,17 @@ export default function ProductTable({ product }: { product: ProductData[] }) {
 				</tfoot>
 			</table>
 		</div>
+	)
+}
+
+const ResultIndicator = ({ result }: { result: boolean }) => {
+	return (
+		<>
+			{result ? (
+				<CheckCircleIcon className='aspect-square h-[24px] text-status-success' />
+			) : (
+				<XCircleIcon className='aspect-square h-[24px] text-status-error' />
+			)}
+		</>
 	)
 }

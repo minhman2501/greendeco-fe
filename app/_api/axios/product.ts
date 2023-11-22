@@ -30,7 +30,7 @@ export type ProductByIdResponseData = {
 	prev: string
 }
 
-type ProductListData = {
+export type ProductListData = {
 	items: ProductData[]
 	next: boolean
 	page: number

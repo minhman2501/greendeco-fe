@@ -182,6 +182,7 @@ export default function ProductEditForm(product: ProductData) {
 									aria-label='set-product-publish'
 									type='checkbox'
 									className='h-full'
+									disabled={product.is_publish}
 									placeholder='Published'
 									{...register('is_publish')}
 								/>
@@ -210,7 +211,6 @@ export default function ProductEditForm(product: ProductData) {
 					// disabled={createProductMutation.isLoading || isFulfilled() === false}
 				>
 					{updateProductMutation.isLoading ? 'Saving...' : 'Save'}
-					Save
 				</Button>
 				<Button
 					className='btnSecondary'

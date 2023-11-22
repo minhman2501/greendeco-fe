@@ -8,16 +8,20 @@ import {
 	ProductDetailFormInputType,
 } from '@/app/_configs/schemas/createProduct'
 import { useMutation } from '@tanstack/react-query'
-import { createProduct } from '@/app/_api/axios/admin/product'
 import { SIZE_OPTIONS, TYPE_OPTIONS, DIFFICULTY_OPTIONS } from '@/app/_configs/constants/variables'
-import ImagesUploadGrid from '../../create/ImagesUploadGrid'
-import { useImageUploadStore } from '@/app/_configs/store/useImagesUploadStore'
 import { getCookie } from 'cookies-next'
 import { ADMIN_ACCESS_TOKEN_COOKIE_NAME } from '@/app/_configs/constants/cookies'
 import { ProductData } from '@/app/_api/axios/product'
-import { useEffect } from 'react'
+import EditImagesGrid from './EditImagesGrid'
+import { useContext } from 'react'
+import { useStore } from 'zustand'
+import { EditImagesContext } from '@/app/_configs/store/useEditImageStore'
 
 export default function ProductEditForm(product: ProductData) {
+	const imagesStore = useContext(EditImagesContext)
+	if (!imagesStore) throw new Error('Missing EditImageContext.Provider in the tree')
+	const images = useStore(imagesStore, (state) => state.images)
+
 	const defaultInputValues: ProductDetailFormInputType = {
 		name: product.name,
 		size: product.size,
@@ -70,7 +74,6 @@ export default function ProductEditForm(product: ProductData) {
 				'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbiI6dHJ1ZSwiZXhwIjoxNzAwNTU4NTE1LCJ1c2VyX2lkIjoiM2NkNDZhOTUtNWFhYi00MTk1LTkzNTgtMzg1YWQ5YTMyZGU5In0.SeOVl27Q12HUwE2mNsElxyLJKQPOuRJy_8fgrT1cAQM',
 		})
 	} */
-
 	const handleResetForm = () => {
 		reset()
 	}
@@ -172,7 +175,7 @@ export default function ProductEditForm(product: ProductData) {
 				</>
 				<div>
 					<label>Product Images</label>
-					<ImagesUploadGrid />
+					<EditImagesGrid images={images} />
 				</div>
 			</div>
 			<div className='mt-cozy flex w-full justify-end gap-cozy'>
@@ -181,12 +184,12 @@ export default function ProductEditForm(product: ProductData) {
 					// disabled={createProductMutation.isLoading || isFulfilled() === false}
 				>
 					{/* {createProductMutation.isLoading ? 'Creating...' : 'Create'} */}
+					Save
 				</Button>
 				<Button
 					className='btnSecondary'
 					type='button'
 					onClick={() => handleResetForm()}
-					// disabled={createProductMutation.isLoading}
 				>
 					Cancel
 				</Button>

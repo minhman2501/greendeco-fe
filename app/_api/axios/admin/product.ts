@@ -3,7 +3,7 @@ import axios from 'axios'
 const PRODUCT_URL = `${process.env.NEXT_PUBLIC_GREENDECO_BACKEND_API}`
 const PLANT_CATEGORY_ID = `${process.env.NEXT_PUBLIC_PLANT_CATEGORY_ID}`
 
-import { ProductData, VariantData } from '../product'
+import { ProductData, ProductListData, VariantData } from '../product'
 
 type CreateProductData = Omit<
 	ProductData,
@@ -84,6 +84,16 @@ export const adminProductApi = axios.create({
 })
 
 adminProductApi.defaults.headers.common['Content-Type'] = 'application/json'
+
+export const getProductListAsAdministrator = async (adminAccessToken: string) => {
+	return await adminProductApi
+		.get<ProductListData>('/product/all', {
+			headers: {
+				Authorization: `Bearer ${adminAccessToken}`,
+			},
+		})
+		.then((res) => res.data)
+}
 
 export const createProduct = async (data: CreateProductRequestData) => {
 	const { productData, adminAccessToken } = data

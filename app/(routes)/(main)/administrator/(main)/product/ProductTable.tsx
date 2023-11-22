@@ -20,10 +20,6 @@ const columns = [
 		cell: (info) => <span className='font-semi-bold'>{info.getValue()}</span>,
 		header: () => <span>Product Name</span>,
 	}),
-	columnHelper.accessor('price', {
-		cell: (info) => <span className='inline-block w-full text-center'>{info.getValue()}</span>,
-		header: () => <span>Price in {VARIANT_CURRENCY}</span>,
-	}),
 	columnHelper.accessor('type', {
 		cell: (info) => <span className='inline-block w-full text-center'>{info.getValue()}</span>,
 		header: () => <span>Type</span>,
@@ -32,11 +28,15 @@ const columns = [
 		id: 'available',
 		cell: (info) => {
 			if (info.getValue()) return 'yes'
+			return 'no'
 		},
 		header: () => <span>Available</span>,
 	}),
 	columnHelper.accessor('is_publish', {
-		cell: (info) => {},
+		cell: (info) => {
+			if (info.getValue()) return 'yes'
+			return 'no'
+		},
 		header: () => <span>Published</span>,
 	}),
 	columnHelper.accessor('created_at', {

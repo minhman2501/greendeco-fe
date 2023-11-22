@@ -4,6 +4,9 @@ import VariantDetailDisplay from './VariantDetailDisplay'
 import { useState } from 'react'
 import Link from 'next/link'
 import { ADMINISTRATOR_ROUTE } from '@/app/_configs/constants/variables'
+import { useQueryClient, useMutation } from '@tanstack/react-query'
+import { deleteVariant } from '@/app/_api/axios/admin/product'
+import { ADMIN_QUERY_KEY, UseQueryKeys } from '@/app/_configs/constants/queryKey'
 
 export default function VariantDisplay({
 	variantList,
@@ -56,6 +59,7 @@ export default function VariantDisplay({
 					>
 						Edit Variant
 					</Link>
+					<DeleteVariantButton variantId={currentVariant.id} />
 				</div>
 			</div>
 			<VariantDetailDisplay variant={{ ...currentVariant }} />
@@ -94,5 +98,31 @@ const VariantListItem = ({
 				{color_name}
 			</p>
 		</div>
+	)
+}
+
+const DeleteVariantButton = ({ variantId }: { variantId: VariantData['id'] }) => {
+	const queryClient = useQueryClient()
+	const deleteVariantMutation = useMutation({
+		mutationFn: deleteVariant,
+		onSuccess: () => {
+			queryClient.invalidateQueries({ queryKey: [UseQueryKeys.Variant, ADMIN_QUERY_KEY] })
+		},
+	})
+
+	const handleDeleteVariant = () => {
+		deleteVariantMutation.mutate({
+			variantId: variantId,
+			adminAccessToken:
+				'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbiI6dHJ1ZSwiZXhwIjoxNzAwNzU1NTAyLCJ1c2VyX2lkIjoiM2NkNDZhOTUtNWFhYi00MTk1LTkzNTgtMzg1YWQ5YTMyZGU5In0.AoDIvWGyCkhRURd7zPB0pNA6M4o7rvgsIyd1_tVKSh4',
+		})
+	}
+	return (
+		<button
+			onClick={handleDeleteVariant}
+			className='ml-[16px]'
+		>
+			delete
+		</button>
 	)
 }

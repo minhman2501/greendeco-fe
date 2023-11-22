@@ -12,6 +12,11 @@ export const notifyCreateProductSuccess = (productId: string, options?: ToastOpt
 		onClose: options?.onClose,
 	})
 }
+export const notifyUpdateProductSuccess = () => {
+	toast.success(<UpdateProductSuccessMessage />, {
+		position: 'top-center',
+	})
+}
 
 export const notifyCreateVariantSuccess = () => {
 	toast.success(<CreateVariantSuccessMessage />, {
@@ -36,6 +41,12 @@ const CreateProductSuccessMessage = ({ productId }: { productId: ProductData['id
 				Product Detail
 			</Link>
 		</p>
+	</div>
+)
+
+const UpdateProductSuccessMessage = () => (
+	<div className='flex flex-col gap-[4px] pl-compact pr-common text-body-sm'>
+		<h3 className='capitalize text-primary-625'>Successfully Updated Product</h3>
 	</div>
 )
 

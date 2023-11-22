@@ -4,27 +4,41 @@ import Button from '@/app/_components/Button'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import {
-	ProductDetailSchema,
-	ProductDetailFormInputType,
-} from '@/app/_configs/schemas/createProduct'
-import { useMutation } from '@tanstack/react-query'
-import { SIZE_OPTIONS, TYPE_OPTIONS, DIFFICULTY_OPTIONS } from '@/app/_configs/constants/variables'
+	UpdateProductDetailSchema,
+	UpdateProductDetailFormInputType,
+} from '@/app/_configs/schemas/updateProduct'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import {
+	SIZE_OPTIONS,
+	TYPE_OPTIONS,
+	DIFFICULTY_OPTIONS,
+	ADMINISTRATOR_ROUTE,
+} from '@/app/_configs/constants/variables'
 import { getCookie } from 'cookies-next'
 import { ADMIN_ACCESS_TOKEN_COOKIE_NAME } from '@/app/_configs/constants/cookies'
+import { updateProduct } from '@/app/_api/axios/admin/product'
 import { ProductData } from '@/app/_api/axios/product'
 import EditImagesGrid from './EditImagesGrid'
 import { useContext } from 'react'
 import { useStore } from 'zustand'
 import { EditImagesContext } from '@/app/_configs/store/useEditImageStore'
+import LabelProvider from '@/app/_components/form/LabelProvider'
+import { notifyUpdateProductSuccess } from '../../Notifications'
+import { useRouter } from 'next/navigation'
+import { ADMIN_QUERY_KEY, UseQueryKeys } from '@/app/_configs/constants/queryKey'
 
 export default function ProductEditForm(product: ProductData) {
+	const router = useRouter()
+
+	const queryClient = useQueryClient()
 	const imagesStore = useContext(EditImagesContext)
 	if (!imagesStore) throw new Error('Missing EditImageContext.Provider in the tree')
 	const images = useStore(imagesStore, (state) => state.images)
 
-	const defaultInputValues: ProductDetailFormInputType = {
-		name: product.name,
+	const defaultInputValues: UpdateProductDetailFormInputType = {
 		size: product.size,
+		available: product.available,
+		is_publish: false,
 		type: product.type,
 		light: product.light,
 		water: product.water,
@@ -39,62 +53,53 @@ export default function ProductEditForm(product: ProductData) {
 		register,
 		handleSubmit,
 		formState: { errors },
-	} = useForm<ProductDetailFormInputType>({
+	} = useForm<UpdateProductDetailFormInputType>({
 		mode: 'onBlur',
 		reValidateMode: 'onBlur',
-		resolver: zodResolver(ProductDetailSchema),
+		resolver: zodResolver(UpdateProductDetailSchema),
 		defaultValues: defaultInputValues,
 	})
 
-	// const createProductMutation = useMutation({
-	// 	//NOTE: The callback used for the mutation
-	// 	mutationFn: createProduct,
-	// 	//NOTE: Execuse after receiving suscess responses
-	// 	onSuccess: (data) => {
-	// 		handleResetForm()
-	// 		notifyCreateProductSuccess(data.data.id)
-	// 	},
-	// 	//NOTE: Execuse after receving failure responses
-	// 	/* onError: (e) => {
-	// 		if (e instanceof AxiosError) {
-	// 		}
-	// 	}, */
-	// })
+	const updateProductMutation = useMutation({
+		//NOTE: The callback used for the mutation
+		mutationFn: updateProduct,
+		//NOTE: Execuse after receiving suscess responses
+		onSuccess: (data) => {
+			handleResetForm()
+			notifyUpdateProductSuccess()
+			queryClient.invalidateQueries({
+				queryKey: [UseQueryKeys.Product, ADMIN_QUERY_KEY, product.id],
+			})
+			router.replace(`${ADMINISTRATOR_ROUTE.PRODUCT.LINK}/${product.id}`)
+		},
+		//NOTE: Execuse after receving failure responses
+		/* onError: (e) => {
+			if (e instanceof AxiosError) {
+			}
+		}, */
+	})
 
-	/* const onSubmitHandler: SubmitHandler<ProductDetailFormInputType> = (values, e) => {
+	const onSubmitHandler: SubmitHandler<UpdateProductDetailFormInputType> = (values, e) => {
 		e?.preventDefault()
+
 		const adminAcessToken = getCookie(ADMIN_ACCESS_TOKEN_COOKIE_NAME)?.toString()
-		console.log({
-			...values,
-			images: [...images],
-		})
-		createProductMutation.mutate({
-			productData: { ...values, images: [...images] },
+		updateProductMutation.mutate({
+			productData: { id: product.id, ...values, images: [...images] },
 			adminAccessToken:
-				'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbiI6dHJ1ZSwiZXhwIjoxNzAwNTU4NTE1LCJ1c2VyX2lkIjoiM2NkNDZhOTUtNWFhYi00MTk1LTkzNTgtMzg1YWQ5YTMyZGU5In0.SeOVl27Q12HUwE2mNsElxyLJKQPOuRJy_8fgrT1cAQM',
+				'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbiI6dHJ1ZSwiZXhwIjoxNzAwNzE5NDAzLCJ1c2VyX2lkIjoiM2NkNDZhOTUtNWFhYi00MTk1LTkzNTgtMzg1YWQ5YTMyZGU5In0.iUmzbN3UNPPlZzaQw8uz_iSFU-DoktphKkntmAwtvtY',
 		})
-	} */
+	}
 	const handleResetForm = () => {
 		reset()
 	}
 	return (
 		<form
-			// onSubmit={handleSubmit(onSubmitHandler)}
+			onSubmit={handleSubmit(onSubmitHandler)}
 			className='w-full'
 		>
 			<div className='grid w-full grid-cols-2 gap-comfortable'>
 				<>
 					<div className='flex-col-start gap-cozy text-body-md'>
-						<div className='flex-1'>
-							<TextField
-								type='text'
-								label='Product Name'
-								placeholder='The name of the product'
-								register={register('name')}
-								error={Boolean(errors?.name)}
-								helperText={errors?.name?.message}
-							/>
-						</div>
 						<div className='flex-1'>
 							<Input
 								multiline
@@ -171,6 +176,27 @@ export default function ProductEditForm(product: ProductData) {
 								helperText={errors?.detail?.message}
 							/>
 						</div>
+						<div>
+							<LabelProvider label='Published'>
+								<input
+									aria-label='set-product-publish'
+									type='checkbox'
+									className='h-full'
+									placeholder='Published'
+									{...register('is_publish')}
+								/>
+							</LabelProvider>
+						</div>
+						<div>
+							<LabelProvider label='Avaiable'>
+								<input
+									aria-label='set-product-available'
+									type='checkbox'
+									placeholder='Product Available'
+									{...register('available')}
+								/>
+							</LabelProvider>
+						</div>
 					</div>
 				</>
 				<div>
@@ -183,7 +209,7 @@ export default function ProductEditForm(product: ProductData) {
 					type='submit'
 					// disabled={createProductMutation.isLoading || isFulfilled() === false}
 				>
-					{/* {createProductMutation.isLoading ? 'Creating...' : 'Create'} */}
+					{updateProductMutation.isLoading ? 'Saving...' : 'Save'}
 					Save
 				</Button>
 				<Button

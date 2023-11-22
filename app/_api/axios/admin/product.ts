@@ -7,7 +7,14 @@ import { ProductData, ProductListData, VariantData } from '../product'
 
 type CreateProductData = Omit<
 	ProductData,
-	'id' | 'available' | 'created_at' | 'currency' | 'default_variant' | 'price' | 'category'
+	| 'id'
+	| 'available'
+	| 'is_publish'
+	| 'created_at'
+	| 'currency'
+	| 'default_variant'
+	| 'price'
+	| 'category'
 >
 
 type UpdateProductData = {
@@ -72,6 +79,11 @@ type CreateVariantRequestData = {
 
 type UpdateVariantRequestData = {
 	variantData: UpdateVariantData
+	adminAccessToken: string | undefined
+}
+
+type DeleteVariantRequestData = {
+	variantId: VariantData['id']
 	adminAccessToken: string | undefined
 }
 
@@ -172,4 +184,14 @@ export const updateVariant = async (data: UpdateVariantRequestData) => {
 			},
 		},
 	)
+}
+
+export const deleteVariant = async (data: DeleteVariantRequestData) => {
+	const { variantId, adminAccessToken } = data
+
+	return await adminProductApi.delete(`/variant/${variantId}`, {
+		headers: {
+			Authorization: `Bearer ${adminAccessToken}`,
+		},
+	})
 }

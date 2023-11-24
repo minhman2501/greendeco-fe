@@ -1,5 +1,5 @@
 'use client'
-import { TextField, Input } from '@/app/_components/form'
+import { TextField, MultilineTextField } from '@/app/_components/form'
 import Button from '@/app/_components/Button'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -39,7 +39,7 @@ export default function EditVariantForm(variant: VariantData) {
 		reset,
 		register,
 		handleSubmit,
-		formState: { errors },
+		formState: { errors, isDirty },
 	} = useForm<VariantFormInputType>({
 		mode: 'onBlur',
 		reValidateMode: 'onBlur',
@@ -123,8 +123,9 @@ export default function EditVariantForm(variant: VariantData) {
 								/>
 							</LabelProvider>
 						</div>
-						<div className='flex-1'>
+						<div className='flex flex-1 items-end gap-cozy'>
 							<TextField
+								className='flex-1'
 								type='text'
 								label='Price'
 								placeholder='Price of the variant'
@@ -132,11 +133,16 @@ export default function EditVariantForm(variant: VariantData) {
 								error={Boolean(errors?.price)}
 								helperText={errors?.price?.message}
 							/>
+							<span className='text-body-sm font-semi-bold'>{VARIANT_CURRENCY}</span>
 						</div>
 						<div className='flex-1'>
-							<Input
-								multiline
-								{...register('description')}
+							<MultilineTextField
+								label='Variant description'
+								placeholder='Variant description'
+								className='h-[160px]'
+								register={register('description')}
+								error={Boolean(errors?.description)}
+								helperText={errors?.description?.message}
 							/>
 							<span>{errors?.description?.message}</span>
 						</div>
@@ -179,7 +185,9 @@ export default function EditVariantForm(variant: VariantData) {
 			<div className='mt-cozy flex w-full justify-end gap-cozy'>
 				<Button
 					type='submit'
-					disabled={variantImage === undefined}
+					disabled={
+						variantImage === undefined || updateVariantMutation.isLoading || !isDirty
+					}
 				>
 					{updateVariantMutation.isLoading ? 'Creating...' : 'Save'}
 				</Button>

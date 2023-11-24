@@ -24,7 +24,11 @@ export default function VariantManagement({
 			{isSuccess && (
 				<>
 					<h1>Edit Variant </h1>
-					{data && data.items && <EditVariantForm {...data.items} />}
+					{data && data.items && (
+						<div className='mt-cozy border-x-[1px] border-primary-625-80 px-comfortable'>
+							<EditVariantForm {...data.items} />
+						</div>
+					)}
 				</>
 			)}
 		</Block>

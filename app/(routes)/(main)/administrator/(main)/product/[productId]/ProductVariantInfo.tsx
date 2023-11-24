@@ -5,6 +5,7 @@ import Link from 'next/link'
 import VariantDisplay from './VariantDislay'
 import { ADMIN_QUERY_KEY, UseQueryKeys } from '@/app/_configs/constants/queryKey'
 import { ArchiveBoxXMarkIcon, PlusCircleIcon } from '@heroicons/react/24/solid'
+import { VariantDetailLoading } from '../loading/VariantLoading'
 
 export default function ProductVariantInfo({
 	productName,
@@ -18,10 +19,11 @@ export default function ProductVariantInfo({
 		queryFn: () => getVariantsByProductId(productId),
 	})
 
-	const { data, isSuccess, isError } = variantQuery
+	const { data, isSuccess, isError, isLoading } = variantQuery
 
 	return (
 		<>
+			{isLoading && <VariantDetailLoading />}
 			{data && data?.page_size > 0 && (
 				<VariantDisplay
 					variantList={...data.items}

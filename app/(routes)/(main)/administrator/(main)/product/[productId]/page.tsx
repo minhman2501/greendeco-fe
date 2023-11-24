@@ -9,7 +9,7 @@ import Link from 'next/link'
 import { ADMINISTRATOR_ROUTE } from '@/app/_configs/constants/variables'
 import { ADMIN_QUERY_KEY, UseQueryKeys } from '@/app/_configs/constants/queryKey'
 import { PencilSquareIcon } from '@heroicons/react/24/solid'
-import ProductDetailLoading from './loading'
+import { ProductDetailLoading } from '../loading'
 
 export default function ProductDetailManagementPage({
 	params,

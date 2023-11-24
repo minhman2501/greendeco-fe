@@ -52,7 +52,7 @@ export default function ProductEditForm(product: ProductData) {
 		reset,
 		register,
 		handleSubmit,
-		formState: { errors },
+		formState: { errors, isDirty },
 	} = useForm<UpdateProductDetailFormInputType>({
 		mode: 'onBlur',
 		reValidateMode: 'onBlur',
@@ -220,15 +220,18 @@ export default function ProductEditForm(product: ProductData) {
 						</div>
 					</div>
 				</>
-				<div>
-					<label>Product Images</label>
+				<LabelProvider
+					className='text-body-md'
+					label='Product Images'
+					direction='vertical'
+				>
 					<EditImagesGrid images={images} />
-				</div>
+				</LabelProvider>
 			</div>
 			<div className='mt-cozy flex w-full justify-end gap-cozy'>
 				<Button
 					type='submit'
-					// disabled={createProductMutation.isLoading || isFulfilled() === false}
+					disabled={updateProductMutation.isLoading || !isDirty}
 				>
 					{updateProductMutation.isLoading ? 'Saving...' : 'Save'}
 				</Button>

@@ -2,8 +2,8 @@ import React from 'react'
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
-	title: 'All Products',
-	description: 'All the products of GreenDeco',
+	title: 'GreenDeco Admin Login',
+	description: 'GreenDeco Administration Login',
 }
 
 export default function ProductListLayout({ children }: { children: React.ReactNode }) {

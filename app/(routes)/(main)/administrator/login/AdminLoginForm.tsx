@@ -66,7 +66,7 @@ export default function AdminLoginForm() {
 					<TextField
 						type='email'
 						label='Email'
-						placeholder='Your Email'
+						placeholder='Administrator Email'
 						register={register('email')}
 						error={Boolean(errors?.email)}
 						helperText={errors?.email?.message}

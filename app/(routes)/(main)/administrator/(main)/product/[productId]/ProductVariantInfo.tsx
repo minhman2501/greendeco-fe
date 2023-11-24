@@ -4,6 +4,7 @@ import { useQuery } from '@tanstack/react-query'
 import Link from 'next/link'
 import VariantDisplay from './VariantDislay'
 import { ADMIN_QUERY_KEY, UseQueryKeys } from '@/app/_configs/constants/queryKey'
+import { ArchiveBoxXMarkIcon, PlusCircleIcon } from '@heroicons/react/24/solid'
 
 export default function ProductVariantInfo({
 	productName,
@@ -29,21 +30,43 @@ export default function ProductVariantInfo({
 				/>
 			)}
 			{data && data?.page_size === 0 && (
-				<div>
-					There is no variant
-					<Link
-						href={{
-							pathname: `${ADMINISTRATOR_ROUTE.PRODUCT.LINK}/variant/create`,
-							query: {
-								productId: productId,
-								productName: productName,
-							},
-						}}
-					>
-						Create New Variant
-					</Link>
-				</div>
+				<CreateNewVariantMessage
+					productId={productId}
+					productName={productName}
+				/>
 			)}
 		</>
+	)
+}
+
+function CreateNewVariantMessage({
+	productId,
+	productName,
+}: {
+	productId: ProductData['id']
+	productName: ProductData['name']
+}) {
+	return (
+		<div className='flex-col-start w-full items-center justify-center gap-cozy p-comfortable'>
+			<div className='flex-col-start items-center'>
+				<ArchiveBoxXMarkIcon className='aspect-square h-[120px] text-primary-418' />
+				<span className='text-body-md'>
+					Currently, there is no variant available for this product
+				</span>
+			</div>
+			<Link
+				className='btn flex items-center gap-compact'
+				href={{
+					pathname: `${ADMINISTRATOR_ROUTE.PRODUCT.LINK}/variant/create`,
+					query: {
+						productId: productId,
+						productName: productName,
+					},
+				}}
+			>
+				Create A New Variant
+				<PlusCircleIcon className='aspect-square h-[24px]' />
+			</Link>
+		</div>
 	)
 }

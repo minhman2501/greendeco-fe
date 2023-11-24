@@ -9,6 +9,7 @@ import Link from 'next/link'
 import { ADMINISTRATOR_ROUTE } from '@/app/_configs/constants/variables'
 import { ADMIN_QUERY_KEY, UseQueryKeys } from '@/app/_configs/constants/queryKey'
 import { PencilSquareIcon } from '@heroicons/react/24/solid'
+import ProductDetailLoading from './loading'
 
 export default function ProductDetailManagementPage({
 	params,
@@ -24,12 +25,17 @@ export default function ProductDetailManagementPage({
 		queryFn: () => getProductBaseById(productId),
 	})
 
-	const { data, isSuccess, isError } = productQuery
+	const { data, isSuccess, isLoading } = productQuery
 
 	return (
-		<>
+		<div className=' min-h-screen  py-comfortable'>
+			{isLoading && (
+				<Block>
+					<ProductDetailLoading />
+				</Block>
+			)}
 			{isSuccess && (
-				<div className='flex-col-start min-h-screen gap-comfortable py-comfortable'>
+				<div className='flex-col-start min-h-full gap-comfortable '>
 					<Block>
 						<div className='mb-cozy flex items-center justify-between'>
 							<h1>{data.items.name}</h1>
@@ -54,6 +60,6 @@ export default function ProductDetailManagementPage({
 					</Block>
 				</div>
 			)}
-		</>
+		</div>
 	)
 }

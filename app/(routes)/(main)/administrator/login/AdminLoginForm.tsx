@@ -7,6 +7,9 @@ import Button from '@/app/_components/Button'
 import { LoginFormInputType, LoginSchema } from '@/app/_configs/schemas/authentication'
 import { loginAdminAccount } from '@/app/_api/axios/adminAuthentication'
 import { notifyLoginSuccess } from './Notifications'
+import { setCookie } from 'cookies-next'
+import { ADMIN_ACCESS_TOKEN_COOKIE_NAME } from '@/app/_configs/constants/cookies'
+
 export default function AdminLoginForm() {
 	const defaultInputValues: LoginFormInputType = {
 		email: '',
@@ -33,7 +36,7 @@ export default function AdminLoginForm() {
 		onSuccess: (data) => {
 			reset()
 			notifyLoginSuccess()
-			// setCookie({ name: 'admin_Access_Token', value: data.access_Token })
+			setCookie(ADMIN_ACCESS_TOKEN_COOKIE_NAME, data.access_Token)
 		},
 		//NOTE: Execuse after receving failure responses
 		/* onError: (e) => {

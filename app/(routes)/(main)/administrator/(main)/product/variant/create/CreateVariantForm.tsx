@@ -94,6 +94,7 @@ export default function CreateVariantForm({
 
 	const handleResetForm = () => {
 		reset()
+		setVariantImage(undefined)
 	}
 	return (
 		<form
@@ -186,16 +187,14 @@ export default function CreateVariantForm({
 			<div className='mt-cozy flex w-full justify-end gap-cozy'>
 				<Button
 					type='submit'
-					disabled={variantImage === undefined}
+					disabled={variantImage === undefined || createVariantMutation.isLoading}
 				>
-					{/* {createProductMutation.isLoading ? 'Creating...' : 'Create'} */}
-					Create
+					{createVariantMutation.isLoading ? 'Creating...' : 'Create'}
 				</Button>
 				<Button
 					className='btnSecondary'
 					type='button'
 					onClick={() => handleResetForm()}
-					// disabled={createProductMutation.isLoading}
 				>
 					Cancel
 				</Button>

@@ -7,6 +7,10 @@ import { ADMINISTRATOR_ROUTE } from '@/app/_configs/constants/variables'
 import { useQueryClient, useMutation } from '@tanstack/react-query'
 import { deleteVariant } from '@/app/_api/axios/admin/product'
 import { ADMIN_QUERY_KEY, UseQueryKeys } from '@/app/_configs/constants/queryKey'
+import { PencilSquareIcon, PlusCircleIcon, TrashIcon } from '@heroicons/react/24/solid'
+import Button from '@/app/_components/Button'
+import { getCookie } from 'cookies-next'
+import { ADMIN_ACCESS_TOKEN_COOKIE_NAME } from '@/app/_configs/constants/cookies'
 
 export default function VariantDisplay({
 	variantList,
@@ -40,7 +44,7 @@ export default function VariantDisplay({
 				</div>
 				<div className='flex gap-cozy '>
 					<Link
-						className='btn'
+						className='btn flex items-center gap-compact'
 						href={{
 							pathname: `${ADMINISTRATOR_ROUTE.PRODUCT.LINK}/variant/create`,
 							query: {
@@ -49,15 +53,17 @@ export default function VariantDisplay({
 							},
 						}}
 					>
-						Create New Variant
+						Create A New Variant
+						<PlusCircleIcon className='aspect-square h-[24px]' />
 					</Link>
 					<Link
-						className='btn btnSecondary'
+						className='btn btnSecondary flex items-center gap-compact'
 						href={{
 							pathname: `${ADMINISTRATOR_ROUTE.PRODUCT.LINK}/variant/edit/${currentVariant.id}`,
 						}}
 					>
 						Edit Variant
+						<PencilSquareIcon className='aspect-square h-[24px]' />
 					</Link>
 					<DeleteVariantButton variantId={currentVariant.id} />
 				</div>
@@ -111,18 +117,19 @@ const DeleteVariantButton = ({ variantId }: { variantId: VariantData['id'] }) =>
 	})
 
 	const handleDeleteVariant = () => {
+		const adminAccessToken = getCookie(ADMIN_ACCESS_TOKEN_COOKIE_NAME)?.toString()
 		deleteVariantMutation.mutate({
 			variantId: variantId,
-			adminAccessToken:
-				'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbiI6dHJ1ZSwiZXhwIjoxNzAwNzU1NTAyLCJ1c2VyX2lkIjoiM2NkNDZhOTUtNWFhYi00MTk1LTkzNTgtMzg1YWQ5YTMyZGU5In0.AoDIvWGyCkhRURd7zPB0pNA6M4o7rvgsIyd1_tVKSh4',
+			adminAccessToken: adminAccessToken,
 		})
 	}
 	return (
-		<button
+		<Button
 			onClick={handleDeleteVariant}
-			className='ml-[16px]'
+			className='flex items-center border-status-error bg-status-error-light capitalize text-status-error'
 		>
 			delete
-		</button>
+			<TrashIcon className='aspect-square h-[24px]' />
+		</Button>
 	)
 }

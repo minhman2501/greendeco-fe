@@ -15,6 +15,8 @@ import { useImageUploadStore } from '@/app/_configs/store/useImagesUploadStore'
 import { getCookie } from 'cookies-next'
 import { ADMIN_ACCESS_TOKEN_COOKIE_NAME } from '@/app/_configs/constants/cookies'
 import { notifyCreateProductSuccess } from '../Notifications'
+import { MultilineTextField } from '@/app/_components/form/MultiplelineTextField'
+import { error } from 'console'
 
 export default function CreateProductForm() {
 	const { isFulfilled, images, resetImages } = useImageUploadStore()
@@ -93,11 +95,14 @@ export default function CreateProductForm() {
 							/>
 						</div>
 						<div className='flex-1'>
-							<Input
-								multiline
-								{...register('description')}
+							<MultilineTextField
+								label='Product Description'
+								placeholder='The name of the product'
+								className='h-[200px]'
+								register={register('description')}
+								error={Boolean(errors?.description)}
+								helperText={errors?.description?.message}
 							/>
-							<span>{errors?.description?.message}</span>
 						</div>
 						<div className='flex flex-wrap gap-cozy'>
 							<div>
@@ -159,10 +164,10 @@ export default function CreateProductForm() {
 							</div>
 						</div>
 						<div>
-							<TextField
-								type='text'
-								label='Detail of the product'
-								placeholder=''
+							<MultilineTextField
+								label='Specific detail of the product'
+								placeholder='Product Detail'
+								className='h-[200px]'
 								register={register('detail')}
 								error={Boolean(errors?.detail)}
 								helperText={errors?.detail?.message}

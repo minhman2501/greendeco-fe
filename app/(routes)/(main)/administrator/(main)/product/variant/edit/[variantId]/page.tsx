@@ -5,6 +5,7 @@ import { useQuery } from '@tanstack/react-query'
 import { UseQueryKeys, ADMIN_QUERY_KEY } from '@/app/_configs/constants/queryKey'
 import { getVariantById } from '@/app/_api/axios/product'
 import EditVariantForm from './EditVariantForm'
+import { VariantFormLoading } from '../../../loading/VariantLoading'
 
 export default function VariantManagement({
 	params: { variantId },
@@ -18,9 +19,10 @@ export default function VariantManagement({
 		queryFn: () => getVariantById(variantId),
 	})
 
-	const { data, isSuccess, isError } = variantQuery
+	const { data, isSuccess, isLoading, isError } = variantQuery
 	return (
 		<Block>
+			{isLoading && <VariantFormLoading />}
 			{isSuccess && (
 				<>
 					<h1>Edit Variant </h1>

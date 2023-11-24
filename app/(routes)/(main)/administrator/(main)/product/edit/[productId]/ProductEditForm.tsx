@@ -1,5 +1,5 @@
 'use client'
-import { TextField, Input } from '@/app/_components/form'
+import { TextField, MultilineTextField } from '@/app/_components/form'
 import Button from '@/app/_components/Button'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -100,15 +100,24 @@ export default function ProductEditForm(product: ProductData) {
 				<>
 					<div className='flex-col-start gap-cozy text-body-md'>
 						<div className='flex-1'>
-							<Input
-								multiline
-								{...register('description')}
+							<MultilineTextField
+								label='Product Description'
+								placeholder='Product Description'
+								className='h-[200px]'
+								register={register('description')}
+								error={Boolean(errors?.description)}
+								helperText={errors?.description?.message}
 							/>
-							<span>{errors?.description?.message}</span>
 						</div>
 						<div className='flex flex-wrap gap-cozy'>
-							<div>
-								<select {...register('type')}>
+							<LabelProvider
+								direction='vertical'
+								label='Plant Type'
+							>
+								<select
+									className='select'
+									{...register('type')}
+								>
 									{TYPE_OPTIONS.map((option) => (
 										<option
 											key={option}
@@ -118,9 +127,15 @@ export default function ProductEditForm(product: ProductData) {
 										</option>
 									))}
 								</select>
-							</div>
-							<div>
-								<select {...register('size')}>
+							</LabelProvider>
+							<LabelProvider
+								label='Size'
+								direction='vertical'
+							>
+								<select
+									className='select'
+									{...register('size')}
+								>
 									{SIZE_OPTIONS.map((option) => (
 										<option
 											key={option}
@@ -130,9 +145,15 @@ export default function ProductEditForm(product: ProductData) {
 										</option>
 									))}
 								</select>
-							</div>
-							<div>
-								<select {...register('difficulty')}>
+							</LabelProvider>
+							<LabelProvider
+								direction='vertical'
+								label='Caring Difficulty'
+							>
+								<select
+									className='select'
+									{...register('difficulty')}
+								>
 									{DIFFICULTY_OPTIONS.map((option) => (
 										<option
 											key={option}
@@ -142,7 +163,7 @@ export default function ProductEditForm(product: ProductData) {
 										</option>
 									))}
 								</select>
-							</div>
+							</LabelProvider>
 							<div>
 								<TextField
 									type='text'
@@ -166,10 +187,10 @@ export default function ProductEditForm(product: ProductData) {
 							</div>
 						</div>
 						<div>
-							<TextField
-								type='text'
-								label='Detail of the product'
-								placeholder=''
+							<MultilineTextField
+								label='Specific detail of the product'
+								placeholder='Product Detail'
+								className='h-[200px]'
 								register={register('detail')}
 								error={Boolean(errors?.detail)}
 								helperText={errors?.detail?.message}

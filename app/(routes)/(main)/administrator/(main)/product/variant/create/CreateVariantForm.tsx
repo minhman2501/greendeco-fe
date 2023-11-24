@@ -1,5 +1,5 @@
 'use client'
-import { TextField, Input } from '@/app/_components/form'
+import { TextField, MultilineTextField } from '@/app/_components/form'
 import Button from '@/app/_components/Button'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -125,8 +125,9 @@ export default function CreateVariantForm({
 								/>
 							</LabelProvider>
 						</div>
-						<div className='flex-1'>
+						<div className='flex flex-1 items-end gap-cozy'>
 							<TextField
+								className='flex-1'
 								type='text'
 								label='Price'
 								placeholder='Price of the variant'
@@ -134,13 +135,17 @@ export default function CreateVariantForm({
 								error={Boolean(errors?.price)}
 								helperText={errors?.price?.message}
 							/>
+							<span className='text-body-sm font-semi-bold'>{VARIANT_CURRENCY}</span>
 						</div>
 						<div className='flex-1'>
-							<Input
-								multiline
-								{...register('description')}
+							<MultilineTextField
+								label='Variant description'
+								placeholder='Variant description'
+								className='h-[160px]'
+								register={register('description')}
+								error={Boolean(errors?.description)}
+								helperText={errors?.description?.message}
 							/>
-							<span>{errors?.description?.message}</span>
 						</div>
 
 						<div>

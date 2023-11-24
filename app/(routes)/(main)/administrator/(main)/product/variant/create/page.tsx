@@ -11,10 +11,12 @@ export default function VariantManagement() {
 		<Block>
 			<h1>Create Variant For {productName}</h1>
 			{productId && productName && (
-				<CreateVariantForm
-					productId={productId}
-					productName={productName}
-				/>
+				<div className='mt-cozy border-x-[1px] border-primary-625-80 px-comfortable'>
+					<CreateVariantForm
+						productId={productId}
+						productName={productName}
+					/>
+				</div>
 			)}
 		</Block>
 	)

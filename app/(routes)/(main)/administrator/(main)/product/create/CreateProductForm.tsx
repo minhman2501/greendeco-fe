@@ -17,6 +17,7 @@ import { ADMIN_ACCESS_TOKEN_COOKIE_NAME } from '@/app/_configs/constants/cookies
 import { notifyCreateProductSuccess } from '../Notifications'
 import { MultilineTextField } from '@/app/_components/form/MultiplelineTextField'
 import { error } from 'console'
+import LabelProvider from '@/app/_components/form/LabelProvider'
 
 export default function CreateProductForm() {
 	const { isFulfilled, images, resetImages } = useImageUploadStore()
@@ -97,7 +98,7 @@ export default function CreateProductForm() {
 						<div className='flex-1'>
 							<MultilineTextField
 								label='Product Description'
-								placeholder='The name of the product'
+								placeholder='Product Description'
 								className='h-[200px]'
 								register={register('description')}
 								error={Boolean(errors?.description)}
@@ -105,8 +106,14 @@ export default function CreateProductForm() {
 							/>
 						</div>
 						<div className='flex flex-wrap gap-cozy'>
-							<div>
-								<select {...register('type')}>
+							<LabelProvider
+								direction='vertical'
+								label='Plant Type'
+							>
+								<select
+									className='select'
+									{...register('type')}
+								>
 									{TYPE_OPTIONS.map((option) => (
 										<option
 											key={option}
@@ -116,9 +123,15 @@ export default function CreateProductForm() {
 										</option>
 									))}
 								</select>
-							</div>
-							<div>
-								<select {...register('size')}>
+							</LabelProvider>
+							<LabelProvider
+								label='Size'
+								direction='vertical'
+							>
+								<select
+									className='select'
+									{...register('size')}
+								>
 									{SIZE_OPTIONS.map((option) => (
 										<option
 											key={option}
@@ -128,9 +141,15 @@ export default function CreateProductForm() {
 										</option>
 									))}
 								</select>
-							</div>
-							<div>
-								<select {...register('difficulty')}>
+							</LabelProvider>
+							<LabelProvider
+								direction='vertical'
+								label='Caring Difficulty'
+							>
+								<select
+									className='select'
+									{...register('difficulty')}
+								>
 									{DIFFICULTY_OPTIONS.map((option) => (
 										<option
 											key={option}
@@ -140,7 +159,7 @@ export default function CreateProductForm() {
 										</option>
 									))}
 								</select>
-							</div>
+							</LabelProvider>
 							<div>
 								<TextField
 									type='text'
@@ -175,10 +194,13 @@ export default function CreateProductForm() {
 						</div>
 					</div>
 				</>
-				<div>
-					<label>Product Images</label>
+				<LabelProvider
+					className='text-body-md'
+					label='Product Images'
+					direction='vertical'
+				>
 					<ImageUploadGrid />
-				</div>
+				</LabelProvider>
 			</div>
 			<div className='mt-cozy flex w-full justify-end gap-cozy'>
 				<Button

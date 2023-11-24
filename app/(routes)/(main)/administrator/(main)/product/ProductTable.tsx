@@ -12,7 +12,7 @@ import {
 import { ProductData } from '@/app/_api/axios/product'
 import { ADMINISTRATOR_ROUTE, VARIANT_CURRENCY } from '@/app/_configs/constants/variables'
 import DeleteProduct from './DeleteProduct'
-import { CheckCircleIcon, XCircleIcon } from '@heroicons/react/24/solid'
+import { CheckCircleIcon, PencilSquareIcon, XCircleIcon } from '@heroicons/react/24/solid'
 
 const columnHelper = createColumnHelper<ProductData>()
 
@@ -54,12 +54,7 @@ const columns = [
 		id: 'Action',
 		cell: (info) => {
 			const id = info.getValue()
-			return (
-				<span>
-					<Link href={`${ADMINISTRATOR_ROUTE.PRODUCT.LINK}/${id}`}>Edit</Link>
-					<DeleteProduct productId={id} />
-				</span>
-			)
+			return <ActionWrapper productId={id} />
 		},
 		header: () => <span>Actions</span>,
 	}),
@@ -145,5 +140,16 @@ const ResultIndicator = ({ result }: { result: boolean }) => {
 				<XCircleIcon className='aspect-square h-[24px] text-status-error' />
 			)}
 		</>
+	)
+}
+
+const ActionWrapper = ({ productId }: { productId: ProductData['id'] }) => {
+	return (
+		<div className='flex items-center justify-center gap-compact'>
+			<Link href={`${ADMINISTRATOR_ROUTE.PRODUCT.LINK}/${productId}`}>
+				<PencilSquareIcon className='aspect-square h-[24px] text-primary-625-60 hover:cursor-pointer hover:text-primary-625' />
+			</Link>
+			<DeleteProduct productId={productId} />
+		</div>
 	)
 }

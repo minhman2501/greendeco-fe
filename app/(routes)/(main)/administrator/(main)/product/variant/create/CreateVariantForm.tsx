@@ -72,8 +72,10 @@ export default function CreateVariantForm({
 
 	const onSubmitHandler: SubmitHandler<VariantFormInputType> = (values, e) => {
 		e?.preventDefault()
-		const { price, color_name, ...restValues } = values
 
+		const adminAccessToken = getCookie(ADMIN_ACCESS_TOKEN_COOKIE_NAME)?.toString()
+
+		const { price, color_name, ...restValues } = values
 		if (variantImage) {
 			createVariantMutation.mutate({
 				variantData: {
@@ -85,8 +87,7 @@ export default function CreateVariantForm({
 					image: variantImage,
 					currency: VARIANT_CURRENCY,
 				},
-				adminAccessToken:
-					'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbiI6dHJ1ZSwiZXhwIjoxNzAwNzE5NDAzLCJ1c2VyX2lkIjoiM2NkNDZhOTUtNWFhYi00MTk1LTkzNTgtMzg1YWQ5YTMyZGU5In0.iUmzbN3UNPPlZzaQw8uz_iSFU-DoktphKkntmAwtvtY',
+				adminAccessToken: adminAccessToken,
 			})
 		}
 	}

@@ -3,16 +3,15 @@ import Block from '@/app/_components/Block'
 import ProductTable from './ProductTable'
 import { useQuery } from '@tanstack/react-query'
 import { ADMIN_QUERY_KEY, UseQueryKeys } from '@/app/_configs/constants/queryKey'
-import { getProductList } from '@/app/_api/axios/product'
 import { getProductListAsAdministrator } from '@/app/_api/axios/admin/product'
+import { getCookie } from 'cookies-next'
+import { ADMIN_ACCESS_TOKEN_COOKIE_NAME } from '@/app/_configs/constants/cookies'
 
 export default function ProductManagementPage() {
+	const adminAccessToken = getCookie(ADMIN_ACCESS_TOKEN_COOKIE_NAME)?.toString()
 	const productQuery = useQuery({
 		queryKey: [UseQueryKeys.Product, ADMIN_QUERY_KEY],
-		queryFn: () =>
-			getProductListAsAdministrator(
-				'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbiI6dHJ1ZSwiZXhwIjoxNzAwNzU1NTAyLCJ1c2VyX2lkIjoiM2NkNDZhOTUtNWFhYi00MTk1LTkzNTgtMzg1YWQ5YTMyZGU5In0.AoDIvWGyCkhRURd7zPB0pNA6M4o7rvgsIyd1_tVKSh4',
-			),
+		queryFn: () => getProductListAsAdministrator(adminAccessToken),
 	})
 
 	const { data } = productQuery

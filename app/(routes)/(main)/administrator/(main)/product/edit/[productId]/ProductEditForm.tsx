@@ -82,11 +82,10 @@ export default function ProductEditForm(product: ProductData) {
 	const onSubmitHandler: SubmitHandler<UpdateProductDetailFormInputType> = (values, e) => {
 		e?.preventDefault()
 
-		const adminAcessToken = getCookie(ADMIN_ACCESS_TOKEN_COOKIE_NAME)?.toString()
+		const adminAccessToken = getCookie(ADMIN_ACCESS_TOKEN_COOKIE_NAME)?.toString()
 		updateProductMutation.mutate({
 			productData: { id: product.id, ...values, images: [...images] },
-			adminAccessToken:
-				'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbiI6dHJ1ZSwiZXhwIjoxNzAwNzE5NDAzLCJ1c2VyX2lkIjoiM2NkNDZhOTUtNWFhYi00MTk1LTkzNTgtMzg1YWQ5YTMyZGU5In0.iUmzbN3UNPPlZzaQw8uz_iSFU-DoktphKkntmAwtvtY',
+			adminAccessToken: adminAccessToken,
 		})
 	}
 	const handleResetForm = () => {

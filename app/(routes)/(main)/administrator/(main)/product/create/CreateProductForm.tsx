@@ -59,15 +59,14 @@ export default function CreateProductForm() {
 
 	const onSubmitHandler: SubmitHandler<ProductDetailFormInputType> = (values, e) => {
 		e?.preventDefault()
-		const adminAcessToken = getCookie(ADMIN_ACCESS_TOKEN_COOKIE_NAME)?.toString()
+		const adminAccessToken = getCookie(ADMIN_ACCESS_TOKEN_COOKIE_NAME)?.toString()
 		console.log({
 			...values,
 			images: [...images],
 		})
 		createProductMutation.mutate({
 			productData: { ...values, images: [...images] },
-			adminAccessToken:
-				'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbiI6dHJ1ZSwiZXhwIjoxNzAwNDU0Mzg0LCJ1c2VyX2lkIjoiM2NkNDZhOTUtNWFhYi00MTk1LTkzNTgtMzg1YWQ5YTMyZGU5In0.HbshGL7X73QyWg2wEik91A_qYaOjeYGqCzO74Qm3mnA',
+			adminAccessToken: adminAccessToken,
 		})
 	}
 

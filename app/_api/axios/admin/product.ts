@@ -5,6 +5,8 @@ const PLANT_CATEGORY_ID = `${process.env.NEXT_PUBLIC_PLANT_CATEGORY_ID}`
 
 import { ProductData, ProductListData, VariantData } from '../product'
 
+type AdminAccessTokenType = string | undefined
+
 type CreateProductData = Omit<
 	ProductData,
 	| 'id'
@@ -59,32 +61,32 @@ type UpdateVariantData = {
 
 type CreateProductRequestData = {
 	productData: CreateProductData
-	adminAccessToken: string | undefined
+	adminAccessToken: AdminAccessTokenType
 }
 
 type UpdateProductRequestData = {
 	productData: UpdateProductData
-	adminAccessToken: string | undefined
+	adminAccessToken: AdminAccessTokenType
 }
 
 type DeleteProductRequestData = {
 	productId: ProductData['id']
-	adminAccessToken: string | undefined
+	adminAccessToken: AdminAccessTokenType
 }
 
 type CreateVariantRequestData = {
 	variantData: CreateVariantData
-	adminAccessToken: string | undefined
+	adminAccessToken: AdminAccessTokenType
 }
 
 type UpdateVariantRequestData = {
 	variantData: UpdateVariantData
-	adminAccessToken: string | undefined
+	adminAccessToken: AdminAccessTokenType
 }
 
 type DeleteVariantRequestData = {
 	variantId: VariantData['id']
-	adminAccessToken: string | undefined
+	adminAccessToken: AdminAccessTokenType
 }
 
 type CreateProductResponseData = {
@@ -97,7 +99,7 @@ export const adminProductApi = axios.create({
 
 adminProductApi.defaults.headers.common['Content-Type'] = 'application/json'
 
-export const getProductListAsAdministrator = async (adminAccessToken: string) => {
+export const getProductListAsAdministrator = async (adminAccessToken: AdminAccessTokenType) => {
 	return await adminProductApi
 		.get<ProductListData>('/product/all', {
 			headers: {

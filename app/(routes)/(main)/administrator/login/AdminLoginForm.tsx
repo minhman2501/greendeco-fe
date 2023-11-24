@@ -6,9 +6,10 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import Button from '@/app/_components/Button'
 import { LoginFormInputType, LoginSchema } from '@/app/_configs/schemas/authentication'
 import { loginAdminAccount } from '@/app/_api/axios/adminAuthentication'
-import { notifyLoginSuccess } from './Notifications'
+import { notifyLoginFail, notifyLoginSuccess } from './Notifications'
 import { setCookie } from 'cookies-next'
 import { ADMIN_ACCESS_TOKEN_COOKIE_NAME } from '@/app/_configs/constants/cookies'
+import { AxiosError } from 'axios'
 
 export default function AdminLoginForm() {
 	const defaultInputValues: LoginFormInputType = {
@@ -39,10 +40,11 @@ export default function AdminLoginForm() {
 			setCookie(ADMIN_ACCESS_TOKEN_COOKIE_NAME, data.access_Token)
 		},
 		//NOTE: Execuse after receving failure responses
-		/* onError: (e) => {
+		onError: (e) => {
 			if (e instanceof AxiosError) {
+				notifyLoginFail()
 			}
-		}, */
+		},
 	})
 
 	const onSubmitHandler: SubmitHandler<LoginFormInputType> = (values, e) => {

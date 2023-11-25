@@ -8,7 +8,7 @@ import ProductVariantInfo from './ProductVariantInfo'
 import Link from 'next/link'
 import { ADMINISTRATOR_ROUTE } from '@/app/_configs/constants/variables'
 import { ADMIN_QUERY_KEY, UseQueryKeys } from '@/app/_configs/constants/queryKey'
-import { PencilSquareIcon } from '@heroicons/react/24/solid'
+import { ArrowLeftIcon, PencilSquareIcon } from '@heroicons/react/24/solid'
 import { ProductDetailLoading } from '../loading'
 
 export default function ProductDetailManagementPage({
@@ -39,15 +39,26 @@ export default function ProductDetailManagementPage({
 					<Block>
 						<div className='mb-cozy flex items-center justify-between'>
 							<h1>{data.items.name}</h1>
-							<Link
-								className='btn btnSecondary flex items-center gap-compact'
-								href={{
-									pathname: `${ADMINISTRATOR_ROUTE.PRODUCT.LINK}/edit/${productId}`,
-								}}
-							>
-								Edit Product
-								<PencilSquareIcon className='aspect-square h-[24px]' />
-							</Link>
+							<div className='flex items-center gap-cozy'>
+								<Link
+									className='flex items-center gap-[4px] text-body-xsm'
+									href={{
+										pathname: `${ADMINISTRATOR_ROUTE.PRODUCT.LINK}`,
+									}}
+								>
+									<ArrowLeftIcon className='aspect-square h-[16px]' /> Back to
+									product list
+								</Link>
+								<Link
+									className='btn btnSecondary flex items-center gap-compact'
+									href={{
+										pathname: `${ADMINISTRATOR_ROUTE.PRODUCT.LINK}/edit/${productId}`,
+									}}
+								>
+									Edit Product
+									<PencilSquareIcon className='aspect-square h-[24px]' />
+								</Link>
+							</div>
 						</div>
 						<ProductDetail product={data.items} />
 					</Block>

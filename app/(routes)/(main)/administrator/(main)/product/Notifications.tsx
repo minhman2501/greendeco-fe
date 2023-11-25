@@ -18,6 +18,12 @@ export const notifyUpdateProductSuccess = () => {
 	})
 }
 
+export const notifyDeleteProductSuccess = () => {
+	toast.success(<DeleteProductSuccessMessage />, {
+		position: 'top-center',
+	})
+}
+
 export const notifyCreateVariantSuccess = () => {
 	toast.success(<CreateVariantSuccessMessage />, {
 		position: 'top-center',
@@ -47,6 +53,12 @@ const CreateProductSuccessMessage = ({ productId }: { productId: ProductData['id
 const UpdateProductSuccessMessage = () => (
 	<div className='flex flex-col gap-[4px] pl-compact pr-common text-body-sm'>
 		<h3 className='capitalize text-primary-625'>Successfully Updated Product</h3>
+	</div>
+)
+
+const DeleteProductSuccessMessage = () => (
+	<div className='flex flex-col gap-[4px] pl-compact pr-common text-body-sm'>
+		<h3 className='capitalize text-primary-625'>Product Has Been Deleted</h3>
 	</div>
 )
 

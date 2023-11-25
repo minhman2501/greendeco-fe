@@ -1,7 +1,5 @@
-'use client'
 import Link from 'next/link'
 import formatDate from '@/app/_hooks/useFormatDate'
-import { useState } from 'react'
 
 import {
 	createColumnHelper,
@@ -10,9 +8,14 @@ import {
 	useReactTable,
 } from '@tanstack/react-table'
 import { ProductData } from '@/app/_api/axios/product'
-import { ADMINISTRATOR_ROUTE, VARIANT_CURRENCY } from '@/app/_configs/constants/variables'
-import DeleteProduct from './DeleteProduct'
-import { CheckCircleIcon, PencilSquareIcon, XCircleIcon } from '@heroicons/react/24/solid'
+import { ADMINISTRATOR_ROUTE } from '@/app/_configs/constants/variables'
+import {
+	CheckCircleIcon,
+	PencilSquareIcon,
+	TrashIcon,
+	XCircleIcon,
+} from '@heroicons/react/24/solid'
+import useConfirmDeleteProductDialog from '@/app/_hooks/dialog/useConfirmDeleteDialog'
 
 const columnHelper = createColumnHelper<ProductData>()
 
@@ -144,12 +147,15 @@ const ResultIndicator = ({ result }: { result: boolean }) => {
 }
 
 const ActionWrapper = ({ productId }: { productId: ProductData['id'] }) => {
+	const { openDeleteProductConfirm } = useConfirmDeleteProductDialog({ productId: productId })
 	return (
 		<div className='flex items-center justify-center gap-compact'>
 			<Link href={`${ADMINISTRATOR_ROUTE.PRODUCT.LINK}/${productId}`}>
 				<PencilSquareIcon className='aspect-square h-[24px] text-primary-625-60 hover:cursor-pointer hover:text-primary-625' />
 			</Link>
-			<DeleteProduct productId={productId} />
+			<button onClick={openDeleteProductConfirm}>
+				<TrashIcon className='aspect-square h-[24px] text-status-error-mid hover:cursor-pointer hover:text-status-error' />
+			</button>
 		</div>
 	)
 }

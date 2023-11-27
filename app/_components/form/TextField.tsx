@@ -3,7 +3,7 @@ import { Input } from './Input'
 import clsx from 'clsx'
 import { UseFormRegisterReturn } from 'react-hook-form'
 
-type TextFieldProps = {
+export type TextFieldProps = {
 	label?: string
 	helperText?: string
 	type?: React.HTMLInputTypeAttribute

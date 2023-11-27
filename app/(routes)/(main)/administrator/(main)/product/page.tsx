@@ -17,6 +17,7 @@ export default function ProductManagementPage() {
 	const productQuery = useQuery({
 		queryKey: [UseQueryKeys.Product, ADMIN_QUERY_KEY],
 		queryFn: () => getProductListAsAdministrator(adminAccessToken),
+		refetchOnMount: 'always',
 	})
 
 	const { data } = productQuery

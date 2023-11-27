@@ -1,7 +1,7 @@
 'use client'
 import { ProductData } from '@/app/_api/axios/product'
 import LabelProvider from '@/app/_components/form/LabelProvider'
-import { CheckBadgeIcon } from '@heroicons/react/24/solid'
+import { CheckBadgeIcon, XCircleIcon } from '@heroicons/react/24/solid'
 import clsx from 'clsx'
 import Image from 'next/image'
 import formatDate from '@/app/_hooks/useFormatDate'
@@ -25,6 +25,8 @@ function ProductDetailDisplay({
 	type,
 	light,
 	water,
+	difficulty,
+	is_publish,
 	available,
 }: {
 	name: ProductData['name']
@@ -33,6 +35,8 @@ function ProductDetailDisplay({
 	type: ProductData['type']
 	light: ProductData['light']
 	water: ProductData['water']
+	difficulty: ProductData['difficulty']
+	is_publish: ProductData['is_publish']
 	available: ProductData['available']
 }) {
 	return (
@@ -51,46 +55,78 @@ function ProductDetailDisplay({
 			>
 				<span className='text-body-md'>{description}</span>
 			</LabelProvider>
-			<LabelProvider
-				label='Size:'
-				className=' text-body-sm'
-				direction='vertical'
-			>
-				<span className='text-body-md'>{size}</span>
-			</LabelProvider>
-			<LabelProvider
-				label='Plant type:'
-				className='gap-[4px] text-body-sm'
-				direction='vertical'
-			>
-				<span className='text-body-md'>{type}</span>
-			</LabelProvider>
-			<LabelProvider
-				label='Water Condition:'
-				className='gap-[4px] text-body-sm'
-				direction='vertical'
-			>
-				<span className='text-body-md'>{water}</span>
-			</LabelProvider>
-			<LabelProvider
-				label='Light Direction:'
-				className='gap-[4px] text-body-sm'
-				direction='vertical'
-			>
-				<span className='text-body-md'>{light}</span>
-			</LabelProvider>
+			<div className='flex flex-wrap gap-comfortable'>
+				<LabelProvider
+					label='Size:'
+					className=' text-body-sm'
+					direction='vertical'
+				>
+					<span className='text-body-md'>{size}</span>
+				</LabelProvider>
+				<LabelProvider
+					label='Plant type:'
+					className='gap-[4px] text-body-sm'
+					direction='vertical'
+				>
+					<span className='text-body-md'>{type}</span>
+				</LabelProvider>
+				<LabelProvider
+					label='Difficulty:'
+					className='gap-[4px] text-body-sm'
+					direction='vertical'
+				>
+					<span className='text-body-md'>{difficulty}</span>
+				</LabelProvider>
+				<LabelProvider
+					label='Water Condition:'
+					className='gap-[4px] text-body-sm '
+					direction='vertical'
+				>
+					<span className='text-body-md'>{water}</span>
+				</LabelProvider>
+				<LabelProvider
+					label='Light Direction:'
+					className='gap-[4px] text-body-sm '
+					direction='vertical'
+				>
+					<span className='text-body-md'>{light}</span>
+				</LabelProvider>
+			</div>
 
-			<span
-				className={clsx(
-					'flex w-fit items-center gap-compact rounded-[8px]  p-cozy text-body-lg font-semi-bold text-white',
-					{
-						'bg-action-link text-white': available,
-						'bg-neutral-gray-6 text-white': !available,
-					},
-				)}
-			>
-				Available <CheckBadgeIcon className='aspect-square h-[24px]' />
-			</span>
+			<div className='mt-cozy flex items-center gap-cozy'>
+				<span
+					className={clsx(
+						'flex w-fit items-center gap-compact rounded-[8px]  p-cozy text-body-lg font-semi-bold text-white',
+						{
+							'bg-action-link text-white': available,
+							'bg-neutral-gray-6 text-white': !available,
+						},
+					)}
+				>
+					Available
+					{available ? (
+						<CheckBadgeIcon className='aspect-square h-[24px]' />
+					) : (
+						<XCircleIcon className='aspect-square h-[24px]' />
+					)}
+				</span>
+				<span
+					className={clsx(
+						'flex w-fit items-center gap-compact rounded-[8px]  p-cozy text-body-lg font-semi-bold text-white',
+						{
+							'bg-blue-600 text-white': is_publish,
+							'bg-neutral-gray-6 text-white': !is_publish,
+						},
+					)}
+				>
+					Published
+					{is_publish ? (
+						<CheckBadgeIcon className='aspect-square h-[24px]' />
+					) : (
+						<XCircleIcon className='aspect-square h-[24px]' />
+					)}
+				</span>
+			</div>
 		</div>
 	)
 }

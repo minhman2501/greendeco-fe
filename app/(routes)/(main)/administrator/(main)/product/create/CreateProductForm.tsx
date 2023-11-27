@@ -16,8 +16,8 @@ import { getCookie } from 'cookies-next'
 import { ADMIN_ACCESS_TOKEN_COOKIE_NAME } from '@/app/_configs/constants/cookies'
 import { notifyCreateProductSuccess } from '../Notifications'
 import { MultilineTextField } from '@/app/_components/form/MultiplelineTextField'
-import { error } from 'console'
 import LabelProvider from '@/app/_components/form/LabelProvider'
+import { AxiosError } from 'axios'
 
 export default function CreateProductForm() {
 	const { isFulfilled, images, resetImages } = useImageUploadStore()
@@ -54,19 +54,17 @@ export default function CreateProductForm() {
 			notifyCreateProductSuccess(data.data.id)
 		},
 		//NOTE: Execuse after receving failure responses
-		/* onError: (e) => {
+		onError: (e) => {
 			if (e instanceof AxiosError) {
-			}
-		}, */
+				console.log(e)
+			} else console.log(e)
+		},
 	})
 
 	const onSubmitHandler: SubmitHandler<ProductDetailFormInputType> = (values, e) => {
 		e?.preventDefault()
 		const adminAccessToken = getCookie(ADMIN_ACCESS_TOKEN_COOKIE_NAME)?.toString()
-		console.log({
-			...values,
-			images: [...images],
-		})
+
 		createProductMutation.mutate({
 			productData: { ...values, images: [...images] },
 			adminAccessToken: adminAccessToken,

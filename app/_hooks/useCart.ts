@@ -92,6 +92,20 @@ export function useCartQuery() {
 			})
 	}
 
+	const getCartItemForCheckout = async () => {
+		const accessToken = getCookie(ACCESS_TOKEN_COOKIE_NAME)?.toString()
+		const cartId = getCookie('cartId')?.toString()
+
+		if (!cartId) {
+			throw new AxiosError('There is no cart available', '404')
+		}
+		return await getCartItemListFromCartId(cartId, accessToken).then((cartList) => {
+			if (cartList) {
+				return handleGetCartFullDetail(cartList)
+			}
+		})
+	}
+
 	const cartQuery = useQuery({
 		queryKey: ['cart'],
 		queryFn: getCartListWithFullDetail,
@@ -99,8 +113,18 @@ export function useCartQuery() {
 		retry: false,
 	})
 
+	const cartForCheckoutQuery = useQuery({
+		queryKey: ['cart', 'checkout'],
+		queryFn: getCartItemForCheckout,
+		onError: (e) => {
+			console.log(e)
+		},
+		retry: false,
+	})
+
 	return {
 		cartQuery: { ...cartQuery },
+		cartForCheckoutQuery: { ...cartForCheckoutQuery },
 	}
 }
 export function useCartMutation() {

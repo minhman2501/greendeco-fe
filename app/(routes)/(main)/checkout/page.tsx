@@ -1,14 +1,20 @@
 import Link from 'next/link'
 import ShippingDetailForm from './ShippingDetailForm'
+import OrderItemList from './OrderList'
+import Image from 'next/image'
+import BrandLogoFullGreen from '@/public/BrandLogoFullGreen.svg'
+
 export default function CheckoutPage() {
 	return (
-		<main className='h-screen max-h-screen w-screen'>
+		<main className='h-screen max-h-screen w-screen bg-primary-418-20/20'>
 			<div className='container h-full'>
 				<div className='grid h-full grid-cols-6 gap-comfortable'>
 					<div className='flex-col-start col-span-4 gap-cozy'>
 						<Header></Header>
 						<ShippingDetailForm />
 					</div>
+
+					<OrderItemList />
 				</div>
 			</div>
 		</main>
@@ -17,13 +23,13 @@ export default function CheckoutPage() {
 
 const Header = () => {
 	return (
-		<div className='mt-comfortable flex justify-between p-compact'>
-			<div>
+		<div className='mt-comfortable flex items-center justify-between '>
+			<div className='flex items-center divide-x divide-primary-625'>
 				<Logo />
-				<h1>Checkout</h1>
+				<h1 className='pl-compact font-semi-bold text-primary-625'>Checkout</h1>
 			</div>
 			<Link
-				className=''
+				className='text-body-xsm'
 				href={'/shop'}
 			>
 				Continue Shopping
@@ -36,9 +42,16 @@ function Logo() {
 	return (
 		<Link
 			href={'/'}
-			className=''
+			className='h-full pr-compact'
 		>
-			GreenDeco
+			<div className='relative inline-block h-[60px] w-[180px] overflow-hidden'>
+				<Image
+					src={BrandLogoFullGreen}
+					alt='Welcome to GreenDeco'
+					fill
+					style={{ objectFit: 'contain' }}
+				/>
+			</div>
 		</Link>
 	)
 }

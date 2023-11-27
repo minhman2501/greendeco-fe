@@ -51,7 +51,7 @@ export default function ShippingDetailForm() {
 		//NOTE: Execute the Mutation
 	}
 	return (
-		<div className='flex-col-start gap-cozy'>
+		<div className='flex-col-start gap-cozy rounded-[8px] bg-neutral-gray-1 p-comfortable shadow-38'>
 			<h2>Delivery Information</h2>
 			<form
 				onSubmit={handleSubmit(onSubmitHandler)}

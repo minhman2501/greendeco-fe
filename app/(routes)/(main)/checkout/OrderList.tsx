@@ -40,15 +40,13 @@ export default function OrderItemList() {
 	const { data } = getOrderList
 
 	return (
-		<div className='max-h-full'>
-			<h2 className='mb-compact text-body-md font-semibold text-primary-5555'>
-				Order Summary
-			</h2>
+		<div className='flex-col-start h-full max-h-full gap-compact  '>
+			<h2 className='text-body-md font-semibold text-primary-625'>Order Summary</h2>
 			{data && (
-				<div className='flex-col-start gap-cozy'>
+				<>
 					<OrderList orderList={data.items} />
 					<OrderCalculator {...data} />
-				</div>
+				</>
 			)}
 		</div>
 	)
@@ -56,18 +54,16 @@ export default function OrderItemList() {
 
 function OrderList({ orderList }: { orderList: CartListFullDetail['items'] }) {
 	return (
-		<div className='rounded-[4px] bg-neutral-gray-1 p-cozy shadow-18'>
-			<ul className='flex-col-start w-full divide-y divide-primary-5555-40 '>
-				{orderList.map((item) => (
-					<li
-						key={item.id}
-						className='py-cozy first:pt-0 last:pb-0'
-					>
-						<OrderItem cartItem={item} />
-					</li>
-				))}
-			</ul>
-		</div>
+		<ul className='flex-col-start w-full divide-y divide-primary-5555-40 overflow-y-auto rounded-[4px] bg-neutral-gray-1 p-cozy shadow-63  '>
+			{orderList.map((item) => (
+				<li
+					key={item.id}
+					className='py-cozy first:pt-0 last:pb-0'
+				>
+					<OrderItem cartItem={item} />
+				</li>
+			))}
+		</ul>
 	)
 }
 function OrderItem({ cartItem }: { cartItem: CartItemWithFullVariantInfo }) {
@@ -152,7 +148,7 @@ function OrderCalculator({ items }: CartListFullDetail) {
 	}
 
 	return (
-		<div className='flex-col-start w-full divide-y divide-primary-5555 rounded-[4px] bg-neutral-gray-1 p-cozy shadow-63 '>
+		<div className='flex-col-start mt-cozy w-full divide-y divide-primary-5555 rounded-[4px] bg-neutral-gray-1 p-cozy shadow-63 '>
 			<div className='flex-col-start gap-compact pb-cozy'>
 				<div className='flex items-center justify-between text-primary-418'>
 					<span className='text-body-sm'>Subtotal:</span>

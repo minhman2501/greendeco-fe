@@ -40,6 +40,27 @@ export type CartListFullDetail = {
 	prev: Boolean
 }
 
+//NOTE: Go through the cartList to get Variant full information by Id
+export const handleGetCartFullDetail = async (cartList: CartItemListResponseData) => {
+	const fullInfoCartList = cartList.items.map(async (item) => {
+		const variantInfo = await getVariantById(item.variant).then((data) => data)
+		const itemWithVariantInfo: CartItemWithFullVariantInfo = {
+			...item,
+			variant: variantInfo.items,
+		}
+		return itemWithVariantInfo
+	})
+
+	//NOTE: Invoke the Promise[] to get the CartItemWithFullVariantInfo[]
+	return await Promise.all(fullInfoCartList).then((cartItemArray) => {
+		const cartListFullDetail: CartListFullDetail = {
+			...cartList,
+			items: cartItemArray,
+		}
+		return cartListFullDetail
+	})
+}
+
 export function useCartQuery() {
 	const router = useRouter()
 
@@ -58,27 +79,6 @@ export function useCartQuery() {
 			})
 	}
 
-	//NOTE: Go through the cartList to get Variant full information by Id
-	const handleGetCartFullDetail = async (cartList: CartItemListResponseData) => {
-		const fullInfoCartList = cartList.items.map(async (item) => {
-			const variantInfo = await getVariantById(item.variant).then((data) => data)
-			const itemWithVariantInfo: CartItemWithFullVariantInfo = {
-				...item,
-				variant: variantInfo.items,
-			}
-			return itemWithVariantInfo
-		})
-
-		//NOTE: Invoke the Promise[] to get the CartItemWithFullVariantInfo[]
-		return await Promise.all(fullInfoCartList).then((cartItemArray) => {
-			const cartListFullDetail: CartListFullDetail = {
-				...cartList,
-				items: cartItemArray,
-			}
-			return cartListFullDetail
-		})
-	}
-
 	const getCartListWithFullDetail = async () => {
 		const accessToken = getCookie(ACCESS_TOKEN_COOKIE_NAME)
 		return await handleGetCartId(accessToken)
@@ -92,20 +92,6 @@ export function useCartQuery() {
 			})
 	}
 
-	const getCartItemForCheckout = async () => {
-		const accessToken = getCookie(ACCESS_TOKEN_COOKIE_NAME)?.toString()
-		const cartId = getCookie('cartId')?.toString()
-
-		if (!cartId) {
-			throw new AxiosError('There is no cart available', '404')
-		}
-		return await getCartItemListFromCartId(cartId, accessToken).then((cartList) => {
-			if (cartList) {
-				return handleGetCartFullDetail(cartList)
-			}
-		})
-	}
-
 	const cartQuery = useQuery({
 		queryKey: ['cart'],
 		queryFn: getCartListWithFullDetail,
@@ -113,18 +99,8 @@ export function useCartQuery() {
 		retry: false,
 	})
 
-	const cartForCheckoutQuery = useQuery({
-		queryKey: ['cart', 'checkout'],
-		queryFn: getCartItemForCheckout,
-		onError: (e) => {
-			console.log(e)
-		},
-		retry: false,
-	})
-
 	return {
 		cartQuery: { ...cartQuery },
-		cartForCheckoutQuery: { ...cartForCheckoutQuery },
 	}
 }
 export function useCartMutation() {

@@ -40,9 +40,16 @@ export default function OrderItemList() {
 	const { data } = getOrderList
 
 	return (
-		<div className='col-span-2'>
-			<h2 className='mb-compact text-body-md font-semibold text-primary-5555'>Order list</h2>
-			{data && <OrderList orderList={data?.items} />}
+		<div className='max-h-full'>
+			<h2 className='mb-compact text-body-md font-semibold text-primary-5555'>
+				Order Summary
+			</h2>
+			{data && (
+				<div className='flex-col-start gap-cozy'>
+					<OrderList orderList={data.items} />
+					<OrderCalculator {...data} />
+				</div>
+			)}
 		</div>
 	)
 }
@@ -50,7 +57,7 @@ export default function OrderItemList() {
 function OrderList({ orderList }: { orderList: CartListFullDetail['items'] }) {
 	return (
 		<div className='rounded-[4px] bg-neutral-gray-1 p-cozy shadow-18'>
-			<ul className='flex-col-start w-full divide-y divide-primary-5555-60 '>
+			<ul className='flex-col-start w-full divide-y divide-primary-5555-40 '>
 				{orderList.map((item) => (
 					<li
 						key={item.id}
@@ -129,6 +136,35 @@ function OrderItemDetail({
 			<span className='text-body-sm font-semi-bold'>
 				{price} {currency}
 			</span>
+		</div>
+	)
+}
+
+function OrderCalculator({ items }: CartListFullDetail) {
+	const currency = items[0].variant.currency
+	const totalPrice = items.reduce((accumulator, item) => {
+		return accumulator + parseInt(item.variant.price) * item.quantity
+	}, 0)
+	return (
+		<div className='flex-col-start w-full divide-y divide-primary-5555 rounded-[4px] bg-neutral-gray-1 p-cozy shadow-63 '>
+			<div className='flex-col-start gap-compact pb-cozy'>
+				<div className='flex items-center justify-between text-primary-418'>
+					<span className='text-body-sm'>Subtotal:</span>
+					<span className='text-body-md font-semi-bold'>
+						{totalPrice} {currency}
+					</span>
+				</div>
+				<div className='flex items-center justify-between text-primary-418'>
+					<span className='text-body-sm'>Discount:</span>
+					<span className='text-body-md font-semi-bold'>--</span>
+				</div>
+			</div>
+			<div className='flex items-center justify-between pt-cozy'>
+				<span className='text-body-md font-semi-bold'>Total:</span>
+				<span className='text-body-lg font-bold'>
+					{totalPrice} {currency}
+				</span>
+			</div>
 		</div>
 	)
 }

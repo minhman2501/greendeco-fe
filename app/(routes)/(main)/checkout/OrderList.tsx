@@ -142,16 +142,22 @@ function OrderItemDetail({
 
 function OrderCalculator({ items }: CartListFullDetail) {
 	const currency = items[0].variant.currency
-	const totalPrice = items.reduce((accumulator, item) => {
+	const subTotalPrice = items.reduce((accumulator, item) => {
 		return accumulator + parseInt(item.variant.price) * item.quantity
 	}, 0)
+
+	const totalPrice = () => {
+		const discount = subTotalPrice * 0
+		return subTotalPrice - discount
+	}
+
 	return (
 		<div className='flex-col-start w-full divide-y divide-primary-5555 rounded-[4px] bg-neutral-gray-1 p-cozy shadow-63 '>
 			<div className='flex-col-start gap-compact pb-cozy'>
 				<div className='flex items-center justify-between text-primary-418'>
 					<span className='text-body-sm'>Subtotal:</span>
 					<span className='text-body-md font-semi-bold'>
-						{totalPrice} {currency}
+						{subTotalPrice} {currency}
 					</span>
 				</div>
 				<div className='flex items-center justify-between text-primary-418'>
@@ -162,7 +168,7 @@ function OrderCalculator({ items }: CartListFullDetail) {
 			<div className='flex items-center justify-between pt-cozy'>
 				<span className='text-body-md font-semi-bold'>Total:</span>
 				<span className='text-body-lg font-bold'>
-					{totalPrice} {currency}
+					{totalPrice()} {currency}
 				</span>
 			</div>
 		</div>

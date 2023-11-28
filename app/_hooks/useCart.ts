@@ -96,6 +96,7 @@ export function useCartQuery() {
 		queryKey: ['cart'],
 		queryFn: getCartListWithFullDetail,
 		onError: () => {},
+		refetchOnMount: true,
 		retry: false,
 	})
 

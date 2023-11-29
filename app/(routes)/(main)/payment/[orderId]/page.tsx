@@ -43,7 +43,6 @@ const PaymentGuide = ({ orderId }: { orderId: string }) => {
 				</p>
 			</div>
 			<div className='w-full text-center'>
-				<p className='mb-compact text-body-md text-neutral-gray-10'>Proceed to?</p>
 				<div className='flex w-full gap-cozy'>
 					<Link
 						href={'/'}

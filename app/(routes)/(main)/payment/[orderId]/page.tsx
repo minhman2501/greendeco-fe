@@ -11,24 +11,24 @@ export default function PaymentPage({
 }) {
 	return (
 		<div className='flex-col-start h-full items-center  gap-cozy'>
-			<div className='text-center text-neutral-gray-10'>
-				<p className='text-body-sm'>Here is your Order ID:</p>
-				<p className='text-body-lg font-semi-bold'>{orderId}</p>
-			</div>
+			<p className=' text-heading font-bold text-primary-625'>
+				Thank you for shopping at GreenDeco 🫶
+			</p>
 			<div className='flex  gap-comfortable'>
-				<ThankYouMessage />
+				<PaymentGuide orderId={orderId} />
 				<PaymentInformation orderId={orderId} />
 			</div>
 		</div>
 	)
 }
 
-const ThankYouMessage = () => {
+const PaymentGuide = ({ orderId }: { orderId: string }) => {
 	return (
-		<div className='flex-col-start h-full  justify-between  '>
-			<p className=' text-heading font-bold text-primary-625'>
-				Thank you for shopping at GreenDeco 🫶
-			</p>
+		<div className='flex-col-start h-full  justify-center gap-cozy  '>
+			<div className='text-center text-neutral-gray-10'>
+				<p className='text-body-sm'>Here is your Order ID:</p>
+				<p className='text-body-lg font-semi-bold'>{orderId}</p>
+			</div>
 			<div className='flex-col-start gap-[4px] text-center text-neutral-gray-10'>
 				<p className=' text-body-sm'>
 					You can proceed to pay now or later in your order list

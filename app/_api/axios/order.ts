@@ -23,7 +23,7 @@ type CreateOrderRequestData = {
 	accessToken: string | undefined
 }
 
-type OrderData = {
+export type OrderData = {
 	id: string
 	owner_id: UserProfileResponseData['id']
 	user_name: string
@@ -36,6 +36,11 @@ type OrderData = {
 	paid_at: string | null
 	created_at: string
 	updated_at: string
+}
+
+type OrderPrice = {
+	actual_price: number
+	total: number
 }
 
 export type CreateOrderResponseData = {
@@ -69,4 +74,16 @@ export const createOrder = async (data: Omit<CreateOrderData, 'cart_id'>) => {
 			},
 		},
 	)
+}
+
+export const getOrderPrice = async (orderId: OrderData['id']) => {
+	const accessToken = getCookie(ACCESS_TOKEN_COOKIE_NAME)?.toString()
+
+	return await orderApi
+		.get<OrderPrice>(`${orderId}/total`, {
+			headers: {
+				Authorization: `Bearer ${accessToken}`,
+			},
+		})
+		.then((res) => res.data)
 }

@@ -1,6 +1,7 @@
 import { ClipboardDocumentListIcon, ShoppingBagIcon } from '@heroicons/react/24/solid'
 import Link from 'next/link'
 import PaymentInformation from './PaymentInformation'
+import { USER_SETTING_ROUTE } from '@/app/_configs/constants/variables'
 
 export default function PaymentPage({
 	params: { orderId },
@@ -46,6 +47,7 @@ const PaymentGuide = ({ orderId }: { orderId: string }) => {
 				<div className='flex w-full gap-cozy'>
 					<Link
 						href={'/'}
+						replace
 						className='btn flex-1'
 					>
 						<span className='flex items-center justify-center gap-compact font-semi-bold'>
@@ -55,7 +57,8 @@ const PaymentGuide = ({ orderId }: { orderId: string }) => {
 					</Link>
 					<Link
 						className='btn btnSecondary flex-1'
-						href={'/'}
+						replace
+						href={USER_SETTING_ROUTE.ORDER.LINK}
 					>
 						<span className='flex items-center justify-center gap-compact font-semi-bold'>
 							View Order List

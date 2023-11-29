@@ -8,10 +8,11 @@ import {
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { createOrder } from '@/app/_api/axios/order'
 import { AxiosError } from 'axios'
-import { TextField } from '@/app/_components/form'
-import Button from '@/app/_components/Button'
 import { deleteCookie } from 'cookies-next'
 import { useRouter } from 'next/navigation'
+import { NOT_FOUND_STATUS, UNAUTHORIZE_STATUS } from '@/app/_configs/constants/status'
+import { TextField } from '@/app/_components/form'
+import Button from '@/app/_components/Button'
 
 export default function ShippingDetailForm() {
 	const router = useRouter()
@@ -51,7 +52,19 @@ export default function ShippingDetailForm() {
 		//NOTE: Execuse after receving failure responses
 		onError: (e) => {
 			if (e instanceof AxiosError) {
-				console.log(e)
+				if (
+					e.code === NOT_FOUND_STATUS.toString() ||
+					e.response?.status === NOT_FOUND_STATUS
+				) {
+					router.back()
+				}
+
+				if (
+					e.code === UNAUTHORIZE_STATUS.toString() ||
+					e.response?.status === UNAUTHORIZE_STATUS
+				) {
+					router.push('/login')
+				}
 			}
 		},
 	})

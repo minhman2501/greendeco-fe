@@ -10,7 +10,7 @@ export default function CheckoutPage() {
 			<div className='container h-full'>
 				<div className='grid h-full max-h-full grid-cols-12 '>
 					<div className='flex-col-start col-span-7 gap-cozy pt-comfortable'>
-						<Header></Header>
+						<Header />
 						<ShippingDetailForm />
 					</div>
 
@@ -33,6 +33,8 @@ const Header = () => {
 			<Link
 				className='text-body-xsm'
 				href={'/shop'}
+				replace
+				scroll
 			>
 				Continue Shopping
 			</Link>
@@ -44,6 +46,8 @@ function Logo() {
 	return (
 		<Link
 			href={'/'}
+			replace
+			scroll
 			className='h-full pr-compact'
 		>
 			<div className='relative inline-block h-[60px] w-[180px] overflow-hidden'>

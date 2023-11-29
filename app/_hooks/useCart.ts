@@ -40,6 +40,27 @@ export type CartListFullDetail = {
 	prev: Boolean
 }
 
+//NOTE: Go through the cartList to get Variant full information by Id
+export const handleGetCartFullDetail = async (cartList: CartItemListResponseData) => {
+	const fullInfoCartList = cartList.items.map(async (item) => {
+		const variantInfo = await getVariantById(item.variant).then((data) => data)
+		const itemWithVariantInfo: CartItemWithFullVariantInfo = {
+			...item,
+			variant: variantInfo.items,
+		}
+		return itemWithVariantInfo
+	})
+
+	//NOTE: Invoke the Promise[] to get the CartItemWithFullVariantInfo[]
+	return await Promise.all(fullInfoCartList).then((cartItemArray) => {
+		const cartListFullDetail: CartListFullDetail = {
+			...cartList,
+			items: cartItemArray,
+		}
+		return cartListFullDetail
+	})
+}
+
 export function useCartQuery() {
 	const router = useRouter()
 
@@ -56,27 +77,6 @@ export function useCartQuery() {
 				setCookie('cartId', cartId)
 				return cartId
 			})
-	}
-
-	//NOTE: Go through the cartList to get Variant full information by Id
-	const handleGetCartFullDetail = async (cartList: CartItemListResponseData) => {
-		const fullInfoCartList = cartList.items.map(async (item) => {
-			const variantInfo = await getVariantById(item.variant).then((data) => data)
-			const itemWithVariantInfo: CartItemWithFullVariantInfo = {
-				...item,
-				variant: variantInfo.items,
-			}
-			return itemWithVariantInfo
-		})
-
-		//NOTE: Invoke the Promise[] to get the CartItemWithFullVariantInfo[]
-		return await Promise.all(fullInfoCartList).then((cartItemArray) => {
-			const cartListFullDetail: CartListFullDetail = {
-				...cartList,
-				items: cartItemArray,
-			}
-			return cartListFullDetail
-		})
 	}
 
 	const getCartListWithFullDetail = async () => {
@@ -96,6 +96,7 @@ export function useCartQuery() {
 		queryKey: ['cart'],
 		queryFn: getCartListWithFullDetail,
 		onError: () => {},
+		refetchOnMount: true,
 		retry: false,
 	})
 

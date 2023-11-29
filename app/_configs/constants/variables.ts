@@ -23,3 +23,20 @@ export const ADMINISTRATOR_ROUTE = {
 		LABEL: 'Order Management',
 	},
 }
+
+export const USER_SETTING_ROUTE = {
+	ORDER: {
+		LINK: '/user/order',
+		LABEL: 'Product Management',
+	},
+	SETTING: {
+		PROFILE: {
+			LINK: '/user/setting/profile',
+			LABEL: 'User Profile Setting',
+		},
+		PASSWORD: {
+			LINK: '/user/setting/changepassword',
+			LABEL: 'User Password Setting',
+		},
+	},
+}

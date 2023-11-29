@@ -78,61 +78,65 @@ export default function ShippingDetailForm() {
 		})
 	}
 	return (
-		<div className='flex-col-start gap-cozy rounded-[8px] bg-neutral-gray-1 p-comfortable shadow-38'>
-			<h2>Delivery Information</h2>
-			<form
-				onSubmit={handleSubmit(onSubmitHandler)}
-				className='flex-col-start gap-cozy'
-			>
-				<div className='grid grid-cols-2 gap-cozy text-body-sm'>
-					<div>
-						<TextField
-							type='text'
-							label='City'
-							placeholder='City'
-							register={register('city')}
-							error={Boolean(errors?.city)}
-							helperText={errors?.city?.message}
-						/>
-					</div>
-					<div>
-						<TextField
-							type='text'
-							label='District'
-							placeholder='District'
-							register={register('district')}
-							error={Boolean(errors?.district)}
-							helperText={errors?.district?.message}
-						/>
-					</div>
-					<div>
-						<TextField
-							type='text'
-							label='Ward'
-							placeholder='Ward'
-							register={register('ward')}
-							error={Boolean(errors?.ward)}
-							helperText={errors?.ward?.message}
-						/>
-					</div>
-					<div>
-						<TextField
-							type='text'
-							label='Address'
-							placeholder='Address'
-							register={register('address')}
-							error={Boolean(errors?.address)}
-							helperText={errors?.address?.message}
-						/>
-					</div>
-				</div>
-				<Button
-					type='submit'
-					disabled={createOrderMutation.isLoading}
+		<>
+			<h2 className='text-body-lg font-semi-bold text-neutral-gray-10'>
+				Delivery Information
+			</h2>
+			<div className='flex-col-start gap-cozy rounded-[8px] bg-neutral-gray-1 p-comfortable shadow-38'>
+				<form
+					onSubmit={handleSubmit(onSubmitHandler)}
+					className='flex-col-start gap-cozy'
 				>
-					{createOrderMutation.isLoading ? 'Processing...' : 'Confirm Checkout'}
-				</Button>
-			</form>
-		</div>
+					<div className='grid grid-cols-2 gap-cozy text-body-sm'>
+						<div>
+							<TextField
+								type='text'
+								label='City'
+								placeholder='City'
+								register={register('city')}
+								error={Boolean(errors?.city)}
+								helperText={errors?.city?.message}
+							/>
+						</div>
+						<div>
+							<TextField
+								type='text'
+								label='District'
+								placeholder='District'
+								register={register('district')}
+								error={Boolean(errors?.district)}
+								helperText={errors?.district?.message}
+							/>
+						</div>
+						<div>
+							<TextField
+								type='text'
+								label='Ward'
+								placeholder='Ward'
+								register={register('ward')}
+								error={Boolean(errors?.ward)}
+								helperText={errors?.ward?.message}
+							/>
+						</div>
+						<div>
+							<TextField
+								type='text'
+								label='Address'
+								placeholder='Address'
+								register={register('address')}
+								error={Boolean(errors?.address)}
+								helperText={errors?.address?.message}
+							/>
+						</div>
+					</div>
+					<Button
+						type='submit'
+						disabled={createOrderMutation.isLoading}
+					>
+						{createOrderMutation.isLoading ? 'Processing...' : 'Place Order'}
+					</Button>
+				</form>
+			</div>
+		</>
 	)
 }

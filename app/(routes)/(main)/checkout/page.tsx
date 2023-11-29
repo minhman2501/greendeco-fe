@@ -3,18 +3,19 @@ import ShippingDetailForm from './ShippingDetailForm'
 import OrderItemList from './OrderList'
 import Image from 'next/image'
 import BrandLogoFullGreen from '@/public/BrandLogoFullGreen.svg'
+import { ArrowLeftIcon } from '@heroicons/react/24/solid'
 
 export default function CheckoutPage() {
 	return (
-		<main className='h-screen max-h-screen w-screen overflow-y-hidden bg-primary-418-20/20'>
-			<div className='container h-full'>
-				<div className='grid h-full max-h-full grid-cols-12 '>
+		<main className='h-screen max-h-screen w-screen  bg-primary-418-20/20'>
+			<div className='container '>
+				<div className='grid  grid-cols-12 gap-comfortable'>
 					<div className='flex-col-start col-span-7 gap-cozy pt-comfortable'>
 						<Header />
 						<ShippingDetailForm />
 					</div>
 
-					<div className='col-span-5 h-full max-h-screen overflow-y-hidden p-comfortable '>
+					<div className='col-span-5 h-full max-h-screen py-comfortable '>
 						<OrderItemList />
 					</div>
 				</div>
@@ -36,7 +37,10 @@ const Header = () => {
 				replace
 				scroll
 			>
-				Continue Shopping
+				<span className='flex items-center gap-[4px]'>
+					<ArrowLeftIcon className='aspect-square h-[12px]' />
+					Continue Shopping
+				</span>
 			</Link>
 		</div>
 	)

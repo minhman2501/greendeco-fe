@@ -11,8 +11,8 @@ export default function ManageProductLayout({ children }: { children: React.Reac
 	return (
 		<main className='h-screen max-h-screen w-screen  '>
 			<div className='flex-col-start h-full w-full items-center '>
-				<div className='flex-col-start w-full gap-compact  border-b-[1px] border-primary-625 py-[40px]'>
-					<div className='flex-col-start container items-center gap-cozy text-status-success'>
+				<div className='flex-col-start w-full gap-compact  border-b-[1px] border-primary-625 bg-status-success py-[40px]'>
+					<div className='flex-col-start container items-center gap-cozy text-neutral-gray-1'>
 						<CheckBadgeIcon className='aspect-square h-[80px]' />
 						<h1 className=' text-heading capitalize '>Order Successfully Placed!</h1>
 					</div>

@@ -3,10 +3,33 @@ import { OrderData, getOrderPrice } from '@/app/_api/axios/order'
 import { VARIANT_CURRENCY } from '@/app/_configs/constants/variables'
 import { BanknotesIcon, CreditCardIcon } from '@heroicons/react/24/solid'
 import { useQuery } from '@tanstack/react-query'
+import { AxiosError } from 'axios'
+import { NOT_FOUND_STATUS, UNAUTHORIZE_STATUS } from '@/app/_configs/constants/status'
+import { useRouter } from 'next/navigation'
+
 export default function PaymentInformation({ orderId }: { orderId: OrderData['id'] }) {
+	const router = useRouter()
 	const orderPriceQuery = useQuery({
 		queryKey: ['order', 'price'],
 		queryFn: () => getOrderPrice(orderId),
+
+		onError: (e) => {
+			if (e instanceof AxiosError) {
+				if (
+					e.code === NOT_FOUND_STATUS.toString() ||
+					e.response?.status === NOT_FOUND_STATUS
+				) {
+					router.back()
+				}
+
+				if (
+					e.code === UNAUTHORIZE_STATUS.toString() ||
+					e.response?.status === UNAUTHORIZE_STATUS
+				) {
+					router.push('/login')
+				}
+			}
+		},
 	})
 
 	const { data } = orderPriceQuery

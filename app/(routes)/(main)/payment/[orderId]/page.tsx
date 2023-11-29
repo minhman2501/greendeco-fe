@@ -1,4 +1,4 @@
-import { ArrowLeftIcon, ArrowRightIcon } from '@heroicons/react/24/solid'
+import { ClipboardDocumentListIcon, ShoppingBagIcon } from '@heroicons/react/24/solid'
 import Link from 'next/link'
 import PaymentInformation from './PaymentInformation'
 
@@ -49,7 +49,7 @@ const PaymentGuide = ({ orderId }: { orderId: string }) => {
 						className='btn flex-1'
 					>
 						<span className='flex items-center justify-center gap-compact font-semi-bold'>
-							<ArrowLeftIcon className='aspect-square h-[24px]' />
+							<ShoppingBagIcon className='aspect-square h-[24px]' />
 							Back to shopping
 						</span>
 					</Link>
@@ -59,7 +59,7 @@ const PaymentGuide = ({ orderId }: { orderId: string }) => {
 					>
 						<span className='flex items-center justify-center gap-compact font-semi-bold'>
 							View Order List
-							<ArrowRightIcon className='aspect-square h-[24px]' />
+							<ClipboardDocumentListIcon className='aspect-square h-[24px]' />
 						</span>
 					</Link>
 				</div>

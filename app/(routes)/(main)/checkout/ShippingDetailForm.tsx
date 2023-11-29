@@ -6,7 +6,7 @@ import {
 	ShippingAddressFormInputType,
 } from '@/app/_configs/schemas/shippingAddress'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { createOrder } from '@/app/_api/axios/order'
+import { CreateOrderResponseData, createOrder } from '@/app/_api/axios/order'
 import { AxiosError } from 'axios'
 import { deleteCookie } from 'cookies-next'
 import { useRouter } from 'next/navigation'
@@ -37,18 +37,19 @@ export default function ShippingDetailForm() {
 		defaultValues: defaultInputValues,
 	})
 
-	const handleCreateOrderSuccess = () => {
+	const handleCreateOrderSuccess = (data: CreateOrderResponseData) => {
+		const { id } = data
 		reset()
+		router.replace(`/payment/${id}`)
 		deleteCookie('cartId')
-		queryClient.invalidateQueries(['cart'])
-		router.replace('/')
+		queryClient.invalidateQueries(['cart'], { exact: true })
 	}
 
 	const createOrderMutation = useMutation({
 		//NOTE: The callback used for the mutation
 		mutationFn: createOrder,
 		//NOTE: Execuse after receiving suscess responses
-		onSuccess: handleCreateOrderSuccess,
+		onSuccess: (data) => handleCreateOrderSuccess(data.data),
 		//NOTE: Execuse after receving failure responses
 		onError: (e) => {
 			if (e instanceof AxiosError) {

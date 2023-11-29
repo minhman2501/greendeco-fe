@@ -12,8 +12,11 @@ import { AxiosError, AxiosResponse } from 'axios'
 import { getCookie } from 'cookies-next'
 import { VariantData } from '@/app/_api/axios/product'
 import Image from 'next/image'
+import { useRouter } from 'next/navigation'
+import { NOT_FOUND_STATUS } from '@/app/_configs/constants/status'
 
 export default function OrderItemList() {
+	const router = useRouter()
 	const getCartItemForCheckout = async () => {
 		const accessToken = getCookie(ACCESS_TOKEN_COOKIE_NAME)?.toString()
 		const cartId = getCookie('cartId')?.toString()
@@ -29,11 +32,12 @@ export default function OrderItemList() {
 	const getOrderList = useQuery({
 		queryKey: ['cart'],
 		queryFn: getCartItemForCheckout,
-		onError: (e) => {
-			if (e instanceof AxiosError) {
-				console.log(e)
+		onSuccess: (data) => {
+			if (data.page_size === 0) {
+				router.back()
 			}
 		},
+		// onError: (e) => {},
 		retry: false,
 	})
 
@@ -41,8 +45,8 @@ export default function OrderItemList() {
 
 	return (
 		<div className='flex-col-start h-full max-h-full gap-compact  '>
-			<h2 className='text-body-md font-semibold text-primary-625'>Order Summary</h2>
-			{data && (
+			<h2 className='text-body-md font-semibold text-neutral-gray-10'>Order Summary</h2>
+			{data && data.page_size > 0 && (
 				<>
 					<OrderList orderList={data.items} />
 					<OrderCalculator {...data} />

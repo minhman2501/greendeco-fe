@@ -14,15 +14,16 @@ import { VariantData } from '@/app/_api/axios/product'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { NOT_FOUND_STATUS, UNAUTHORIZE_STATUS } from '@/app/_configs/constants/status'
+import { memo } from 'react'
 
-export default function OrderItemList() {
+function OrderItemList() {
 	const router = useRouter()
 	const getCartItemForCheckout = async () => {
 		const accessToken = getCookie(ACCESS_TOKEN_COOKIE_NAME)?.toString()
 		const cartId = getCookie('cartId')?.toString()
 
-		if (!accessToken) throw new AxiosError('Unauthorized', '401')
-		if (!cartId) throw new AxiosError('Cart does not exist', '404')
+		if (!accessToken) throw new AxiosError('Unauthorized', UNAUTHORIZE_STATUS.toString())
+		if (!cartId) throw new AxiosError('Cart does not exist', NOT_FOUND_STATUS.toString())
 
 		return await getCartItemListFromCartId(cartId, accessToken).then((cartInfo) =>
 			handleGetCartFullDetail(cartInfo),
@@ -30,7 +31,7 @@ export default function OrderItemList() {
 	}
 
 	const getOrderList = useQuery({
-		queryKey: ['cart'],
+		queryKey: ['cart', 'order'],
 		queryFn: getCartItemForCheckout,
 		onSuccess: (data) => {
 			if (data.page_size === 0) {
@@ -45,7 +46,6 @@ export default function OrderItemList() {
 				) {
 					router.back()
 				}
-
 				if (
 					e.code === UNAUTHORIZE_STATUS.toString() ||
 					e.response?.status === UNAUTHORIZE_STATUS
@@ -191,3 +191,5 @@ function OrderCalculator({ items }: CartListFullDetail) {
 		</div>
 	)
 }
+
+export default memo(OrderItemList)

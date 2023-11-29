@@ -7,5 +7,9 @@ export const metadata: Metadata = {
 }
 
 export default function ManageProductLayout({ children }: { children: React.ReactNode }) {
-	return <>{children}</>
+	return (
+		<main className='h-screen max-h-screen w-screen  bg-primary-418-20/20'>
+			<div className='container '>{children}</div>
+		</main>
+	)
 }

@@ -7,20 +7,16 @@ import { ArrowLeftIcon } from '@heroicons/react/24/solid'
 
 export default function CheckoutPage() {
 	return (
-		<main className='h-screen max-h-screen w-screen  bg-primary-418-20/20'>
-			<div className='container '>
-				<div className='grid  grid-cols-12 gap-comfortable'>
-					<div className='flex-col-start col-span-7 gap-cozy pt-comfortable'>
-						<Header />
-						<ShippingDetailForm />
-					</div>
-
-					<div className='col-span-5 h-full max-h-screen py-comfortable '>
-						<OrderItemList />
-					</div>
-				</div>
+		<div className='grid grid-cols-12 gap-comfortable'>
+			<div className='flex-col-start col-span-7 gap-cozy pt-comfortable'>
+				<Header />
+				<ShippingDetailForm />
 			</div>
-		</main>
+
+			<div className='col-span-5 h-full max-h-screen py-comfortable '>
+				<OrderItemList />
+			</div>
+		</div>
 	)
 }
 

@@ -15,6 +15,7 @@ import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { NOT_FOUND_STATUS, UNAUTHORIZE_STATUS } from '@/app/_configs/constants/status'
 import { memo } from 'react'
+import { MutatingDots } from 'react-loader-spinner'
 
 function OrderItemList() {
 	const router = useRouter()
@@ -58,11 +59,26 @@ function OrderItemList() {
 		retry: false,
 	})
 
-	const { data } = getOrderList
+	const { data, isLoading } = getOrderList
 
 	return (
 		<div className='flex-col-start h-full max-h-full gap-compact  '>
 			<h2 className='text-body-md font-semibold text-neutral-gray-10'>Order Summary</h2>
+			{isLoading && (
+				<div className='flex w-full justify-center'>
+					<MutatingDots
+						height='100'
+						width='100'
+						color='#4fa94d'
+						secondaryColor='#4fa94d'
+						radius='12.5'
+						ariaLabel='mutating-dots-loading'
+						wrapperStyle={{}}
+						wrapperClass=''
+						visible={true}
+					/>
+				</div>
+			)}
 			{data && data.page_size > 0 && (
 				<>
 					<OrderList orderList={data.items} />

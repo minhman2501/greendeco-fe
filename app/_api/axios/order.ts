@@ -6,13 +6,16 @@ import {
 	ACCESS_TOKEN_COOKIE_NAME,
 	ADMIN_ACCESS_TOKEN_COOKIE_NAME,
 } from '@/app/_configs/constants/cookies'
+import { UserProfileResponseData } from './user'
 
 const ORDER_URL = `${process.env.NEXT_PUBLIC_GREENDECO_BACKEND_API}/order`
+
+type OrderState = 'draft' | 'processing' | 'completed' | 'cancelled'
 
 export type CreateOrderData = {
 	cart_id: CartInfoData['id']
 	coupon_id?: string
-	shipping_address: string
+	shipping_address: OrderData['shipping_address']
 }
 
 type CreateOrderRequestData = {
@@ -20,8 +23,23 @@ type CreateOrderRequestData = {
 	accessToken: string | undefined
 }
 
-type CreateOrderResponseData = {
+type OrderData = {
 	id: string
+	owner_id: UserProfileResponseData['id']
+	user_name: string
+	user_email: UserProfileResponseData['email']
+	shipping_address: string
+	user_phone_number: UserProfileResponseData['phoneNumber']
+	state: OrderState
+	coupon_id: string | null
+	coupon_discount: number
+	paid_at: string | null
+	created_at: string
+	updated_at: string
+}
+
+export type CreateOrderResponseData = {
+	id: OrderData['id']
 }
 
 export const orderApi = axios.create({

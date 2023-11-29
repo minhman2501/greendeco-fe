@@ -12,7 +12,7 @@ export default function PaymentPage({
 	return (
 		<div className='flex-col-start h-full items-center  gap-cozy'>
 			<p className=' text-heading font-bold text-primary-625'>
-				Thank you for shopping at GreenDeco 🫶
+				Thank you for shopping at GreenDeco <span className='text-[3rem]'>🫶 🥰</span>
 			</p>
 			<div className='flex  gap-comfortable'>
 				<PaymentGuide orderId={orderId} />

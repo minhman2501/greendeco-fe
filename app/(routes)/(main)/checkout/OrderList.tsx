@@ -13,7 +13,7 @@ import { getCookie } from 'cookies-next'
 import { VariantData } from '@/app/_api/axios/product'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
-import { NOT_FOUND_STATUS } from '@/app/_configs/constants/status'
+import { NOT_FOUND_STATUS, UNAUTHORIZE_STATUS } from '@/app/_configs/constants/status'
 
 export default function OrderItemList() {
 	const router = useRouter()
@@ -37,7 +37,24 @@ export default function OrderItemList() {
 				router.back()
 			}
 		},
-		// onError: (e) => {},
+		onError: (e) => {
+			if (e instanceof AxiosError) {
+				if (
+					e.code === NOT_FOUND_STATUS.toString() ||
+					e.response?.status === NOT_FOUND_STATUS
+				) {
+					router.back()
+				}
+
+				if (
+					e.code === UNAUTHORIZE_STATUS.toString() ||
+					e.response?.status === UNAUTHORIZE_STATUS
+				) {
+					router.push('/login')
+				}
+			}
+		},
+
 		retry: false,
 	})
 

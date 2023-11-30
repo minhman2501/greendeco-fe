@@ -25,8 +25,10 @@ export default function OrderStateFilterMenu() {
 					},
 				}}
 				className={clsx('w-fit    px-comfortable py-compact text-body-sm font-semi-bold ', {
-					'border-b-[3px] border-primary-418 text-primary-418': fieldQuery === '',
-					'border-b-[1px] border-primary-418-20 text-primary-418-60': fieldQuery !== '',
+					'border-b-[3px] border-primary-418 text-primary-418':
+						fieldQuery === '' || !fieldQuery,
+					'border-b-[1px] border-primary-418-20 text-primary-418-60':
+						fieldQuery !== '' && fieldQuery,
 				})}
 			>
 				All

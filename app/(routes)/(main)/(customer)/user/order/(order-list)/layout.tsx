@@ -1,7 +1,6 @@
 import { ReactNode } from 'react'
 import type { Metadata } from 'next'
-import { CheckBadgeIcon } from '@heroicons/react/24/outline'
-import Block from '@/app/_components/Block'
+import Link from 'next/link'
 
 export const metadata: Metadata = {
 	title: 'Order Success!',
@@ -11,9 +10,66 @@ export const metadata: Metadata = {
 export default function UserOrderListPageLayout({ children }: { children: ReactNode }) {
 	return (
 		<div className='flex-col-start w-full gap-cozy'>
-			<Block>
-				<h1>Order History Page</h1>
-			</Block>
+			<div className='rounded-[4px] bg-neutral-gray-1 p-cozy shadow-38'>
+				<h1 className='font-semi-bold text-primary-418'>Order List</h1>
+				<div className='flex items-center gap-cozy'>
+					<Link
+						href={{
+							pathname: '',
+							query: {
+								field: null,
+							},
+						}}
+						className=' w-fit px-comfortable py-compact'
+					>
+						All
+					</Link>
+					<Link
+						href={{
+							pathname: '',
+							query: {
+								field: '{"state":"draft"}',
+							},
+						}}
+						className=' w-fit px-comfortable py-compact'
+					>
+						Draft
+					</Link>
+					<Link
+						href={{
+							pathname: '',
+							query: {
+								field: '{"state":"processing"}',
+							},
+						}}
+						className=' w-fit px-comfortable py-compact'
+					>
+						Proccesing
+					</Link>
+					<Link
+						href={{
+							pathname: '',
+							query: {
+								field: '{"state":"completed"}',
+							},
+						}}
+						className=' w-fit px-comfortable py-compact'
+					>
+						Completed
+					</Link>
+					<Link
+						href={{
+							pathname: '',
+							query: {
+								field: '{"state":"cancelled"}',
+							},
+						}}
+						className=' w-fit px-comfortable py-compact'
+					>
+						Cancelled
+					</Link>
+				</div>
+			</div>
 			{children}
 		</div>
 	)

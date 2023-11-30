@@ -1,6 +1,7 @@
 import { ReactNode } from 'react'
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import OrderStateFilterMenu from './OrderStateFilterMenu'
 
 export const metadata: Metadata = {
 	title: 'Order Success!',
@@ -12,63 +13,7 @@ export default function UserOrderListPageLayout({ children }: { children: ReactN
 		<div className='flex-col-start w-full gap-cozy'>
 			<div className='rounded-[4px] bg-neutral-gray-1 p-cozy shadow-38'>
 				<h1 className='font-semi-bold text-primary-418'>Order List</h1>
-				<div className='flex items-center gap-cozy'>
-					<Link
-						href={{
-							pathname: '',
-							query: {
-								field: null,
-							},
-						}}
-						className=' w-fit px-comfortable py-compact'
-					>
-						All
-					</Link>
-					<Link
-						href={{
-							pathname: '',
-							query: {
-								field: '{"state":"draft"}',
-							},
-						}}
-						className=' w-fit px-comfortable py-compact'
-					>
-						Draft
-					</Link>
-					<Link
-						href={{
-							pathname: '',
-							query: {
-								field: '{"state":"processing"}',
-							},
-						}}
-						className=' w-fit px-comfortable py-compact'
-					>
-						Proccesing
-					</Link>
-					<Link
-						href={{
-							pathname: '',
-							query: {
-								field: '{"state":"completed"}',
-							},
-						}}
-						className=' w-fit px-comfortable py-compact'
-					>
-						Completed
-					</Link>
-					<Link
-						href={{
-							pathname: '',
-							query: {
-								field: '{"state":"cancelled"}',
-							},
-						}}
-						className=' w-fit px-comfortable py-compact'
-					>
-						Cancelled
-					</Link>
-				</div>
+				<OrderStateFilterMenu />
 			</div>
 			{children}
 		</div>

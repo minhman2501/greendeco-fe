@@ -27,7 +27,7 @@ function OrderProductItem({ product }: { product: OrderProductData }) {
 	const { variant_name, variant_id, variant_price, quantity } = product
 	return (
 		<div className='grid grid-cols-10 gap-cozy'>
-			<span className='col-span-6  flex items-center text-body-md font-semi-bold text-primary-418'>
+			<span className='col-span-6  flex items-center text-body-md font-semi-bold text-primary-625'>
 				{variant_name}
 			</span>
 			<span className=' col-span-2 flex items-center justify-center rounded-[4px] border-[1px] border-primary-625 px-cozy py-compact text-body-sm text-neutral-gray-10'>

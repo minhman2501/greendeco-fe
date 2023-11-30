@@ -9,7 +9,9 @@ export const metadata: Metadata = {
 export default function UserOrderListPageLayout({ children }: { children: ReactNode }) {
 	return (
 		<div className='flex-col-start w-full gap-cozy'>
-			<div className='rounded-[4px] bg-neutral-gray-1 p-cozy shadow-38'>{children}</div>
+			<div className='rounded-[4px] bg-neutral-gray-1 p-comfortable shadow-38'>
+				{children}
+			</div>
 		</div>
 	)
 }

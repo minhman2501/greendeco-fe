@@ -8,11 +8,13 @@ export const metadata: Metadata = {
 	description: 'Your order has been placed! Time for payment',
 }
 
-export default function UserOrderList({ children }: { children: ReactNode }) {
+export default function UserOrderListPageLayout({ children }: { children: ReactNode }) {
 	return (
-		<Block>
-			<h1>Order History Page</h1>
+		<div className='flex-col-start w-full gap-cozy'>
+			<Block>
+				<h1>Order History Page</h1>
+			</Block>
 			{children}
-		</Block>
+		</div>
 	)
 }

@@ -48,22 +48,22 @@ function CustomerAndShippingDetail({
 	return (
 		<div className='flex-col-start  divide-y divide-primary-418-60 rounded-[8px] border-[2px] border-primary-625-60 p-cozy shadow-18'>
 			<div className='flex-col-start gap-[4px] pb-cozy text-body-sm '>
-				<h2 className='mb-[4px] text-body-lg font-semi-bold'>Customer</h2>
+				<h2 className='mb-[4px] text-body-lg font-semi-bold text-primary-625'>Customer</h2>
 				<span className='flex items-center gap-compact'>
-					<UserCircleIcon className='aspect-square h-[20px]' />
+					<UserCircleIcon className='aspect-square h-[20px] text-primary-5555' />
 					{user_name}
 				</span>
 				<span className='flex items-center gap-compact'>
-					<EnvelopeIcon className='aspect-square h-[20px]' />
+					<EnvelopeIcon className='aspect-square h-[20px] text-primary-5555' />
 					{user_email}
 				</span>
 				<span className='flex items-center gap-compact'>
-					<PhoneIcon className='aspect-square h-[20px]' />
+					<PhoneIcon className='aspect-square h-[20px] text-primary-5555' />
 					{user_phone_number}
 				</span>
 			</div>
 			<div className='flex-col-start gap-[4px] pt-cozy text-body-sm '>
-				<div className='flex items-center gap-compact '>
+				<div className='flex items-center gap-compact text-primary-625'>
 					<TruckIcon className='aspect-square h-[20px]' />
 					<h2 className=' text-body-lg font-semi-bold'>Shipping Address</h2>
 				</div>

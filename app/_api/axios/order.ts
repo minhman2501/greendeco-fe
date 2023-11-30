@@ -39,6 +39,14 @@ export type OrderData = {
 	updated_at: string
 }
 
+export type OrderDetailResponseData = {
+	items: OrderData
+	next: boolean
+	page: number
+	page_size: number
+	prev: boolean
+}
+
 export type OrderListData = {
 	items: OrderData[]
 	next: boolean
@@ -103,6 +111,17 @@ export const getOrderListByUser = async (params?: FilterParams) => {
 		.then((res) => res.data)
 }
 
+export const getOrderDetailById = async (id: OrderData['id']) => {
+	const accessToken = getCookie(ACCESS_TOKEN_COOKIE_NAME)?.toString()
+
+	return await orderApi
+		.get<OrderDetailResponseData>(`/${id}`, {
+			headers: {
+				Authorization: `Bearer ${accessToken}`,
+			},
+		})
+		.then((res) => res.data)
+}
 export const getOrderPrice = async (orderId: OrderData['id']) => {
 	const accessToken = getCookie(ACCESS_TOKEN_COOKIE_NAME)?.toString()
 

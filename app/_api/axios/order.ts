@@ -85,7 +85,7 @@ export const createOrder = async (data: Omit<CreateOrderData, 'cart_id'>) => {
 	)
 }
 
-export const getOrderListByUser = async (params: FilterParams) => {
+export const getOrderListByUser = async (params?: FilterParams) => {
 	let paramAfterJSON
 	if (params) {
 		paramAfterJSON = fieldJSONParse(params)

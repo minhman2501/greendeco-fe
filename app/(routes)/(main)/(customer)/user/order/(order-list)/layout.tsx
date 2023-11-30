@@ -1,11 +1,10 @@
 import { ReactNode } from 'react'
 import type { Metadata } from 'next'
-import Link from 'next/link'
 import OrderStateFilterMenu from './OrderStateFilterMenu'
 
 export const metadata: Metadata = {
-	title: 'Order Success!',
-	description: 'Your order has been placed! Time for payment',
+	title: 'Order list',
+	description: 'Where you can view your order list',
 }
 
 export default function UserOrderListPageLayout({ children }: { children: ReactNode }) {

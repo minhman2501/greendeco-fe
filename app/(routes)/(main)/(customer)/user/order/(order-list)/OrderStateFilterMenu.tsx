@@ -24,6 +24,7 @@ export default function OrderStateFilterMenu() {
 						field: null,
 					},
 				}}
+				replace={true}
 				className={clsx('w-fit    px-comfortable py-compact text-body-sm font-semi-bold ', {
 					'border-b-[3px] border-primary-418 text-primary-418':
 						fieldQuery === '' || !fieldQuery,
@@ -42,6 +43,7 @@ export default function OrderStateFilterMenu() {
 							field: JSON.stringify(value),
 						},
 					}}
+					replace={true}
 					className={clsx(
 						'w-fit  px-comfortable py-compact text-body-sm font-semi-bold ',
 						{

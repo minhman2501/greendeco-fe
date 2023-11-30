@@ -1,4 +1,5 @@
 import { OrderData, OrderListData } from '@/app/_api/axios/order'
+import { USER_SETTING_ROUTE } from '@/app/_configs/constants/variables'
 import formatDate from '@/app/_hooks/useFormatDate'
 import { DocumentMagnifyingGlassIcon } from '@heroicons/react/24/solid'
 import clsx from 'clsx'
@@ -45,7 +46,7 @@ const OrderItem = ({ order }: { order: OrderData }) => {
 					{order.state}
 				</span>
 				<Link
-					href={'/'}
+					href={`${USER_SETTING_ROUTE.ORDER.LINK}/${order.id}`}
 					className='btn w-fit px-comfortable py-compact'
 				>
 					<span className='flex w-full items-center justify-center gap-[4px] text-body-sm text-neutral-gray-1'>

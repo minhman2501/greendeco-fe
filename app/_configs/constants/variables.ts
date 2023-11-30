@@ -1,3 +1,5 @@
+import { OrderState } from './paramKeys'
+
 export const MIN_PASSWORD = 8
 export const MAX_PASSWORD = 50
 
@@ -38,5 +40,20 @@ export const USER_SETTING_ROUTE = {
 			LINK: '/user/setting/changepassword',
 			LABEL: 'User Password Setting',
 		},
+	},
+}
+
+export const ORDER_STATE_FIELD = {
+	draft: {
+		state: OrderState.Draft,
+	},
+	processing: {
+		state: OrderState.Processing,
+	},
+	completed: {
+		state: OrderState.Completed,
+	},
+	cancelled: {
+		state: OrderState.Cancelled,
 	},
 }

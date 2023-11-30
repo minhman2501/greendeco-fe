@@ -8,3 +8,10 @@ export enum Sort {
 	Ascending = 'asc',
 	Descending = 'desc',
 }
+
+export enum OrderState {
+	Draft = 'draft',
+	Processing = 'processing',
+	Completed = 'completed',
+	Cancelled = 'cancelled',
+}

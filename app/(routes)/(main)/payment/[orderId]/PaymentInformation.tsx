@@ -10,7 +10,7 @@ import { useRouter } from 'next/navigation'
 export default function PaymentInformation({ orderId }: { orderId: OrderData['id'] }) {
 	const router = useRouter()
 	const orderPriceQuery = useQuery({
-		queryKey: ['order', 'price'],
+		queryKey: ['order', 'price', orderId],
 		queryFn: () => getOrderPrice(orderId),
 
 		onError: (e) => {

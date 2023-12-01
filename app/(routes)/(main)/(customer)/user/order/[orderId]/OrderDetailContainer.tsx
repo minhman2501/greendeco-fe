@@ -1,6 +1,15 @@
 import { OrderData } from '@/app/_api/axios/order'
+import { OrderState } from '@/app/_configs/constants/paramKeys'
+import { ORDER_STATE_FIELD } from '@/app/_configs/constants/variables'
 import formatDate from '@/app/_hooks/useFormatDate'
-import { UserCircleIcon, EnvelopeIcon, PhoneIcon, TruckIcon } from '@heroicons/react/24/solid'
+import {
+	UserCircleIcon,
+	EnvelopeIcon,
+	PhoneIcon,
+	TruckIcon,
+	BanknotesIcon,
+} from '@heroicons/react/24/solid'
+import clsx from 'clsx'
 
 export default function OrderDetailContainer({ order }: { order: OrderData }) {
 	return (
@@ -21,18 +30,47 @@ function OrderDetail({ id, created_at, state, paid_at }: OrderData) {
 	return (
 		<div className='flex-col-start divide-y divide-primary-625-60 '>
 			<h2 className='py-compact text-body-lg font-semi-bold'>Order Info</h2>
-			<div className='flex gap-compact p-cozy'>
-				<div className='flex-col-start gap-[4px]  text-body-sm font-semi-bold'>
-					<span>ID:</span>
-					<span>Date Created:</span>
-					<span>Order Status:</span>
-					<span>Payment Status:</span>
+			<div className='flex-col-start gap-common p-cozy text-body-sm'>
+				<div className='grid grid-cols-4 '>
+					<span className='flex items-center font-semi-bold'>ID:</span>
+					<span className='col-span-3'>{id}</span>
 				</div>
-				<div className='flex-col-start gap-[4px]  text-body-sm'>
-					<span>{id}</span>
-					<span>{formatDate(new Date(created_at))}</span>
-					<span>{state}</span>
-					<span>{paid_at ? 'Paid' : 'Waiting For Payment'}</span>
+				<div className='grid grid-cols-4'>
+					<span className='flex items-center font-semi-bold'>Date Created:</span>
+					<span className='col-span-3'>{formatDate(new Date(created_at))}</span>
+				</div>
+				<div className='grid grid-cols-4'>
+					<span className='flex items-center font-semi-bold'>Order Status:</span>
+					<span className='col-span-3'>
+						<span
+							className={clsx(
+								'rounded-[16px] border-[1px] px-cozy py-compact font-semi-bold capitalize text-white',
+								{
+									'bg-order-status-draft': state === OrderState.Draft,
+									'bg-order-status-processing': state === OrderState.Processing,
+									'bg-order-status-completed': state === OrderState.Completed,
+									'bg-order-status-cancelled': state === OrderState.Cancelled,
+								},
+							)}
+						>
+							{state}
+						</span>
+					</span>
+				</div>
+				<div className='grid grid-cols-4'>
+					<span className='flex items-center font-semi-bold'>Payment Status:</span>
+					<span className='col-span-3'>
+						{paid_at ? (
+							<span className='flex w-fit items-center gap-[4px] rounded-[16px] border-[1px] border-status-success bg-status-success px-cozy py-compact font-semi-bold text-neutral-gray-1'>
+								Payment Received{' '}
+								<BanknotesIcon className='aspect-square h-[16px]'></BanknotesIcon>
+							</span>
+						) : (
+							<span className='flex w-fit items-center gap-[4px] rounded-[16px] border-[1px] border-status-success  px-cozy py-compact font-semi-bold text-status-success'>
+								Waiting for Payment
+							</span>
+						)}
+					</span>
 				</div>
 			</div>
 		</div>

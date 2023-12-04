@@ -24,7 +24,7 @@ export default function OrderDetailPage({
 	const { data, isLoading, isError } = orderDetailQuery
 	return (
 		<div>
-			{/* {isLoading && <UserOrderDetailLoading />}
+			{isLoading && <UserOrderDetailLoading />}
 			{data && (
 				<>
 					<h1 className='mb-cozy'>Order Detail</h1>
@@ -38,8 +38,8 @@ export default function OrderDetailPage({
 						/>
 					</div>
 				</>
-			)} */}
-			{data && <ErrorMessage />}
+			)}
+			{isError && <ErrorMessage />}
 		</div>
 	)
 }

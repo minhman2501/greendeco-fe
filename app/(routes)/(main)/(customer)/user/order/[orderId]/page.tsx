@@ -5,6 +5,7 @@ import { useQuery } from '@tanstack/react-query'
 import OrderDetailContainer from './OrderDetailContainer'
 import OrderProductList from './OrderProductList'
 import OrderPrice from './OrderPrice'
+import UserOrderDetailLoading from './loading'
 
 export default function OrderDetailPage({
 	params: { orderId },
@@ -18,9 +19,10 @@ export default function OrderDetailPage({
 		queryFn: () => getOrderFullDetailById(orderId),
 	})
 
-	const { data } = orderDetailQuery
+	const { data, isLoading } = orderDetailQuery
 	return (
 		<div>
+			{isLoading && <UserOrderDetailLoading />}
 			{data && (
 				<>
 					<h1 className='mb-cozy'>Order Detail</h1>

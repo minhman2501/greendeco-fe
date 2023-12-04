@@ -31,7 +31,7 @@ export default function OrderPrice({
 				</div>
 			</div>
 			<div className='mt-compact grid grid-cols-10 text-body-lg'>
-				<div className='col-span-2 col-start-9 flex items-center justify-center rounded-[4px] border-[1px] border-primary-625 bg-primary-625 py-compact font-semi-bold text-neutral-gray-1  shadow-18'>
+				<div className='col-span-2 col-start-9 flex items-center justify-center rounded-[16px] border-[3px] border-primary-625  py-compact font-bold text-primary-625  shadow-38'>
 					Total: {price.total} {VARIANT_CURRENCY}
 				</div>
 			</div>

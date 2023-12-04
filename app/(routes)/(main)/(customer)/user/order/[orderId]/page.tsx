@@ -7,6 +7,7 @@ import OrderProductList from './OrderProductList'
 import OrderPrice from './OrderPrice'
 import UserOrderDetailLoading from './loading'
 import { ExclamationTriangleIcon } from '@heroicons/react/24/solid'
+import { useRouter } from 'next/navigation'
 
 export default function OrderDetailPage({
 	params: { orderId },
@@ -23,7 +24,7 @@ export default function OrderDetailPage({
 	const { data, isLoading, isError } = orderDetailQuery
 	return (
 		<div>
-			{isLoading && <UserOrderDetailLoading />}
+			{/* {isLoading && <UserOrderDetailLoading />}
 			{data && (
 				<>
 					<h1 className='mb-cozy'>Order Detail</h1>
@@ -37,21 +38,28 @@ export default function OrderDetailPage({
 						/>
 					</div>
 				</>
-			)}
-			{isError && <ErrorMessage />}
+			)} */}
+			{data && <ErrorMessage />}
 		</div>
 	)
 }
 
 function ErrorMessage() {
+	const router = useRouter()
 	return (
 		<div className='flex h-[200px] w-full items-center justify-center text-status-error'>
 			<span className='flex-col-center gap-compact'>
 				<ExclamationTriangleIcon className='aspect-square h-[80px]' />
 
-				<p className='text-body-md font-semi-bold'>
-					Oops, something went wrong! Please try again later.
-				</p>
+				<span className='flex items-center gap-compact text-body-md'>
+					<p className=' font-semi-bold'>Oops, something went wrong!</p>
+					<span
+						className='font-regular font-regular underline hover:cursor-pointer hover:font-bold'
+						onClick={() => router.back()}
+					>
+						Go back?
+					</span>
+				</span>
 			</span>
 		</div>
 	)

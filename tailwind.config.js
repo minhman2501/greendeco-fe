@@ -123,6 +123,12 @@ module.exports = {
 						light: '#fdeede',
 					},
 				},
+				'order-status': {
+					draft: '#FFB400',
+					processing: '#0085FF',
+					completed: '#4FF600',
+					cancelled: '#FC0000',
+				},
 			},
 		},
 	},

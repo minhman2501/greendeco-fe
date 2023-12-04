@@ -91,7 +91,7 @@ export type FilterParams = {
 	field?: string
 } | null
 
-const fieldJSONParse = (params: FilterParams) => {
+export const fieldJSONParse = (params: FilterParams) => {
 	if (params) {
 		const { field, ...restParms } = params
 		const fieldJSON = field ? JSON.parse(field) : null

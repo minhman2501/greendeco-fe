@@ -6,6 +6,7 @@ import OrderDetailContainer from './OrderDetailContainer'
 import OrderProductList from './OrderProductList'
 import OrderPrice from './OrderPrice'
 import UserOrderDetailLoading from './loading'
+import { ExclamationTriangleIcon } from '@heroicons/react/24/solid'
 
 export default function OrderDetailPage({
 	params: { orderId },
@@ -19,7 +20,7 @@ export default function OrderDetailPage({
 		queryFn: () => getOrderFullDetailById(orderId),
 	})
 
-	const { data, isLoading } = orderDetailQuery
+	const { data, isLoading, isError } = orderDetailQuery
 	return (
 		<div>
 			{isLoading && <UserOrderDetailLoading />}
@@ -37,6 +38,21 @@ export default function OrderDetailPage({
 					</div>
 				</>
 			)}
+			{isError && <ErrorMessage />}
+		</div>
+	)
+}
+
+function ErrorMessage() {
+	return (
+		<div className='flex h-[200px] w-full items-center justify-center text-status-error'>
+			<span className='flex-col-center gap-compact'>
+				<ExclamationTriangleIcon className='aspect-square h-[80px]' />
+
+				<p className='text-body-md font-semi-bold'>
+					Oops, something went wrong! Please try again later.
+				</p>
+			</span>
 		</div>
 	)
 }

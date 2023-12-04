@@ -54,7 +54,7 @@ function ErrorMessage() {
 				<span className='flex items-center gap-compact text-body-md'>
 					<p className=' font-semi-bold'>Oops, something went wrong!</p>
 					<span
-						className='font-regular font-regular underline hover:cursor-pointer hover:font-bold'
+						className='font-regular  underline hover:cursor-pointer hover:font-bold'
 						onClick={() => router.back()}
 					>
 						Go back?

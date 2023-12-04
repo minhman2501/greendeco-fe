@@ -1,6 +1,7 @@
 import { OrderData } from '@/app/_api/axios/order'
 import { OrderState } from '@/app/_configs/constants/paramKeys'
 import { ORDER_STATE_FIELD } from '@/app/_configs/constants/variables'
+import usePaymentInfoDialog from '@/app/_hooks/dialog/usePaymentInfoDialog'
 import formatDate from '@/app/_hooks/useFormatDate'
 import {
 	UserCircleIcon,
@@ -10,6 +11,7 @@ import {
 	BanknotesIcon,
 } from '@heroicons/react/24/solid'
 import clsx from 'clsx'
+import Button from '@/app/_components/Button'
 
 export default function OrderDetailContainer({ order }: { order: OrderData }) {
 	return (
@@ -27,9 +29,22 @@ export default function OrderDetailContainer({ order }: { order: OrderData }) {
 }
 
 function OrderDetail({ id, created_at, state, paid_at }: OrderData) {
+	const { openPaymentInfoDialog } = usePaymentInfoDialog()
 	return (
 		<div className='flex-col-start divide-y divide-primary-625-60 '>
-			<h2 className='py-compact text-body-lg font-semi-bold'>Order Info</h2>
+			<div className='flex items-center justify-between py-compact'>
+				<h2 className='text-body-lg font-semi-bold'>Order Info</h2>
+				{!paid_at && (
+					<Button
+						onClick={() => {
+							openPaymentInfoDialog(id)
+						}}
+						className='px-comfortable py-compact'
+					>
+						Proceed to pay
+					</Button>
+				)}
+			</div>
 			<div className='flex-col-start gap-common p-cozy text-body-sm'>
 				<div className='grid grid-cols-4 '>
 					<span className='flex items-center font-semi-bold'>ID:</span>

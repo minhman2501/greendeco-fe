@@ -7,7 +7,7 @@ import {
 	ADMIN_ACCESS_TOKEN_COOKIE_NAME,
 } from '@/app/_configs/constants/cookies'
 import { UserProfileResponseData } from './user'
-import { FilterParams, VariantData, fieldJSONParse } from './product'
+import { FilterParams, ProductData, VariantData, fieldJSONParse } from './product'
 
 const ORDER_URL = `${process.env.NEXT_PUBLIC_GREENDECO_BACKEND_API}/order`
 
@@ -62,6 +62,7 @@ export type OrderProductData = {
 	variant_name: VariantData['name']
 	variant_price: VariantData['price']
 	quantity: number
+	product_id: ProductData['id']
 }
 
 export type OrderFullDetailData = {
@@ -112,13 +113,13 @@ export const createOrder = async (data: Omit<CreateOrderData, 'cart_id'>) => {
 	)
 }
 
-export const getOrderListByUser = async (params?: FilterParams) => {
+export const getOrderListByUser = async (params?: FilterParams, token?: string) => {
 	let paramAfterJSON
 	if (params) {
 		paramAfterJSON = fieldJSONParse(params)
 	}
 
-	const accessToken = getCookie(ACCESS_TOKEN_COOKIE_NAME)?.toString()
+	const accessToken = token ? token : getCookie(ACCESS_TOKEN_COOKIE_NAME)?.toString()
 
 	return await orderApi
 		.get<OrderListData>('', {

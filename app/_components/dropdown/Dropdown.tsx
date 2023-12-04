@@ -34,7 +34,7 @@ export const Dropdown = ({
 	return (
 		<div
 			className={clsx(
-				'relative flex h-[340px] w-[340px] flex-col items-center rounded-lg',
+				'relative flex w-[340px] flex-col items-center rounded-lg',
 				containerStyle,
 			)}
 		>

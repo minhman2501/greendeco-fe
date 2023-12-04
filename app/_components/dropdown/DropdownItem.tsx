@@ -1,7 +1,7 @@
 import clxs, { ClassValue } from 'clsx'
 import React from 'react'
 
-type DropdownItemPros = {
+type DropdownItemProps = {
 	content: String
 	onSelect: (value: any) => void
 	optionContainerStyle?: ClassValue
@@ -13,7 +13,7 @@ export const DropdownItem = ({
 	onSelect,
 	optionContainerStyle,
 	optionTextStyle,
-}: DropdownItemPros) => {
+}: DropdownItemProps) => {
 	return (
 		<div
 			className={clxs(
@@ -22,7 +22,7 @@ export const DropdownItem = ({
 			)}
 			onClick={onSelect}
 		>
-			<h3 className={clxs('text-lg font-bold', optionTextStyle)}> {content}</h3>
+			<h3 className={clxs('text-lg font-bold capitalize', optionTextStyle)}> {content}</h3>
 		</div>
 	)
 }

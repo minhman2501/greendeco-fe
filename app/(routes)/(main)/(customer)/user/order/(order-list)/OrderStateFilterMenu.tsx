@@ -16,7 +16,7 @@ export default function OrderStateFilterMenu() {
 	const fieldQuery: QueryParams['field'] = queryParams?.get('field')
 
 	return (
-		<ul className='mt-cozy flex capitalize'>
+		<ul className='flex capitalize'>
 			<Link
 				href={{
 					pathname: '',

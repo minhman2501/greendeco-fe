@@ -11,12 +11,25 @@ export default function OrderHistoryPage() {
 
 	const userOrderListQuery = useQuery({
 		queryKey: ['order', 'user', queryObject],
-		queryFn: () => getOrderListByUser(queryObject),
+		queryFn: () =>
+			getOrderListByUser({
+				limit: 10,
+				...queryObject,
+			}),
 		refetchOnMount: true,
 		refetchOnWindowFocus: true,
 		refetchOnReconnect: true,
 	})
 
 	const { data } = userOrderListQuery
-	return <>{data && data.page_size > 0 && <UserOrderList orderList={data.items} />}</>
+
+	return (
+		<>
+			{data && data.page_size > 0 && (
+				<>
+					<UserOrderList orderList={data.items} />
+				</>
+			)}
+		</>
+	)
 }

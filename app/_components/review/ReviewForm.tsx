@@ -9,7 +9,7 @@ import { getCookie } from 'cookies-next'
 import { ADMIN_ACCESS_TOKEN_COOKIE_NAME } from '@/app/_configs/constants/cookies'
 import { MultilineTextField } from '@/app/_components/form/MultiplelineTextField'
 import { ReviewFormInputType, ReviewSchema } from '@/app/_configs/schemas/review'
-import { error } from 'console'
+import Rating from '../form/Rating'
 
 export default function CreateReviewForm() {
 	const defaultInputValues: ReviewFormInputType = {
@@ -60,39 +60,14 @@ export default function CreateReviewForm() {
 		>
 			<>
 				<div className='flex-col-start gap-cozy text-body-md'>
-					<div className='flex gap-cozy'>
-						<input
-							{...register('star')}
-							type='radio'
-							value={1}
-							id='field-1-star'
-						></input>
-						<input
-							{...register('star')}
-							type='radio'
-							value={2}
-							id='field-1-star'
-						></input>
-						<input
-							{...register('star')}
-							type='radio'
-							value={3}
-							id='field-1-star'
-						></input>
-						<input
-							{...register('star')}
-							type='radio'
-							value={4}
-							id='field-1-star'
-						></input>
-						<input
-							{...register('star')}
-							type='radio'
-							value={5}
-							id='field-1-star'
-						></input>
+					<div>
+						<Rating
+							label='Rating'
+							register={register('star')}
+							error={Boolean(errors?.star)}
+							helperText={errors?.star?.message}
+						/>
 					</div>
-					{errors.star && <p>{errors.star.message}</p>}
 					<div className='flex-1'>
 						<MultilineTextField
 							label='Product Comment'

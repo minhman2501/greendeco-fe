@@ -2,7 +2,7 @@ import * as z from 'zod'
 
 export const ReviewSchema = z
 	.object({
-		review: z
+		content: z
 			.string()
 			.min(5, 'Your comment needs to have more than 5 characters')
 			.max(40, 'No more than 40 characters'),

@@ -10,8 +10,10 @@ import { ADMIN_ACCESS_TOKEN_COOKIE_NAME } from '@/app/_configs/constants/cookies
 import { MultilineTextField } from '@/app/_components/form/MultiplelineTextField'
 import { ReviewFormInputType, ReviewSchema } from '@/app/_configs/schemas/review'
 import Rating from '../form/Rating'
+import { useDialogStore } from '@/app/_configs/store/useDialogStore'
 
 export default function CreateReviewForm() {
+	const { closeDialog } = useDialogStore()
 	const defaultInputValues: ReviewFormInputType = {
 		review: '',
 		star: '0',
@@ -84,7 +86,7 @@ export default function CreateReviewForm() {
 						<Button
 							className='btnSecondary flex-1'
 							type='button'
-							onClick={() => handleResetForm()}
+							onClick={closeDialog}
 							disabled={createProductMutation.isLoading}
 						>
 							Cancel

@@ -9,13 +9,14 @@ export type RatingProps = {
 	helperText?: string
 	register?: UseFormRegisterReturn
 	className?: string
+	starWrapperClassName?: string
 	error?: boolean
 }
 
 const starGrades = [1, 2, 3, 4, 5]
 
 export default function Rating(props: RatingProps) {
-	const { className, label, helperText, error, register } = props
+	const { className, label, helperText, error, register, starWrapperClassName } = props
 
 	const [rating, setRating] = useState<number>(0)
 
@@ -23,11 +24,16 @@ export default function Rating(props: RatingProps) {
 		<>
 			<div className={clsx('flex-col-start gap-compact', className)}>
 				{label && <label className='font-bold'>{label}</label>}
-				<span className='flex w-full  items-center justify-center gap-compact'>
+				<span
+					className={clsx(
+						starWrapperClassName,
+						'flex h-[40px]  w-full items-center justify-center gap-compact',
+					)}
+				>
 					{starGrades.map((star) => {
 						return (
 							<label
-								className='h-[40px]'
+								className='h-full'
 								key={star}
 							>
 								<input
@@ -41,7 +47,7 @@ export default function Rating(props: RatingProps) {
 								<StarIcon
 									className={clsx('aspect-square h-full cursor-pointer', {
 										'text-status-success': star <= rating,
-										'text-neutral-gray-2': star > rating,
+										'text-neutral-gray-4': star > rating,
 									})}
 								/>
 							</label>

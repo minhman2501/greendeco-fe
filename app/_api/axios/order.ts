@@ -38,6 +38,14 @@ export type OrderData = {
 	updated_at: string
 }
 
+export type OrderListData = {
+	items: OrderData[]
+	next: boolean
+	page: number
+	page_size: number
+	prev: boolean
+}
+
 type OrderPrice = {
 	actual_price: number
 	total: number

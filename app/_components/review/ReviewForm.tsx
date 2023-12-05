@@ -2,6 +2,7 @@
 import Button from '@/app/_components/Button'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import clsx from 'clsx'
 
 import { useMutation } from '@tanstack/react-query'
 import { MultilineTextField } from '@/app/_components/form/MultiplelineTextField'
@@ -11,9 +12,13 @@ import { useDialogStore } from '@/app/_configs/store/useDialogStore'
 import { ProductData } from '@/app/_api/axios/product'
 import { createProductReview } from '@/app/_api/axios/reviews'
 import { AxiosError } from 'axios'
+import { notifySendReviewSuccess } from './Notifications'
+import { UNAUTHORIZE_STATUS } from '@/app/_configs/constants/status'
+import { useRouter } from 'next/navigation'
 
 export default function CreateReviewForm({ productId }: { productId: ProductData['id'] }) {
 	const { closeDialog } = useDialogStore()
+	const router = useRouter()
 	const defaultInputValues: ReviewFormInputType = {
 		content: '',
 		star: '0',
@@ -37,12 +42,15 @@ export default function CreateReviewForm({ productId }: { productId: ProductData
 		mutationFn: createProductReview,
 		//NOTE: Execuse after receiving suscess responses
 		onSuccess: (data) => {
-			console.log('success')
+			notifySendReviewSuccess()
+			closeDialog()
 		},
 		//NOTE: Execuse after receving failure responses
 		onError: (e) => {
 			if (e instanceof AxiosError) {
-				console.log(e)
+				if (e.response?.status === UNAUTHORIZE_STATUS) {
+					router.push('/login')
+				}
 			}
 		},
 	})
@@ -56,9 +64,6 @@ export default function CreateReviewForm({ productId }: { productId: ProductData
 		})
 	}
 
-	const handleResetForm = () => {
-		reset()
-	}
 	return (
 		<form
 			onSubmit={handleSubmit(onSubmitHandler)}
@@ -88,7 +93,9 @@ export default function CreateReviewForm({ productId }: { productId: ProductData
 					</div>
 					<div className='flex w-full  gap-cozy'>
 						<Button
-							className='btnSecondary flex-1'
+							className={clsx('btnSecondary flex-1', {
+								hidden: createReviewMutation.isLoading,
+							})}
 							type='button'
 							onClick={closeDialog}
 							disabled={createReviewMutation.isLoading}

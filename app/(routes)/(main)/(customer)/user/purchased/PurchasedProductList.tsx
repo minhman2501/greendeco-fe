@@ -4,6 +4,8 @@ import Button from '@/app/_components/Button'
 import { StarIcon } from '@heroicons/react/24/outline'
 import { MagnifyingGlassIcon } from '@heroicons/react/24/solid'
 import useCreateProductReviewDialog from '@/app/_hooks/dialog/useCreateReviewDialog'
+import { useRouter } from 'next/navigation'
+import { SHOP_ROUTE } from '@/app/_configs/constants/variables'
 
 export default function PurchasedProductList({ productList }: { productList: ProductData[] }) {
 	return (
@@ -46,11 +48,11 @@ function ItemDetail({ name }: { name: ProductData['name'] }) {
 }
 
 function ItemButtons(product: ProductData) {
+	const router = useRouter()
 	const { openCreateProductReviewDialog } = useCreateProductReviewDialog({
 		productId: product.id,
-		productName: product.name,
-		images: product.images,
 	})
+
 	return (
 		<div className='flex items-center justify-between gap-cozy'>
 			<Button
@@ -62,6 +64,7 @@ function ItemButtons(product: ProductData) {
 				<StarIcon className='aspect-square h-[16px]' />
 			</Button>
 			<Button
+				onClick={() => router.push(`${SHOP_ROUTE.PRODUCT_DETAIL.LINK}/${product.id}`)}
 				type='button'
 				className='btnSecondary flex flex-1 items-center justify-center gap-[4px] text-body-sm font-semi-bold'
 			>

@@ -63,6 +63,8 @@ export default function CreateReviewForm() {
 					<div>
 						<Rating
 							label='Rating'
+							className='gap-0'
+							starWrapperClassName='h-[56px]'
 							register={register('star')}
 							error={Boolean(errors?.star)}
 							helperText={errors?.star?.message}
@@ -70,7 +72,7 @@ export default function CreateReviewForm() {
 					</div>
 					<div className='flex-1'>
 						<MultilineTextField
-							label='Product Comment'
+							label='Comment'
 							placeholder='Leave your comment here'
 							className='h-[200px]'
 							register={register('review')}
@@ -78,14 +80,7 @@ export default function CreateReviewForm() {
 							helperText={errors?.review?.message}
 						/>
 					</div>
-					<div className='mt-cozy flex w-full  gap-cozy'>
-						<Button
-							type='submit'
-							className='flex-1'
-							disabled={createProductMutation.isLoading}
-						>
-							{createProductMutation.isLoading ? 'Creating...' : 'Create'}
-						</Button>
+					<div className='flex w-full  gap-cozy'>
 						<Button
 							className='btnSecondary flex-1'
 							type='button'
@@ -93,6 +88,13 @@ export default function CreateReviewForm() {
 							disabled={createProductMutation.isLoading}
 						>
 							Cancel
+						</Button>
+						<Button
+							type='submit'
+							className='flex-1'
+							disabled={createProductMutation.isLoading}
+						>
+							{createProductMutation.isLoading ? 'Creating...' : 'Create'}
 						</Button>
 					</div>
 				</div>

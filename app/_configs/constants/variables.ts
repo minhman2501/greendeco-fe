@@ -43,6 +43,15 @@ export const USER_SETTING_ROUTE = {
 	},
 }
 
+export const SHOP_ROUTE = {
+	SHOP_LIST: {
+		LINK: '/shop/product-list',
+	},
+	PRODUCT_DETAIL: {
+		LINK: '/shop/product-detail',
+	},
+}
+
 export const ORDER_STATE_FIELD = {
 	draft: {
 		state: OrderState.Draft,

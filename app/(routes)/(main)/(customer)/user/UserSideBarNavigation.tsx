@@ -19,7 +19,7 @@ const userNavigationList: UserNavigation[] = [
 	},
 	{
 		path: '/order',
-		label: 'Order History',
+		label: 'Order list',
 		icon: <TruckIcon className='aspect-square w-[24px]' />,
 	},
 	{

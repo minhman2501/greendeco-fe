@@ -3,12 +3,12 @@ import { FilterParams, getProductList } from '@/app/_api/axios/product'
 import ProductCardsGrid from '@/app/_components/product/ProductGrid'
 import { useQuery } from '@tanstack/react-query'
 import useQueryParams from '@/app/_hooks/useQueryParams'
-import Pagination from './Pagination'
-import { SortMenu } from './ProductSortMenu'
+import { ProductSortMenu } from './ProductSortMenu'
 import FilterSideBar from './ProductFilterSideBar'
 import ProductListLoading from './loading'
 import { FaceFrownIcon } from '@heroicons/react/24/solid'
 import ProuductListError from './error'
+import ProductListPagination from './ProductListPagination'
 
 export default function ProductListPage() {
 	const { queryObject } = useQueryParams<FilterParams>()
@@ -35,7 +35,7 @@ export default function ProductListPage() {
 					{productListQuery.isError === false &&
 						productListQuery.data?.page_size !== 0 && (
 							<div className='flex w-full items-center justify-end'>
-								<SortMenu />
+								<ProductSortMenu />
 							</div>
 						)}
 
@@ -50,7 +50,7 @@ export default function ProductListPage() {
 										columns={4}
 										gap='cozy'
 									/>
-									<Pagination
+									<ProductListPagination
 										next={productListQuery.data.next}
 										prev={productListQuery.data.prev}
 									/>

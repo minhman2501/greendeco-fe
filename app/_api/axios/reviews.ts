@@ -2,6 +2,8 @@ import axios from 'axios'
 import { ProductData } from './product'
 import { UserProfileResponseData } from './user'
 import { Sort } from '@/app/_configs/constants/paramKeys'
+import { getCookie } from 'cookies-next'
+import { ACCESS_TOKEN_COOKIE_NAME } from '@/app/_configs/constants/cookies'
 
 const REVIEW_URL = `${process.env.NEXT_PUBLIC_GREENDECO_BACKEND_API}/review`
 
@@ -25,16 +27,10 @@ export type ReviewListResponseData = {
 	prev: boolean
 }
 
-export type SendReviewData = {
+export type CreateProductReviewData = {
 	content: string
 	product_id: ProductData['id']
-	star: string
-	user_id: UserProfileResponseData['id']
-}
-
-export type SendReviewRequestData = {
-	accessToken: string
-	reviewData: SendReviewData
+	star: number
 }
 
 export type ReviewSortParams = {
@@ -63,11 +59,12 @@ export const getReviewListByProductId = async (
 		.then((res) => res.data)
 }
 
-export const sendReviewToProduct = async (data: SendReviewRequestData) => {
-	const { accessToken, reviewData } = data
+export const createProductReview = async (data: CreateProductReviewData) => {
+	const accessToken = getCookie(ACCESS_TOKEN_COOKIE_NAME)?.toString()
+
 	return await reviewApi.post(
 		'',
-		{ ...reviewData },
+		{ ...data },
 		{
 			headers: {
 				Authorization: `Bearer ${accessToken}`,

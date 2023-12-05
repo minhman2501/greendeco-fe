@@ -14,7 +14,7 @@ import { error } from 'console'
 export default function CreateReviewForm() {
 	const defaultInputValues: ReviewFormInputType = {
 		review: '',
-		star: 0,
+		star: '0',
 	}
 
 	//NOTE: Validation with useForm
@@ -95,23 +95,24 @@ export default function CreateReviewForm() {
 					{errors.star && <p>{errors.star.message}</p>}
 					<div className='flex-1'>
 						<MultilineTextField
-							label='Product Description'
-							placeholder='Product Description'
+							label='Product Comment'
+							placeholder='Leave your comment here'
 							className='h-[200px]'
 							register={register('review')}
 							error={Boolean(errors?.review)}
 							helperText={errors?.review?.message}
 						/>
 					</div>
-					<div className='mt-cozy flex w-full justify-end gap-cozy'>
+					<div className='mt-cozy flex w-full  gap-cozy'>
 						<Button
 							type='submit'
+							className='flex-1'
 							disabled={createProductMutation.isLoading}
 						>
 							{createProductMutation.isLoading ? 'Creating...' : 'Create'}
 						</Button>
 						<Button
-							className='btnSecondary'
+							className='btnSecondary flex-1'
 							type='button'
 							onClick={() => handleResetForm()}
 							disabled={createProductMutation.isLoading}

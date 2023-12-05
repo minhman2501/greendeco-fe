@@ -1,4 +1,5 @@
 import { ProductData } from '@/app/_api/axios/product'
+import Image from 'next/image'
 import CreateReviewForm from './ReviewForm'
 
 export type ReviewDialogProps = {
@@ -7,5 +8,9 @@ export type ReviewDialogProps = {
 	images: ProductData['images']
 }
 export default function ReviewDialog(props: ReviewDialogProps) {
-	return <CreateReviewForm />
+	return (
+		<div className='flex min-w-[500px] rounded-[16px] bg-neutral-gray-1 p-comfortable'>
+			<CreateReviewForm />
+		</div>
+	)
 }

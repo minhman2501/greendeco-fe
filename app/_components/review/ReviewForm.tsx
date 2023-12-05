@@ -4,18 +4,18 @@ import { useForm, SubmitHandler } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 
 import { useMutation } from '@tanstack/react-query'
-import { createProduct } from '@/app/_api/axios/admin/product'
-import { getCookie } from 'cookies-next'
-import { ADMIN_ACCESS_TOKEN_COOKIE_NAME } from '@/app/_configs/constants/cookies'
 import { MultilineTextField } from '@/app/_components/form/MultiplelineTextField'
 import { ReviewFormInputType, ReviewSchema } from '@/app/_configs/schemas/review'
 import Rating from '../form/Rating'
 import { useDialogStore } from '@/app/_configs/store/useDialogStore'
+import { ProductData } from '@/app/_api/axios/product'
+import { createProductReview } from '@/app/_api/axios/reviews'
+import { AxiosError } from 'axios'
 
-export default function CreateReviewForm() {
+export default function CreateReviewForm({ productId }: { productId: ProductData['id'] }) {
 	const { closeDialog } = useDialogStore()
 	const defaultInputValues: ReviewFormInputType = {
-		review: '',
+		content: '',
 		star: '0',
 	}
 
@@ -32,24 +32,28 @@ export default function CreateReviewForm() {
 		defaultValues: defaultInputValues,
 	})
 
-	const createProductMutation = useMutation({
+	const createReviewMutation = useMutation({
 		//NOTE: The callback used for the mutation
-		mutationFn: createProduct,
+		mutationFn: createProductReview,
 		//NOTE: Execuse after receiving suscess responses
 		onSuccess: (data) => {
-			handleResetForm()
+			console.log('success')
 		},
 		//NOTE: Execuse after receving failure responses
-		/* onError: (e) => {
+		onError: (e) => {
 			if (e instanceof AxiosError) {
+				console.log(e)
 			}
-		}, */
+		},
 	})
 
 	const onSubmitHandler: SubmitHandler<ReviewFormInputType> = (values, e) => {
 		e?.preventDefault()
-		const adminAccessToken = getCookie(ADMIN_ACCESS_TOKEN_COOKIE_NAME)?.toString()
-		console.log(values)
+		createReviewMutation.mutate({
+			product_id: productId,
+			star: parseInt(values.star),
+			content: values.content,
+		})
 	}
 
 	const handleResetForm = () => {
@@ -77,9 +81,9 @@ export default function CreateReviewForm() {
 							label='Comment'
 							placeholder='Leave your comment here'
 							className='h-[200px]'
-							register={register('review')}
-							error={Boolean(errors?.review)}
-							helperText={errors?.review?.message}
+							register={register('content')}
+							error={Boolean(errors?.content)}
+							helperText={errors?.content?.message}
 						/>
 					</div>
 					<div className='flex w-full  gap-cozy'>
@@ -87,16 +91,16 @@ export default function CreateReviewForm() {
 							className='btnSecondary flex-1'
 							type='button'
 							onClick={closeDialog}
-							disabled={createProductMutation.isLoading}
+							disabled={createReviewMutation.isLoading}
 						>
 							Cancel
 						</Button>
 						<Button
 							type='submit'
 							className='flex-1'
-							disabled={createProductMutation.isLoading}
+							disabled={createReviewMutation.isLoading}
 						>
-							{createProductMutation.isLoading ? 'Creating...' : 'Create'}
+							{createReviewMutation.isLoading ? 'Sending...' : 'Send Review!'}
 						</Button>
 					</div>
 				</div>

@@ -4,13 +4,11 @@ import CreateReviewForm from './ReviewForm'
 
 export type ReviewDialogProps = {
 	productId: ProductData['id']
-	productName: ProductData['name']
-	images: ProductData['images']
 }
 export default function ReviewDialog(props: ReviewDialogProps) {
 	return (
-		<div className='flex min-w-[500px] rounded-[16px] bg-neutral-gray-1 p-comfortable'>
-			<CreateReviewForm />
+		<div className='flex min-w-[600px] rounded-[16px] bg-neutral-gray-1 p-comfortable'>
+			<CreateReviewForm productId={props.productId} />
 		</div>
 	)
 }

@@ -71,7 +71,7 @@ export type OrderFullDetailData = {
 	price: OrderPrice
 }
 
-type OrderProductList = {
+export type OrderProductList = {
 	items: OrderProductData[]
 }
 

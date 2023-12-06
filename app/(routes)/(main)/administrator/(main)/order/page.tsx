@@ -1,49 +1,49 @@
 'use client'
-import { Dropdown } from '@/app/_components/dropdown'
 import React from 'react'
 import { ADMIN_ACCESS_TOKEN_COOKIE_NAME } from '@/app/_configs/constants/cookies'
 import { ADMIN_QUERY_KEY, UseQueryKeys } from '@/app/_configs/constants/queryKey'
 import { getCookie } from 'cookies-next'
 import { useQuery } from '@tanstack/react-query'
-import { getOrderListAsAdministrator } from '@/app/_api/axios/admin/order'
+import { getOrderListTable } from '@/app/_api/axios/admin/order'
 import OrderTable from './OrderTable'
-import { OrderTableData } from '@/app/_api/axios/admin/order'
+import useQueryParams from '@/app/_hooks/useQueryParams'
+import { FilterParams } from '@/app/_api/axios/product'
+import { TailSpin } from 'react-loader-spinner'
 
 export default function OrderManagementPage() {
-	const [state, setState] = React.useState('')
-	const hanldeOnsubmit = (value: string) => {
-		setState(value)
-	}
+	const { queryObject } = useQueryParams<FilterParams>()
 
 	const adminAccessToken = getCookie(ADMIN_ACCESS_TOKEN_COOKIE_NAME)?.toString()
 	const orderQuery = useQuery({
-		queryKey: [UseQueryKeys.Order, ADMIN_QUERY_KEY],
-		queryFn: () => getOrderListAsAdministrator(adminAccessToken), // queryFn: () => getOrder
-		refetchOnMount: 'always',
+		queryKey: [UseQueryKeys.Order, ADMIN_QUERY_KEY, queryObject],
+		queryFn: () =>
+			getOrderListTable(adminAccessToken, {
+				limit: 9999,
+				...queryObject,
+			}),
+		refetchOnMount: true,
+		refetchOnWindowFocus: true,
+		refetchOnReconnect: true,
 	})
-
-	const { data } = orderQuery
-	const dataTable = data?.items.map((value) => {
-		var newRow: OrderTableData = {
-			owner_info: {
-				order_id: value.id,
-				user_name: value.user_name,
-				userPhoneNumber: value.user_phone_number,
-			},
-			order_state: {
-				order_id: value.id,
-				state: value.state,
-			},
-			...value,
-		}
-
-		return newRow
-	})
+	const { data, isLoading } = orderQuery
 
 	return (
-		<div className='min-h-screen'>
-			<h1>Manage Order</h1>
-			{data && <OrderTable order={dataTable!} />}
+		<div className='py-comfortable'>
+			{isLoading && (
+				<div className='flex w-full items-center justify-center'>
+					<TailSpin
+						height='200'
+						width='200'
+						color='#4fa94d'
+						ariaLabel='tail-spin-loading'
+						radius='1'
+						wrapperStyle={{}}
+						wrapperClass=''
+						visible={true}
+					/>
+				</div>
+			)}
+			{data && data.length > 0 && <OrderTable order={data!} />}
 		</div>
 	)
 }

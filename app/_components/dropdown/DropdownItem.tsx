@@ -17,7 +17,7 @@ export const DropdownItem = ({
 	return (
 		<div
 			className={clxs(
-				'flex w-full cursor-pointer justify-between rounded-r-lg border-l border-l-transparent p-4 hover:border-l-black hover:bg-gray-300',
+				' flex w-full cursor-pointer justify-between rounded-r-lg border-l border-l-transparent p-4 hover:border-l-black hover:bg-primary-5555-20/50',
 				optionContainerStyle,
 			)}
 			onClick={onSelect}

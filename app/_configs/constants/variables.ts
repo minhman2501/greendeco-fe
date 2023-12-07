@@ -15,6 +15,8 @@ export const SIZE_OPTIONS = ['S', 'M', 'L', 'XL']
 export const DIFFICULTY_OPTIONS = ['Easy', 'Medium', 'Hard']
 export const TYPE_OPTIONS = ['Outdoor', 'Indoor']
 
+export const RATING_GRADES = [1, 2, 3, 4, 5]
+
 export const ADMINISTRATOR_ROUTE = {
 	PRODUCT: {
 		LINK: '/administrator/product',

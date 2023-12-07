@@ -10,7 +10,8 @@
 	"lint-staged": {
 		"*": "prettier --write -u .",
 		"./app/**/*.{js,ts,jsx,tsx,mdx}": [
-			"eslint"
+			"eslint",
+			"bash -c tsc --noEmit"
 		]
 	},
 	"scripts": {

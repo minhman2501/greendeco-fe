@@ -1,5 +1,4 @@
 import { ProductData } from '@/app/_api/axios/product'
-import Image from 'next/image'
 import CreateReviewForm from './ReviewForm'
 
 export type ReviewDialogProps = {

@@ -1,7 +1,8 @@
 'use client'
+import { RATING_GRADES } from '@/app/_configs/constants/variables'
 import { StarIcon } from '@heroicons/react/24/solid'
 import clsx from 'clsx'
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { UseFormRegisterReturn } from 'react-hook-form'
 
 export type RatingProps = {
@@ -13,12 +14,12 @@ export type RatingProps = {
 	error?: boolean
 }
 
-const starGrades = [1, 2, 3, 4, 5]
-
 export default function Rating(props: RatingProps) {
 	const { className, label, helperText, error, register, starWrapperClassName } = props
-
 	const [rating, setRating] = useState<number>(0)
+
+	//NOTE: Cache the constant value
+	const ratingGrades = useMemo(() => RATING_GRADES, [])
 
 	return (
 		<>
@@ -30,7 +31,7 @@ export default function Rating(props: RatingProps) {
 						'flex h-[40px]  w-full items-center justify-center gap-compact',
 					)}
 				>
-					{starGrades.map((star) => {
+					{ratingGrades.map((star) => {
 						return (
 							<label
 								className='h-full'

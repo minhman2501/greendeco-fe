@@ -5,7 +5,7 @@ export const ReviewSchema = z
 		content: z
 			.string()
 			.min(5, 'Your comment needs to have more than 5 characters')
-			.max(40, 'No more than 40 characters'),
+			.max(120, 'No more than 120 characters'),
 		star: z.string(),
 	})
 	.refine((data) => parseInt(data.star) > 0, {

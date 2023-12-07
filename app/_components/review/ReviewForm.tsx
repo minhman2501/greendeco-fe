@@ -41,7 +41,7 @@ export default function CreateReviewForm({ productId }: { productId: ProductData
 		//NOTE: The callback used for the mutation
 		mutationFn: createProductReview,
 		//NOTE: Execuse after receiving suscess responses
-		onSuccess: (data) => {
+		onSuccess: () => {
 			notifySendReviewSuccess()
 			closeDialog()
 		},

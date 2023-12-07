@@ -8,12 +8,13 @@ import { ArchiveBoxXMarkIcon } from '@heroicons/react/24/outline'
 import { AxiosError } from 'axios'
 import { UNAUTHORIZE_STATUS } from '@/app/_configs/constants/status'
 import { useRouter } from 'next/navigation'
+import { USER_PURCHASED_PRODUCTS_QUERY_KEYS } from '@/app/_configs/constants/queryKey'
 
 export default function UserReviewPage() {
 	const { getProductsFromCompletedOrders } = useGetProductsFromCompletedOrders()
 	const router = useRouter()
 	const purchasedProductQuery = useQuery({
-		queryKey: ['test'],
+		queryKey: USER_PURCHASED_PRODUCTS_QUERY_KEYS,
 		queryFn: getProductsFromCompletedOrders,
 		onError: (e) => {
 			if (e instanceof AxiosError) {

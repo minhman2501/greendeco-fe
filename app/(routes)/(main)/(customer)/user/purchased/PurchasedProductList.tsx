@@ -19,22 +19,23 @@ export default function PurchasedProductList({ productList }: { productList: Pro
 }
 
 const Item = ({ product }: { product: ProductData }) => {
+	const { images, name, id } = product
 	return (
 		<div className='flex w-full gap-compact overflow-hidden rounded-[16px] border-[1px] border-primary-580-60 bg-neutral-gray-1 shadow-18'>
-			<ItemImage imageSrc={product.images} />
+			<ItemImage imageSrc={images[0]} />
 			<div className='flex-col-start flex-1 justify-between p-cozy '>
-				<ItemDetail name={product.name} />
-				<ItemButtons {...product} />
+				<ItemDetail name={name} />
+				<ItemButtons productId={id} />
 			</div>
 		</div>
 	)
 }
 
-function ItemImage({ imageSrc }: { imageSrc: ProductData['images'] }) {
+function ItemImage({ imageSrc }: { imageSrc: string }) {
 	return (
 		<div className='relative aspect-square w-[140px] overflow-hidden  '>
 			<Image
-				src={imageSrc[0]}
+				src={imageSrc}
 				fill
 				style={{ objectFit: 'fill' }}
 				alt='purchased product image'
@@ -46,10 +47,10 @@ function ItemDetail({ name }: { name: ProductData['name'] }) {
 	return <span className='text-body-md font-semi-bold text-primary-418'>{name}</span>
 }
 
-function ItemButtons(product: ProductData) {
+function ItemButtons({ productId }: { productId: ProductData['id'] }) {
 	const router = useRouter()
 	const { openCreateProductReviewDialog } = useCreateProductReviewDialog({
-		productId: product.id,
+		productId: productId,
 	})
 
 	return (
@@ -63,7 +64,7 @@ function ItemButtons(product: ProductData) {
 				<StarIcon className='aspect-square h-[16px]' />
 			</Button>
 			<Button
-				onClick={() => router.push(`${SHOP_ROUTE.PRODUCT_DETAIL.LINK}/${product.id}`)}
+				onClick={() => router.push(`${SHOP_ROUTE.PRODUCT_DETAIL.LINK}/${productId}`)}
 				type='button'
 				className='btnSecondary flex flex-1 items-center justify-center gap-[4px] text-body-sm font-semi-bold'
 			>

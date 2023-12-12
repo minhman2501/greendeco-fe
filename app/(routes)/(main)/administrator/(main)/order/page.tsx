@@ -26,7 +26,7 @@ export default function OrderManagementPage() {
 		refetchOnReconnect: true,
 	})
 	const { data, isLoading } = orderQuery
-
+	const dataMemo = React.useMemo(() => data, [data])
 	return (
 		<div className='py-comfortable'>
 			{isLoading && (
@@ -43,7 +43,7 @@ export default function OrderManagementPage() {
 					/>
 				</div>
 			)}
-			{data && data.length > 0 && <OrderTable order={data!} />}
+			{dataMemo && dataMemo.length > 0 && <OrderTable order={dataMemo} />}
 		</div>
 	)
 }

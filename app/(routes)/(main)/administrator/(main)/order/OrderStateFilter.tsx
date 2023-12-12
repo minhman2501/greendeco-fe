@@ -14,7 +14,6 @@ export default function OrderStateFilter() {
 	const orderStates = useMemo(() => ORDER_STATE_FIELD, [])
 	const { queryParams } = useQueryParams<QueryParams>()
 	const fieldQuery: QueryParams['field'] = queryParams?.get('field')
-
 	return (
 		<ul className='flex w-full capitalize'>
 			<Link

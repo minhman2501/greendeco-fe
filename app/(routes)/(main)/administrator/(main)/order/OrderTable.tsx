@@ -1,4 +1,9 @@
-import { OrderTableData, OrderState } from '@/app/_api/axios/admin/order'
+import {
+	OrderTableData,
+	OrderState,
+	updateOrderCancelStatus,
+	CancelStatusRequest,
+} from '@/app/_api/axios/admin/order'
 import { Dropdown } from '@/app/_components/dropdown'
 import { ORDER_STATE_FIELD } from '@/app/_configs/constants/variables'
 import formatDate from '@/app/_hooks/useFormatDate'
@@ -8,16 +13,33 @@ import {
 	getCoreRowModel,
 	flexRender,
 } from '@tanstack/react-table'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import CancelModal from './CancelModal'
+import { SubmitHandler, useForm } from 'react-hook-form'
+import {
+	CreateNotificationInputType,
+	CreateNotificationSchema,
+} from '@/app/_configs/schemas/notification'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { getCookie } from 'cookies-next'
+import { ADMIN_ACCESS_TOKEN_COOKIE_NAME } from '@/app/_configs/constants/cookies'
+import { notifyUpdateCancelSuccess } from './Notification'
+import Link from 'next/link'
+import { ADMINISTRATOR_ROUTE } from '@/app/_configs/constants/variables'
+import { AxiosError } from 'axios'
+import { notifyError } from '../../../(customer)/user/setting/profile/Notification'
 
 const columHelper = createColumnHelper<OrderTableData>()
 
 const columns = [
 	columHelper.accessor('owner_info', {
 		cell: (info) => (
-			<span className='inline-block w-full items-center justify-center'>
+			<span className='flex w-full items-center justify-center'>
 				<div>
-					<b>{info.getValue().order_id}</b>
+					<Link href={`${ADMINISTRATOR_ROUTE.ORDER.LINK}/${info.getValue().order_id!}`}>
+						{info.getValue().order_id}
+					</Link>
 					<p>
 						{info.getValue().user_name}({info.getValue().userPhoneNumber})
 					</p>
@@ -60,8 +82,15 @@ const columns = [
 ]
 
 const ActionWrapper = ({ order }: { order: OrderState }) => {
+	const adminAccessToken = getCookie(ADMIN_ACCESS_TOKEN_COOKIE_NAME)?.toString()
 	const [state, setState] = useState(order.state)
+	useEffect(() => {
+		setState(order.state)
+	}, [order.state])
+	const [isModalOpen, setIsModalOpen] = useState(false)
 	const states = ORDER_STATE_FIELD
+	const queryClient = useQueryClient()
+
 	var stateList: { [key: string]: string[] } = {
 		draft: [states.processing.state, states.cancelled.state],
 		processing: [states.completed.state, states.cancelled.state],
@@ -69,15 +98,64 @@ const ActionWrapper = ({ order }: { order: OrderState }) => {
 		cancelled: [],
 	}
 
-	const handleOnSelect = (value: string) => {
-		alert(value)
-		setState(value)
+	const defaultInputValues: CreateNotificationInputType = {
+		// change the title
+		title: 'Cancel Order ' + order.order_id,
+		message: '',
 	}
 
-	const baseInputStyle = 'border-0 w-[150px] text-white capitalize text-base '
+	const {
+		register,
+		handleSubmit,
+		formState: { errors },
+	} = useForm<CancelStatusRequest>({
+		mode: 'onBlur',
+		reValidateMode: 'onBlur',
+		resolver: zodResolver(CreateNotificationSchema),
+		defaultValues: defaultInputValues,
+	})
+
+	const updateCancelStatusMutation = useMutation({
+		mutationFn: updateOrderCancelStatus,
+		onSuccess: () => {
+			setIsModalOpen(!isModalOpen)
+			setState(states.cancelled.state)
+			notifyUpdateCancelSuccess(order.order_id)
+			queryClient.invalidateQueries({ queryKey: ['order'] })
+		},
+		onError: (e) => {
+			if (e instanceof AxiosError) {
+				notifyError(e.response?.data.msg)
+			}
+		},
+	})
+
+	const handleOnSelect = (value: string) => {
+		if (value === states.processing.state) {
+			// open modal => full fill paid at => update
+			setState(value)
+		}
+
+		if (value === states.cancelled.state) {
+			// update status => create message => send message to user
+			setIsModalOpen(!isModalOpen)
+		}
+	}
+
+	const handleOnSubmitCancel: SubmitHandler<CancelStatusRequest> = (values, e) => {
+		e?.preventDefault()
+		updateCancelStatusMutation.mutate({
+			adminAccessToken: adminAccessToken!,
+			orderId: order.order_id,
+			userId: order.owner_id,
+			message: values.message,
+		})
+	}
+
+	const baseInputStyle = 'border-0 w-full text-white capitalize text-base '
 
 	return (
-		<div className='flex min-w-[140px] items-center justify-center'>
+		<div className='flex min-w-[150px] items-center justify-center'>
 			<Dropdown
 				data={stateList[state]}
 				value={state}
@@ -93,14 +171,23 @@ const ActionWrapper = ({ order }: { order: OrderState }) => {
 				}
 				dropdownContainerStyle={'bg-white'}
 			/>
+			{!isModalOpen || (
+				<CancelModal
+					orderId={order.order_id}
+					register={register('message')}
+					error={Boolean(errors?.message)}
+					helperText={errors?.message?.message}
+					onCancel={() => setIsModalOpen(false)}
+					onSubmit={handleSubmit(handleOnSubmitCancel)}
+				/>
+			)}
 		</div>
 	)
 }
 
 export default function OrderTable({ order }: { order: OrderTableData[] }) {
-	const data = [...order]
 	const table = useReactTable({
-		data,
+		data: order,
 		columns,
 		getCoreRowModel: getCoreRowModel(),
 	})

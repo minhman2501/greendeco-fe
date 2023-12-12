@@ -1,8 +1,8 @@
 import { OrderData, OrderListData, OrderProductData, orderApi } from '../order'
 import axios from 'axios'
-import formatDate from '@/app/_hooks/useFormatDate'
 import { FilterParams, fieldJSONParse } from '../product'
-
+import { OrderState as StateOfOrder } from '@/app/_configs/constants/paramKeys'
+import { createNotification, sendNotification } from './notification'
 const ORDER_URL = `${process.env.NEXT_PUBLIC_GREENDECO_BACKEND_API}`
 
 type AdminAccessTokenType = string | undefined
@@ -23,6 +23,7 @@ export type OrderInfo = {
 export type OrderState = {
 	order_id: string
 	state: string
+	owner_id: string
 }
 
 export const adminOrderApi = axios.create({
@@ -83,10 +84,9 @@ export const getOrderListTable = async (
 				order_state: {
 					order_id: order.id,
 					state: order.state,
+					owner_id: order.owner_id,
 				},
-				OrderPrice: {
-					...price,
-				},
+				OrderPrice: { ...price },
 				OrderData: {
 					...order,
 				},
@@ -120,4 +120,71 @@ export const getOrderProductByOrderAsAdminstrator = async (
 			},
 		})
 		.then((res) => res.data)
+}
+
+export const updateOrderStatus = async (
+	adminAccessToken: AdminAccessTokenType,
+	orderId: string,
+	state: string,
+) => {
+	return await orderApi
+		.put(
+			`/${orderId}`,
+			{
+				order_id: orderId,
+				state: state,
+			},
+			{
+				headers: {
+					Authorization: `Bearer ${adminAccessToken}`,
+				},
+			},
+		)
+		.then((res) => res.data)
+}
+
+// updateProcessStatus only use for only update process order status
+export const updateProcessStatus = async (
+	adminAccessToken: AdminAccessTokenType,
+	orderId: string,
+	paidAt: string,
+) => {
+	return await orderApi
+		.put(
+			`/order/${orderId}`,
+			{
+				order_id: orderId,
+				paidAt: paidAt,
+				state: StateOfOrder.Processing,
+			},
+			{
+				headers: {
+					Authorization: `Bearer ${adminAccessToken}`,
+				},
+			},
+		)
+		.then((res) => res.data)
+}
+
+export type CancelStatusRequest = {
+	adminAccessToken: AdminAccessTokenType
+	orderId: string
+	message: string
+	userId: string
+}
+// updateCancelStatus only use for only update cancelled order status
+// fuction will update cancel status then create new noti send for owner
+export const updateOrderCancelStatus = async ({
+	adminAccessToken,
+	orderId,
+	message,
+	userId,
+}: CancelStatusRequest) => {
+	await updateOrderStatus(adminAccessToken, orderId, StateOfOrder.Cancelled)
+	const newNoti = await createNotification(
+		adminAccessToken,
+		`Your Order ${orderId} has been cancelled`,
+		message,
+	)
+	return await sendNotification(adminAccessToken, newNoti.id, [userId])
 }

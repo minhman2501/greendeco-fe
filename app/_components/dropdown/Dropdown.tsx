@@ -34,7 +34,7 @@ export const Dropdown = ({
 	}
 
 	return (
-		<div className={clsx('absolute flex flex-col items-center rounded-lg')}>
+		<div className={clsx('absolute flex w-[150px] flex-col items-center rounded-lg')}>
 			<button
 				className={clsx(
 					'flex w-full items-center justify-between rounded-lg border border-black p-4 font-bold tracking-wider duration-300',
@@ -52,7 +52,7 @@ export const Dropdown = ({
 			{isOpen && (
 				<div
 					className={clsx(
-						'absolute top-20 z-50 flex w-full flex-col rounded-lg border border-black p-2',
+						'absolute top-20 z-10 flex w-full flex-col rounded-lg border border-black p-2',
 						dropdownContainerStyle,
 					)}
 				>

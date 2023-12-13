@@ -122,16 +122,21 @@ export const getOrderProductByOrderAsAdminstrator = async (
 		.then((res) => res.data)
 }
 
-export const updateOrderStatus = async (
-	adminAccessToken: AdminAccessTokenType,
-	orderId: string,
-	state: string,
-) => {
+export type OrderStatusRequest = {
+	adminAccessToken: AdminAccessTokenType
+	orderId: string
+	state: string
+}
+
+export const updateOrderStatus = async ({
+	adminAccessToken,
+	orderId,
+	state,
+}: OrderStatusRequest) => {
 	return await orderApi
 		.put(
 			`/${orderId}`,
 			{
-				order_id: orderId,
 				state: state,
 			},
 			{
@@ -143,18 +148,23 @@ export const updateOrderStatus = async (
 		.then((res) => res.data)
 }
 
+export type ProcessStatusRequest = {
+	adminAccessToken: AdminAccessTokenType
+	orderId: string
+	paid_at: string
+}
+
 // updateProcessStatus only use for only update process order status
-export const updateProcessStatus = async (
-	adminAccessToken: AdminAccessTokenType,
-	orderId: string,
-	paidAt: string,
-) => {
+export const updateOrderProcessStatus = async ({
+	adminAccessToken,
+	orderId,
+	paid_at,
+}: ProcessStatusRequest) => {
 	return await orderApi
 		.put(
-			`/order/${orderId}`,
+			`/${orderId}`,
 			{
-				order_id: orderId,
-				paidAt: paidAt,
+				paid_at: paid_at,
 				state: StateOfOrder.Processing,
 			},
 			{
@@ -180,7 +190,12 @@ export const updateOrderCancelStatus = async ({
 	message,
 	userId,
 }: CancelStatusRequest) => {
-	await updateOrderStatus(adminAccessToken, orderId, StateOfOrder.Cancelled)
+	const orderStatusRequest: OrderStatusRequest = {
+		orderId: orderId,
+		adminAccessToken: adminAccessToken,
+		state: StateOfOrder.Cancelled,
+	}
+	await updateOrderStatus(orderStatusRequest)
 	const newNoti = await createNotification(
 		adminAccessToken,
 		`Your Order ${orderId} has been cancelled`,

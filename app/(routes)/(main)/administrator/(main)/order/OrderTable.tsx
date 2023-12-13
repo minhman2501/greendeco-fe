@@ -3,6 +3,7 @@ import {
 	OrderState,
 	updateOrderCancelStatus,
 	CancelStatusRequest,
+	updateOrderStatus,
 } from '@/app/_api/axios/admin/order'
 import { Dropdown } from '@/app/_components/dropdown'
 import { ORDER_STATE_FIELD } from '@/app/_configs/constants/variables'
@@ -21,7 +22,7 @@ import {
 	CreateNotificationSchema,
 } from '@/app/_configs/schemas/notification'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { QueryClient, useMutation, useQueryClient } from '@tanstack/react-query'
 import { getCookie } from 'cookies-next'
 import { ADMIN_ACCESS_TOKEN_COOKIE_NAME } from '@/app/_configs/constants/cookies'
 import { notifyUpdateCancelSuccess } from './Notification'
@@ -29,6 +30,7 @@ import Link from 'next/link'
 import { ADMINISTRATOR_ROUTE } from '@/app/_configs/constants/variables'
 import { AxiosError } from 'axios'
 import { notifyError } from '../../../(customer)/user/setting/profile/Notification'
+import PickUpDateModal from './PickUpDateModal'
 
 const columHelper = createColumnHelper<OrderTableData>()
 
@@ -82,12 +84,14 @@ const columns = [
 ]
 
 const ActionWrapper = ({ order }: { order: OrderState }) => {
-	const adminAccessToken = getCookie(ADMIN_ACCESS_TOKEN_COOKIE_NAME)?.toString()
 	const [state, setState] = useState(order.state)
+	const adminAccessToken = getCookie(ADMIN_ACCESS_TOKEN_COOKIE_NAME)?.toString()
+
 	useEffect(() => {
 		setState(order.state)
 	}, [order.state])
 	const [isModalOpen, setIsModalOpen] = useState(false)
+	const [pickUpDateModal, setPickUpModal] = useState(false)
 	const states = ORDER_STATE_FIELD
 	const queryClient = useQueryClient()
 
@@ -98,29 +102,10 @@ const ActionWrapper = ({ order }: { order: OrderState }) => {
 		cancelled: [],
 	}
 
-	const defaultInputValues: CreateNotificationInputType = {
-		// change the title
-		title: 'Cancel Order ' + order.order_id,
-		message: '',
-	}
-
-	const {
-		register,
-		handleSubmit,
-		formState: { errors },
-	} = useForm<CancelStatusRequest>({
-		mode: 'onBlur',
-		reValidateMode: 'onBlur',
-		resolver: zodResolver(CreateNotificationSchema),
-		defaultValues: defaultInputValues,
-	})
-
-	const updateCancelStatusMutation = useMutation({
-		mutationFn: updateOrderCancelStatus,
+	const updateOrderStatusComplete = useMutation({
+		mutationFn: updateOrderStatus,
 		onSuccess: () => {
-			setIsModalOpen(!isModalOpen)
-			setState(states.cancelled.state)
-			notifyUpdateCancelSuccess(order.order_id)
+			notifyUpdateCancelSuccess(order.order_id, states.completed.state)
 			queryClient.invalidateQueries({ queryKey: ['order'] })
 		},
 		onError: (e) => {
@@ -133,27 +118,24 @@ const ActionWrapper = ({ order }: { order: OrderState }) => {
 	const handleOnSelect = (value: string) => {
 		if (value === states.processing.state) {
 			// open modal => full fill paid at => update
-			setState(value)
+			setPickUpModal(!pickUpDateModal)
 		}
 
 		if (value === states.cancelled.state) {
 			// update status => create message => send message to user
 			setIsModalOpen(!isModalOpen)
 		}
-	}
 
-	const handleOnSubmitCancel: SubmitHandler<CancelStatusRequest> = (values, e) => {
-		e?.preventDefault()
-		updateCancelStatusMutation.mutate({
-			adminAccessToken: adminAccessToken!,
-			orderId: order.order_id,
-			userId: order.owner_id,
-			message: values.message,
-		})
+		if (value === states.completed.state) {
+			updateOrderStatusComplete.mutate({
+				adminAccessToken: adminAccessToken!,
+				orderId: order.order_id,
+				state: states.completed.state,
+			})
+		}
 	}
 
 	const baseInputStyle = 'border-0 w-full text-white capitalize text-base '
-
 	return (
 		<div className='flex min-w-[150px] items-center justify-center'>
 			<Dropdown
@@ -173,12 +155,16 @@ const ActionWrapper = ({ order }: { order: OrderState }) => {
 			/>
 			{!isModalOpen || (
 				<CancelModal
-					orderId={order.order_id}
-					register={register('message')}
-					error={Boolean(errors?.message)}
-					helperText={errors?.message?.message}
+					order={order}
+					onSuccess={() => setIsModalOpen(false)}
 					onCancel={() => setIsModalOpen(false)}
-					onSubmit={handleSubmit(handleOnSubmitCancel)}
+				/>
+			)}
+			{!pickUpDateModal || (
+				<PickUpDateModal
+					order={order}
+					onCancel={() => setPickUpModal(false)}
+					onSuccess={() => setPickUpModal(false)}
 				/>
 			)}
 		</div>

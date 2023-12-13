@@ -10,7 +10,7 @@ import {
 	CreateNotificationSchema,
 } from '@/app/_configs/schemas/notification'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { SubmitHandler, UseFormRegisterReturn, useForm } from 'react-hook-form'
+import { SubmitHandler, useForm } from 'react-hook-form'
 import { notifyUpdateCancelSuccess } from './Notification'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { AxiosError } from 'axios'
@@ -29,7 +29,7 @@ export default function CancelModal({ order, onCancel, onSuccess }: CancelModalT
 	const adminAccessToken = getCookie(ADMIN_ACCESS_TOKEN_COOKIE_NAME)?.toString()
 	const queryClient = useQueryClient()
 	const defaultInputValues: CreateNotificationInputType = {
-		// change the title
+		// Change the title for notification
 		title: 'Cancel Order ' + order.order_id,
 		message: '',
 	}

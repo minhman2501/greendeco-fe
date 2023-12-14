@@ -15,6 +15,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { OrderUpdateSchema, OrderUpdateSchemaType } from '@/app/_configs/schemas/order'
 import { notifyUpdateCancelSuccess } from './Notification'
 import { ORDER_STATE_FIELD } from '@/app/_configs/constants/variables'
+import { ADMIN_QUERY_KEY, UseQueryKeys } from '@/app/_configs/constants/queryKey'
 
 type PickUpdateModalType = {
 	order: OrderState
@@ -40,7 +41,7 @@ export default function PickUpDateModal({ order, onSuccess, onCancel }: PickUpda
 		onSuccess: () => {
 			onSuccess(false)
 			notifyUpdateCancelSuccess(order.order_id, ORDER_STATE_FIELD.processing.state)
-			queryClient.invalidateQueries({ queryKey: ['order'] })
+			queryClient.invalidateQueries({ queryKey: [UseQueryKeys.Order, ADMIN_QUERY_KEY] })
 			reset()
 		},
 		onError: (e) => {

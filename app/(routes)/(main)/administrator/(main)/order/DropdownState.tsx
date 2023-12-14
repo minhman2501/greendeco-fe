@@ -10,6 +10,7 @@ import { notifyError } from '../../../(customer)/user/setting/profile/Notificati
 import CancelModal from './CancelModal'
 import { notifyUpdateCancelSuccess } from './Notification'
 import PickUpDateModal from './PickUpDateModal'
+import { ADMIN_QUERY_KEY, UseQueryKeys } from '@/app/_configs/constants/queryKey'
 
 export default function OrderDropdownState({ order }: { order: OrderState }) {
 	const [state, setState] = useState(order.state)
@@ -34,7 +35,7 @@ export default function OrderDropdownState({ order }: { order: OrderState }) {
 		mutationFn: updateOrderStatus,
 		onSuccess: () => {
 			notifyUpdateCancelSuccess(order.order_id, states.completed.state)
-			queryClient.invalidateQueries({ queryKey: ['order'] })
+			queryClient.invalidateQueries({ queryKey: [UseQueryKeys.Order, ADMIN_QUERY_KEY] })
 		},
 		onError: (e) => {
 			if (e instanceof AxiosError) {

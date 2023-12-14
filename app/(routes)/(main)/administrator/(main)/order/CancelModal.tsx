@@ -18,6 +18,7 @@ import { notifyError } from '../../../(customer)/user/setting/profile/Notificati
 import { ADMIN_ACCESS_TOKEN_COOKIE_NAME } from '@/app/_configs/constants/cookies'
 import { getCookie } from 'cookies-next'
 import { ORDER_STATE_FIELD } from '@/app/_configs/constants/variables'
+import { ADMIN_QUERY_KEY, UseQueryKeys } from '@/app/_configs/constants/queryKey'
 
 type CancelModalType = {
 	order: OrderState
@@ -49,7 +50,7 @@ export default function CancelModal({ order, onCancel, onSuccess }: CancelModalT
 		mutationFn: updateOrderCancelStatus,
 		onSuccess: () => {
 			notifyUpdateCancelSuccess(order.order_id, ORDER_STATE_FIELD.cancelled.state)
-			queryClient.invalidateQueries({ queryKey: ['order'] })
+			queryClient.invalidateQueries({ queryKey: [UseQueryKeys.Order, ADMIN_QUERY_KEY] })
 			onSuccess(false)
 		},
 		onError: (e) => {

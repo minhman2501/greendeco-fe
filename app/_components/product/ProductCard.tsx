@@ -11,7 +11,7 @@ export default function ProductCard({ product }: { product: ProductCardProps }) 
 	const { id, name, images, price } = product
 	return (
 		<span
-			className='group block w-full overflow-hidden rounded-[8px]   bg-white shadow-26   hover:cursor-pointer  '
+			className='group block w-full overflow-hidden rounded-[8px] bg-white hover:cursor-pointer  '
 			onClick={() => productRouter.push(`/shop/product-detail/${id}`)}
 		>
 			<CardImage imageUrl={images[0]} />
@@ -33,20 +33,11 @@ function CardDetail({
 	price: ProductCardProps['price']
 }) {
 	return (
-		<div className='flex-col-start h-full w-full justify-between gap-cozy'>
-			<div className='flex-col-start'>
-				<span className='cursor-pointer text-body-sm font-semibold text-primary-625 group-hover:underline'>
-					{name}
-				</span>
-				<span className='flex items-center gap-[2px]'>
-					<StarIcon
-						className='aspect-square h-[20px]'
-						color='#FF8B28'
-					/>
-					<span className='text-body-xsm text-primary-418-60'>4.7 (15 reviews)</span>
-				</span>
-			</div>
-			<div className='text-body-sm'>$ {price}</div>
+		<div className='flex h-full w-full justify-between gap-cozy'>
+			<span className='cursor-pointer text-body-sm font-semi-bold text-primary-625 group-hover:underline'>
+				{name}
+			</span>
+			<div className='text-body-sm font-semi-bold text-primary-418'>$ {price}</div>
 		</div>
 	)
 }

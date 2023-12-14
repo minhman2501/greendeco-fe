@@ -10,7 +10,7 @@ export default function Hero() {
 				<div className='grid h-full grid-cols-7'>
 					<div className='col-span-4 flex items-center justify-center px-comfortable'>
 						<div className='flex-col-start gap-cozy'>
-							<h1 className='text-heading-1 font-semi-bold capitalize text-primary-418-80'>
+							<h1 className='text-heading-1 font-semi-bold uppercase text-primary-418-80'>
 								Welcome to GreenDeco
 							</h1>
 							<p className='text-[4.4rem] font-bold capitalize text-primary-5555'>

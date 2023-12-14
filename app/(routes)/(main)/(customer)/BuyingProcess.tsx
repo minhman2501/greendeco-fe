@@ -35,7 +35,7 @@ const buyingProcess: BuyingStepType[] = [
 ]
 export default function BuyingProcess() {
 	return (
-		<section className='bg-primary-5555-20/20 py-[80px]'>
+		<section className='section-home bg-primary-5555-20/20'>
 			<div className='flex-col-start container items-center gap-comfortable'>
 				<h2 className='text-heading-1 text-primary-418'>
 					Have Your Own Plants With 5 Simple Steps

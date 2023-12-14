@@ -2,7 +2,13 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import React from 'react'
-import { UserIcon, TruckIcon, TicketIcon, BellIcon } from '@heroicons/react/24/solid'
+import {
+	UserIcon,
+	TruckIcon,
+	TicketIcon,
+	BellIcon,
+	HandThumbUpIcon,
+} from '@heroicons/react/24/solid'
 import clsx from 'clsx'
 
 type UserNavigation = {
@@ -26,6 +32,11 @@ const userNavigationList: UserNavigation[] = [
 		path: '/coupon',
 		label: 'Coupon & Voucher',
 		icon: <TicketIcon className='aspect-square w-[24px]' />,
+	},
+	{
+		path: '/purchased',
+		label: 'Purchased Products',
+		icon: <HandThumbUpIcon className='aspect-square w-[24px]' />,
 	},
 ]
 

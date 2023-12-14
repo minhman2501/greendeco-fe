@@ -1,13 +1,16 @@
-import { MIN_PASSWORD, MAX_PASSWORD } from '../constants/variables'
 import * as z from 'zod'
 
-export const ReviewSchema = z.object({
-	review: z
-		.string()
-		.min(20, 'Your comment needs to have more than 20 characters')
-		.max(100, 'No more than 100 characters')
-		.email('Email is invalid'),
-	star: z.number().min(0).max(5, 'You can only rate up to 5 star only'),
-})
+export const ReviewSchema = z
+	.object({
+		content: z
+			.string()
+			.min(5, 'Your comment needs to have more than 5 characters')
+			.max(120, 'No more than 120 characters'),
+		star: z.string(),
+	})
+	.refine((data) => parseInt(data.star) > 0, {
+		path: ['star'],
+		message: 'Please leave a rating',
+	})
 
-export type ReviewInputType = z.infer<typeof ReviewSchema>
+export type ReviewFormInputType = z.infer<typeof ReviewSchema>

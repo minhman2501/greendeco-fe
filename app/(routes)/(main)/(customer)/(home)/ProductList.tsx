@@ -1,5 +1,6 @@
 import { getProductList } from '@/app/_api/axios/product'
 import ProductCard from '@/app/_components/product/ProductCard'
+import ProductCarousel from '@/app/_components/product/ProductCarousel'
 import { UseQueryKeys } from '@/app/_configs/constants/queryKey'
 import { FEATURE_PRODUCT_PARAMS } from '@/app/_configs/constants/variables'
 import { useQuery } from '@tanstack/react-query'
@@ -15,7 +16,7 @@ export default function ProductList({ type }: { type: 'new' | 'topRated' | 'chea
 		queryKey: [UseQueryKeys.Product, type],
 		queryFn: () =>
 			getProductList({
-				limit: 5,
+				limit: 10,
 				...params,
 			}),
 	})
@@ -25,16 +26,7 @@ export default function ProductList({ type }: { type: 'new' | 'topRated' | 'chea
 	return (
 		<>
 			{isLoading && <span className='h-[360px]'>Loading</span>}
-			{data && isSuccess && (
-				<div className='grid grid-cols-5 gap-cozy'>
-					{data.items.map((item) => (
-						<ProductCard
-							product={item}
-							key={item.id}
-						/>
-					))}
-				</div>
-			)}
+			{data && isSuccess && <ProductCarousel productList={data.items} />}
 		</>
 	)
 }

@@ -1,5 +1,5 @@
 import { getProductList } from '@/app/_api/axios/product'
-import ProductCard from '@/app/_components/product/ProductCard'
+import Skeleton, { SkeletonTheme } from 'react-loading-skeleton'
 import ProductCarousel from '@/app/_components/product/ProductCarousel'
 import { UseQueryKeys } from '@/app/_configs/constants/queryKey'
 import { FEATURE_PRODUCT_PARAMS } from '@/app/_configs/constants/variables'
@@ -25,8 +25,40 @@ export default function ProductList({ type }: { type: 'new' | 'topRated' | 'chea
 
 	return (
 		<>
-			{isLoading && <span className='h-[360px]'>Loading</span>}
+			{isLoading && <Loading />}
 			{data && isSuccess && <ProductCarousel productList={data.items} />}
 		</>
+	)
+}
+
+function Loading() {
+	return (
+		<div className='grid gap-cozy md:grid-cols-4 lg:grid-cols-5'>
+			<SkeletonTheme
+				baseColor='#e4e8e3'
+				highlightColor='#f7f8f7'
+				duration={2}
+				borderRadius={4}
+			>
+				<span className='flex-col-start h-full gap-compact opacity-20'>
+					<Skeleton className=' h-[240px] flex-1' />
+					<p>
+						<Skeleton />
+					</p>
+				</span>
+				<span className='flex-col-start h-full gap-compact opacity-20'>
+					<Skeleton className=' h-[240px] flex-1' />
+					<p>
+						<Skeleton />
+					</p>
+				</span>
+				<span className='flex-col-start h-full gap-compact opacity-20'>
+					<Skeleton className=' h-[240px] flex-1' />
+					<p>
+						<Skeleton />
+					</p>
+				</span>
+			</SkeletonTheme>
+		</div>
 	)
 }

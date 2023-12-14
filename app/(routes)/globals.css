@@ -64,7 +64,7 @@
 	}
 
 	.section-home {
-		@apply p-[80px];
+		@apply py-[80px];
 	}
 }
 

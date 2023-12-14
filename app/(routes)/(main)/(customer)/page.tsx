@@ -1,3 +1,9 @@
+import BuyingProcess from './BuyingProcess'
+
 export default function CustomerHomePage() {
-	return <h1>Home Page</h1>
+	return (
+		<>
+			<BuyingProcess />
+		</>
+	)
 }

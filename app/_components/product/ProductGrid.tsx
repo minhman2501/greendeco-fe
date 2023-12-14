@@ -26,10 +26,15 @@ export default function ProductCardsGrid(props: ProductCardsGridProps) {
 			)}
 		>
 			{productList.map((product) => (
-				<ProductCard
+				<div
 					key={product.id}
-					product={product}
-				/>
+					className='rounded-[8px]  shadow-38 transition duration-200 ease-in-out hover:scale-105'
+				>
+					<ProductCard
+						key={product.id}
+						product={product}
+					/>
+				</div>
 			))}
 		</div>
 	)

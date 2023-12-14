@@ -47,7 +47,7 @@ function CardImage({ imageUrl }: { imageUrl: string }) {
 			<Image
 				src={imageUrl}
 				alt='product image'
-				className='duration-200 ease-in-out group-hover:scale-110'
+				className='duration-200 ease-in-out group-hover:scale-105'
 				width={0}
 				height={0}
 				sizes='100vw'

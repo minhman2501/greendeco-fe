@@ -25,7 +25,20 @@ export const Dropdown = ({
 	onSelect,
 }: DropdownProps) => {
 	const [isOpen, setIsOpen] = React.useState(false)
+	const btnRef = React.useRef<HTMLDivElement>(null)
+	React.useEffect(() => {
+		const closeDropDown = (e: any) => {
+			if (btnRef.current && !btnRef.current?.contains(e.target)) {
+				setIsOpen(false)
+			}
+		}
+		document.body.addEventListener('click', closeDropDown)
+		return () => document.body.removeEventListener('click', closeDropDown)
+	}, [btnRef])
 
+	const handleOnOpen = () => {
+		data.length === 0 ? setIsOpen(false) : setIsOpen(!isOpen)
+	}
 	const onHandleSelect = (value: string) => {
 		setIsOpen(!isOpen)
 		onSelect(value)
@@ -33,29 +46,27 @@ export const Dropdown = ({
 
 	return (
 		<div
-			className={clsx(
-				'relative flex w-[340px] flex-col items-center rounded-lg',
-				containerStyle,
-			)}
+			ref={btnRef}
+			className={clsx('absolute flex w-[150px] flex-col items-center rounded-lg')}
 		>
 			<button
 				className={clsx(
-					'flex w-full items-center justify-between rounded-lg border border-black p-4 text-lg font-bold tracking-wider duration-300',
+					'flex w-full items-center justify-between rounded-lg border border-black p-4 font-bold tracking-wider duration-300',
 					inputStyle,
 				)}
-				onClick={() => setIsOpen(!isOpen)}
+				onClick={handleOnOpen}
 			>
 				{value}
 				{!isOpen ? (
-					<ChevronRightIcon className='h-8' />
-				) : (
 					<ChevronDownIcon className='h-8' />
+				) : (
+					<ChevronRightIcon className='h-8' />
 				)}
 			</button>
 			{isOpen && (
 				<div
 					className={clsx(
-						'absolute top-20 flex w-full flex-col rounded-lg border border-black p-2',
+						'absolute top-20 z-10 flex w-full flex-col rounded-lg border border-black p-2',
 						dropdownContainerStyle,
 					)}
 				>

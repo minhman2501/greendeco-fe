@@ -29,7 +29,7 @@ export default function FeaturedProduct() {
 	const [activeType, setActiveType] = useState<FetureOptionType['type']>('new')
 
 	return (
-		<section className='min-h-[500px] bg-primary-5555 py-[40px]'>
+		<section className='section-home min-h-[500px] bg-primary-5555'>
 			<div className='container'>
 				<div className='flex-col-start gap-comfortable '>
 					<div className='flex items-end justify-between border-b-[1px] border-neutral-gray-1 py-cozy'>

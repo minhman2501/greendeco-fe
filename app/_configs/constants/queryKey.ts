@@ -6,7 +6,6 @@ export enum UseQueryKeys {
 	Product = 'product',
 	Order = 'order',
 	Variant = 'variant',
-	Order = 'order',
 }
 
 export const ADMIN_QUERY_KEY = 'admin'

@@ -15,6 +15,8 @@ export const SIZE_OPTIONS = ['S', 'M', 'L', 'XL']
 export const DIFFICULTY_OPTIONS = ['Easy', 'Medium', 'Hard']
 export const TYPE_OPTIONS = ['Outdoor', 'Indoor']
 
+export const RATING_GRADES = [1, 2, 3, 4, 5]
+
 export const ADMINISTRATOR_ROUTE = {
 	PRODUCT: {
 		LINK: '/administrator/product',
@@ -40,6 +42,15 @@ export const USER_SETTING_ROUTE = {
 			LINK: '/user/setting/changepassword',
 			LABEL: 'User Password Setting',
 		},
+	},
+}
+
+export const SHOP_ROUTE = {
+	SHOP_LIST: {
+		LINK: '/shop/product-list',
+	},
+	PRODUCT_DETAIL: {
+		LINK: '/shop/product-detail',
 	},
 }
 

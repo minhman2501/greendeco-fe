@@ -2,7 +2,7 @@
 
 import clsx from 'clsx'
 import { useMemo, useState } from 'react'
-import ProductList from './ProductList'
+import FeaturedProductCarousel from './FeaturedProductCarousel'
 import Link from 'next/link'
 import { SHOP_ROUTE } from '@/app/_configs/constants/variables'
 
@@ -54,7 +54,7 @@ export default function FeaturedProduct() {
 							Shop All
 						</Link>
 					</div>
-					<ProductList type={activeType} />
+					<FeaturedProductCarousel type={activeType} />
 				</div>
 			</div>
 		</section>

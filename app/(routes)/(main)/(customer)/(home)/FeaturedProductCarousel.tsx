@@ -6,9 +6,8 @@ import { FEATURE_PRODUCT_PARAMS } from '@/app/_configs/constants/variables'
 import { useQuery } from '@tanstack/react-query'
 import { useMemo } from 'react'
 
-export default function ProductList({ type }: { type: 'new' | 'topRated' | 'cheap' }) {
+export default function FeaturedProductCarousel({ type }: { type: 'new' | 'topRated' | 'cheap' }) {
 	const featureProductParams = useMemo(() => FEATURE_PRODUCT_PARAMS, [])
-	console.log('render')
 
 	const params = featureProductParams[type]
 

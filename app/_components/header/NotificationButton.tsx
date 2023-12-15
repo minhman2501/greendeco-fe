@@ -24,7 +24,7 @@ export default function NotificationDisplayButton() {
 		}
 	})
 
-	const { data, isSuccess, isError, isFetching } = userNotificationQuery
+	const { data, isSuccess, isError } = userNotificationQuery
 
 	return (
 		<div className='relative'>
@@ -50,7 +50,6 @@ export default function NotificationDisplayButton() {
 							translateY: '-16px',
 						}}
 						transition={{ ease: 'easeInOut', duration: 0.2 }}
-						onClick={() => setOpen(false)}
 						className='absolute right-0 top-[calc(100%+8px)] max-h-[60vh] w-[24vw] overflow-y-auto rounded-xl bg-white shadow-38 '
 					>
 						<div className='bg-primary-625-20/40 p-compact text-heading-3 font-bold text-primary-5555'>

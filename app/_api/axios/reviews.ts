@@ -59,6 +59,14 @@ export const getReviewListByProductId = async (
 		.then((res) => res.data)
 }
 
+export const getAllReviews = async (params?: ReviewSortParams) => {
+	return await reviewApi
+		.get<ReviewListResponseData>(`/all`, {
+			params: params ? { ...params } : null,
+		})
+		.then((res) => res.data)
+}
+
 export const createProductReview = async (data: CreateProductReviewData) => {
 	const accessToken = getCookie(ACCESS_TOKEN_COOKIE_NAME)?.toString()
 

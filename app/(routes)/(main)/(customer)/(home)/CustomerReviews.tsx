@@ -4,8 +4,8 @@ export default function CustomerReviews() {
 	return (
 		<section className='section-home bg-primary-580-20'>
 			<div className='container'>
-				<h2 className='text-center text-heading-1 capitalize text-primary-5555'>
-					our customers thoughts about greenDeco plants
+				<h2 className='text-center text-[2rem] capitalize text-primary-5555'>
+					Huge love from our customers 😍
 				</h2>
 				<div>
 					<TopReviewSlider />

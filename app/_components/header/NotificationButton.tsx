@@ -28,7 +28,10 @@ export default function NotificationDisplayButton() {
 				<BellIcon className='aspect-square h-[24px] ' />
 			</button>
 			{open && (
-				<div className='absolute right-0 top-[calc(100%+8px)] max-h-[60vh] w-[24vw] overflow-y-auto rounded-xl bg-white shadow-38 '>
+				<div
+					onClick={() => setOpen(false)}
+					className='absolute right-0 top-[calc(100%+8px)] max-h-[60vh] w-[24vw] overflow-y-auto rounded-xl bg-white shadow-38 '
+				>
 					<div className='bg-primary-625-20/40 p-compact py-compact text-heading-3 font-bold text-primary-5555'>
 						Notification
 					</div>

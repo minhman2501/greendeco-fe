@@ -62,6 +62,10 @@
 	.select {
 		@apply rounded-[4px] border-[1px] border-primary-625 bg-transparent px-cozy py-compact text-body-md text-primary-5555;
 	}
+
+	.section-home {
+		@apply py-[80px];
+	}
 }
 
 @layer utilities {

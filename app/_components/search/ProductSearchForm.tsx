@@ -56,6 +56,7 @@ export default function ProductSearchForm() {
 				<Button
 					disabled={!isDirty || isValid === false}
 					type='submit'
+					className='rounded-[8px] px-comfortable font-semi-bold'
 				>
 					Search
 				</Button>

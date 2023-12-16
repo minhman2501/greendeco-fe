@@ -5,6 +5,8 @@ import { FilterParams } from '@/app/_api/axios/product'
 export const MIN_PASSWORD = 8
 export const MAX_PASSWORD = 50
 
+export const MIN_SEARCH_VALUE = 3
+
 export const IMAGE_MAX_SIZE_IN_MB = 5
 
 export const REQUIRED_FIELD_STRING = 'This field is required'

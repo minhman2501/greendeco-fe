@@ -1,4 +1,6 @@
-import { OrderState } from './paramKeys'
+import { OrderState, Sort, SortBy } from './paramKeys'
+
+import { FilterParams } from '@/app/_api/axios/product'
 
 export const MIN_PASSWORD = 8
 export const MAX_PASSWORD = 50
@@ -70,5 +72,20 @@ export const ORDER_STATE_FIELD = {
 	},
 	cancelled: {
 		state: OrderState.Cancelled,
+	},
+}
+
+export const FEATURE_PRODUCT_PARAMS = {
+	new: {
+		sort: Sort.Descending,
+		sortBy: SortBy.CreatedAt,
+	},
+	topRated: {
+		sort: Sort.Descending,
+		sortBy: 'name',
+	},
+	cheap: {
+		sort: Sort.Ascending,
+		sortBy: SortBy.Price,
 	},
 }

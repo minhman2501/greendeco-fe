@@ -11,7 +11,7 @@ export default function ProductCard({ product }: { product: ProductCardProps }) 
 	const { id, name, images, price } = product
 	return (
 		<span
-			className='w-full overflow-hidden rounded-[8px] border-transparent bg-white shadow-63 ease-linear hover:scale-110 hover:cursor-pointer '
+			className='group block w-full overflow-hidden rounded-[8px] bg-white hover:cursor-pointer  '
 			onClick={() => productRouter.push(`/shop/product-detail/${id}`)}
 		>
 			<CardImage imageUrl={images[0]} />
@@ -20,9 +20,6 @@ export default function ProductCard({ product }: { product: ProductCardProps }) 
 					name={name}
 					price={price}
 				/>
-				<span className='flex items-center justify-center'>
-					<AddToCartButton productId={id} />
-				</span>
 			</div>
 		</span>
 	)
@@ -36,44 +33,25 @@ function CardDetail({
 	price: ProductCardProps['price']
 }) {
 	return (
-		<div className='flex-col-start h-full w-full justify-between gap-cozy'>
-			<div className='flex-col-start'>
-				<span className='cursor-pointer text-body-sm font-semibold text-primary-625 hover:underline'>
-					{name}
-				</span>
-				<span className='flex items-center gap-[2px]'>
-					<StarIcon
-						className='aspect-square h-[20px]'
-						color='#FF8B28'
-					/>
-					<span className='text-body-xsm text-primary-418-60'>4.7 (15 reviews)</span>
-				</span>
-			</div>
-			<div className='text-body-sm'>$ {price}</div>
+		<div className='flex h-full w-full justify-between gap-cozy'>
+			<span className='cursor-pointer text-body-sm font-semi-bold text-primary-625 group-hover:underline'>
+				{name}
+			</span>
+			<div className='text-body-sm font-semi-bold text-primary-418'>$ {price}</div>
 		</div>
 	)
 }
 function CardImage({ imageUrl }: { imageUrl: string }) {
 	return (
-		<div className='h-[240px] w-full'>
+		<div className='h-[240px] w-full overflow-hidden'>
 			<Image
 				src={imageUrl}
 				alt='product image'
+				className='duration-200 ease-in-out group-hover:scale-105'
 				width={0}
 				height={0}
 				sizes='100vw'
 			></Image>
 		</div>
-	)
-}
-
-function AddToCartButton({ productId }: { productId: ProductCardProps['id'] }) {
-	return (
-		<span className='flex h-fit w-fit  items-center justify-center rounded-[100%] bg-primary-625 p-[12px]'>
-			<ShoppingBagIcon
-				className='aspect-square w-[20px]'
-				color='#fff'
-			/>
-		</span>
 	)
 }

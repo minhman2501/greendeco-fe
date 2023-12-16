@@ -7,6 +7,7 @@ import AuthenticationHandler from './AuthenticationMenu'
 import CartDisplayButton from './CartDisplayButton'
 import { motion, useScroll, useMotionValueEvent } from 'framer-motion'
 import { useState } from 'react'
+import NotificationDisplayButton from './NotificationButton'
 
 export default function Header() {
 	const [hidden, setHidden] = useState(false)
@@ -62,7 +63,10 @@ function NavBar() {
 		<div className='flex-col-start h-full flex-1 justify-center rounded-[8px] border-[1px] border-primary-625 bg-white px-cozy shadow-30'>
 			<div className='flex items-center justify-between'>
 				<NavigationList />
-				<CartDisplayButton />
+				<div className='flex items-center gap-compact'>
+					<NotificationDisplayButton />
+					<CartDisplayButton />
+				</div>
 			</div>
 		</div>
 	)

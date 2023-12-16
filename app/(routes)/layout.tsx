@@ -1,6 +1,7 @@
 import './globals.css'
 import 'react-toastify/dist/ReactToastify.css'
 import 'react-loading-skeleton/dist/skeleton.css'
+import 'swiper/css'
 import type { Metadata } from 'next'
 import React from 'react'
 import { ToastContainer } from 'react-toastify'

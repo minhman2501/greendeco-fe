@@ -48,9 +48,9 @@ export default function ProductSearchForm() {
 					className='flex w-full items-center gap-cozy text-body-sm'
 				>
 					<TextField
-						className='flex-1'
+						className='flex-1 text-body-lg'
 						type='text'
-						placeholder='Enter Your Plant'
+						placeholder='Search here'
 						register={register('search')}
 						error={false}
 					/>

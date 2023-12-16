@@ -21,7 +21,7 @@ export default function ProductSearchForm() {
 	const {
 		register,
 		handleSubmit,
-		formState: { errors },
+		formState: { errors, isDirty, isValid },
 	} = useForm<ProductSearchFormInputType>({
 		mode: 'all',
 		reValidateMode: 'onBlur',
@@ -38,22 +38,23 @@ export default function ProductSearchForm() {
 		)
 	}
 	return (
-		<div className='flex-col-start w-[60%] items-center justify-center p-comfortable'>
-			<span>What do you have in mind?</span>
+		<div className='flex-col-start w-full items-center justify-center gap-compact p-cozy'>
+			<span className='text-body-md font-semi-bold text-primary-5555'>
+				What do you have in mind?
+			</span>
 			<form
 				onSubmit={handleSubmit(onSubmitHandler)}
-				className='flex w-full gap-cozy text-body-sm'
+				className='flex w-full items-center gap-cozy text-body-sm'
 			>
 				<TextField
 					className='flex-1'
 					type='text'
 					placeholder='Enter Your Plant'
 					register={register('search')}
-					error={Boolean(errors?.search)}
-					helperText={errors?.search?.message}
+					error={false}
 				/>
 				<Button
-					disabled={Boolean(errors?.search)}
+					disabled={!isDirty || isValid === false}
 					type='submit'
 				>
 					Search

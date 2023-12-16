@@ -5,6 +5,8 @@ import { FilterParams } from '@/app/_api/axios/product'
 export const MIN_PASSWORD = 8
 export const MAX_PASSWORD = 50
 
+export const MIN_SEARCH_VALUE = 3
+
 export const IMAGE_MAX_SIZE_IN_MB = 5
 
 export const REQUIRED_FIELD_STRING = 'This field is required'
@@ -18,6 +20,8 @@ export const DIFFICULTY_OPTIONS = ['Easy', 'Medium', 'Hard']
 export const TYPE_OPTIONS = ['Outdoor', 'Indoor']
 
 export const RATING_GRADES = [1, 2, 3, 4, 5]
+
+export const INVALID_NAME_STRING = '129038@!()8sdf901'
 
 export const ADMINISTRATOR_ROUTE = {
 	PRODUCT: {
@@ -57,6 +61,9 @@ export const SHOP_ROUTE = {
 	},
 	PRODUCT_DETAIL: {
 		LINK: '/shop/product-detail',
+	},
+	SEARCH: {
+		LINK: '/search-result',
 	},
 }
 

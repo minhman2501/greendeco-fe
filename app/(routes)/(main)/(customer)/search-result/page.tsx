@@ -1,10 +1,5 @@
 'use client'
-import {
-	FieldParams,
-	FilterParams,
-	getProductList,
-	getProductListWithSearch,
-} from '@/app/_api/axios/product'
+import { FieldParams, FilterParams, getProductListWithSearch } from '@/app/_api/axios/product'
 import ProductCardsGrid from '@/app/_components/product/ProductGrid'
 import { useQuery } from '@tanstack/react-query'
 import useQueryParams from '@/app/_hooks/useQueryParams'
@@ -18,7 +13,7 @@ export default function ProductListPage() {
 	const { queryObject } = useQueryParams<FilterParams>()
 	const queryObj: FilterParams = { ...queryObject }
 
-	const field: FieldParams = queryObject.field ? JSON.parse(queryObject.field) : null
+	const field: FieldParams = queryObj.field ? JSON.parse(queryObj.field) : null
 	const searchParam = field?.name ? field.name : ''
 
 	const productListQuery = useQuery({
@@ -41,12 +36,12 @@ export default function ProductListPage() {
 					<span className='text-body-sm text-primary-418-60'>
 						{data && data?.page_size > 1 ? (
 							<>
-								There are {data?.page_size} results match{' '}
+								There are {data?.page_size} results that are close to{' '}
 								<span className='font-semi-bold'>&quot;{searchParam}&quot;</span>
 							</>
 						) : (
 							<>
-								There is {data?.page_size} result matches{' '}
+								There is {data?.page_size} result that is close to{' '}
 								<span className='font-semi-bold'>&quot;{searchParam}&quot;</span>
 							</>
 						)}

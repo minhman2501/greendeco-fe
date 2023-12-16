@@ -1,15 +1,21 @@
 import {
 	OrderData,
 	OrderDetailResponseData,
+	OrderFullDetailData,
 	OrderListData,
 	OrderProductData,
 	OrderProductList,
+	getOrderDetailById,
+	getOrderPrice,
+	getOrderProductListById,
 	orderApi,
 } from '../order'
 import axios from 'axios'
 import { FilterParams, fieldJSONParse } from '../product'
 import { OrderState as StateOfOrder } from '@/app/_configs/constants/paramKeys'
 import { createNotification, sendNotification } from './notification'
+import { ADMIN_ACCESS_TOKEN_COOKIE_NAME } from '@/app/_configs/constants/cookies'
+import { getCookie } from 'cookies-next'
 const ORDER_URL = `${process.env.NEXT_PUBLIC_GREENDECO_BACKEND_API}`
 
 type AdminAccessTokenType = string | undefined
@@ -215,4 +221,21 @@ export const updateOrderCancelStatus = async ({
 		orderId,
 	)
 	return await sendNotification(adminAccessToken, newNoti.id, [userId])
+}
+
+export const getOrderFullDetailAsAdministratorById = async (orderId: OrderData['id']) => {
+	const accessToken = getCookie(ADMIN_ACCESS_TOKEN_COOKIE_NAME)?.toString()
+
+	return await Promise.all([
+		getOrderDetailById(orderId, accessToken),
+		getOrderProductListById(orderId, accessToken),
+		getOrderPrice(orderId, accessToken),
+	]).then(([order, productList, price]) => {
+		const orderFullDetail: OrderFullDetailData = {
+			order: order.items,
+			productList: productList.items,
+			price: price,
+		}
+		return orderFullDetail
+	})
 }

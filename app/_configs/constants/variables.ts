@@ -23,7 +23,7 @@ export const ADMINISTRATOR_ROUTE = {
 		LABEL: 'Product Management',
 	},
 	ORDER: {
-		LINK: '/administrator/order/order-list',
+		LINK: '/administrator/order/',
 		LABEL: 'Order Management',
 	},
 	ORDER_DETAIL: {

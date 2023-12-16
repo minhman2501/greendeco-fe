@@ -1,7 +1,7 @@
 import { Metadata } from 'next'
 import { ReactNode } from 'react'
-import OrderStateFilter from './OrderStateFilter'
 import Block from '@/app/_components/Block'
+import OrderStateFilter from '../OrderStateFilter'
 
 export const metadata: Metadata = {
 	title: 'Order Management',

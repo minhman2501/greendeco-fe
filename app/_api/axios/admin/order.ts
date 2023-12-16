@@ -1,4 +1,11 @@
-import { OrderData, OrderListData, OrderProductData, orderApi } from '../order'
+import {
+	OrderData,
+	OrderDetailResponseData,
+	OrderListData,
+	OrderProductData,
+	OrderProductList,
+	orderApi,
+} from '../order'
 import axios from 'axios'
 import { FilterParams, fieldJSONParse } from '../product'
 import { OrderState as StateOfOrder } from '@/app/_configs/constants/paramKeys'
@@ -101,7 +108,7 @@ export const getOrderByIdAsAdminstrator = async (
 	orderId?: string,
 ) => {
 	return await orderApi
-		.get<OrderData>(`/order/${orderId}`, {
+		.get<OrderDetailResponseData>(`/${orderId}`, {
 			headers: {
 				Authorization: `Bearer ${adminAccessToken}`,
 			},
@@ -114,7 +121,7 @@ export const getOrderProductByOrderAsAdminstrator = async (
 	orderId: string,
 ) => {
 	return await orderApi
-		.get<OrderProductData>(`/order/${orderId}`, {
+		.get<OrderProductList>(`/${orderId}/product/`, {
 			headers: {
 				Authorization: `Bearer ${adminAccessToken}`,
 			},
@@ -126,18 +133,21 @@ export type OrderStatusRequest = {
 	adminAccessToken: AdminAccessTokenType
 	orderId: string
 	state: string
+	description?: string
 }
 
 export const updateOrderStatus = async ({
 	adminAccessToken,
 	orderId,
 	state,
+	description,
 }: OrderStatusRequest) => {
 	return await orderApi
 		.put(
 			`/${orderId}`,
 			{
 				state: state,
+				description: description,
 			},
 			{
 				headers: {
@@ -194,12 +204,15 @@ export const updateOrderCancelStatus = async ({
 		orderId: orderId,
 		adminAccessToken: adminAccessToken,
 		state: StateOfOrder.Cancelled,
+		description: message,
 	}
 	await updateOrderStatus(orderStatusRequest)
 	const newNoti = await createNotification(
 		adminAccessToken,
-		`Your Order ${orderId} has been cancelled`,
+		// change the title of description
+		`Your Order has been cancelled`,
 		message,
+		orderId,
 	)
 	return await sendNotification(adminAccessToken, newNoti.id, [userId])
 }

@@ -8,6 +8,7 @@ export type NotificationData = {
 	id: string
 	title: string
 	message: string
+	description: string
 	created_at: string
 	updated_at: string
 }
@@ -24,6 +25,7 @@ export const createNotification = async (
 	adminAccessToken: AdminAccessTokenType,
 	title: string,
 	message: string,
+	description: string,
 ) => {
 	return await adminNotificationApi
 		.post<CreateNotification>(
@@ -31,6 +33,7 @@ export const createNotification = async (
 			{
 				title: title,
 				message: message,
+				description: description,
 			},
 			{
 				headers: {

@@ -47,7 +47,7 @@ export const Dropdown = ({
 	return (
 		<div
 			ref={btnRef}
-			className={clsx('absolute flex w-[150px] flex-col items-center rounded-lg')}
+			className={clsx('relative flex w-[150px] flex-col items-center rounded-lg')}
 		>
 			<button
 				className={clsx(

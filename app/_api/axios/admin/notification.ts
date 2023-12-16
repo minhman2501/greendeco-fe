@@ -25,6 +25,7 @@ export const createNotification = async (
 	adminAccessToken: AdminAccessTokenType,
 	title: string,
 	message: string,
+	description: string,
 ) => {
 	return await adminNotificationApi
 		.post<CreateNotification>(
@@ -32,6 +33,7 @@ export const createNotification = async (
 			{
 				title: title,
 				message: message,
+				description: description,
 			},
 			{
 				headers: {

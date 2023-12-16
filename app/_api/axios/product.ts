@@ -83,6 +83,11 @@ export type ProductDetailData = {
 	variants: VariantData[]
 }
 
+export type VariantProductData = {
+	product: ProductData
+	variant: VariantData
+}
+
 export type FilterParams = {
 	limit?: number
 	offSet?: number
@@ -156,4 +161,23 @@ export const getProductDetailById = async (productId: string) => {
 		}
 		return productDetail
 	})
+}
+
+// use for get product for variant
+export const getProductVariant = async (productId: string, variantId: string) => {
+	return await Promise.all([getProductBaseById(productId), getVariantById(variantId)])
+		.then(([product, variant]) => {
+			const productRes = product.items
+			const variantRes = variant.items
+			const productDetail: VariantProductData = {
+				product: productRes,
+				variant: variantRes,
+			}
+			console.log('productDetail', productDetail)
+			return productDetail
+		})
+		.catch((e) => {
+			console.log('error:')
+			return undefined
+		})
 }

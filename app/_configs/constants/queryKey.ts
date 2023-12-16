@@ -6,6 +6,7 @@ export enum UseQueryKeys {
 	Product = 'product',
 	Order = 'order',
 	Variant = 'variant',
+	Price = 'price',
 	Notification = 'notification',
 }
 

@@ -1,8 +1,21 @@
-import { OrderData, OrderListData, OrderProductData, orderApi } from '../order'
+import {
+	OrderData,
+	OrderDetailResponseData,
+	OrderFullDetailData,
+	OrderListData,
+	OrderProductData,
+	OrderProductList,
+	getOrderDetailById,
+	getOrderPrice,
+	getOrderProductListById,
+	orderApi,
+} from '../order'
 import axios from 'axios'
 import { FilterParams, fieldJSONParse } from '../product'
 import { OrderState as StateOfOrder } from '@/app/_configs/constants/paramKeys'
 import { createNotification, sendNotification } from './notification'
+import { ADMIN_ACCESS_TOKEN_COOKIE_NAME } from '@/app/_configs/constants/cookies'
+import { getCookie } from 'cookies-next'
 const ORDER_URL = `${process.env.NEXT_PUBLIC_GREENDECO_BACKEND_API}`
 
 type AdminAccessTokenType = string | undefined
@@ -101,7 +114,7 @@ export const getOrderByIdAsAdminstrator = async (
 	orderId?: string,
 ) => {
 	return await orderApi
-		.get<OrderData>(`/order/${orderId}`, {
+		.get<OrderDetailResponseData>(`/${orderId}`, {
 			headers: {
 				Authorization: `Bearer ${adminAccessToken}`,
 			},
@@ -114,7 +127,7 @@ export const getOrderProductByOrderAsAdminstrator = async (
 	orderId: string,
 ) => {
 	return await orderApi
-		.get<OrderProductData>(`/order/${orderId}`, {
+		.get<OrderProductList>(`/${orderId}/product/`, {
 			headers: {
 				Authorization: `Bearer ${adminAccessToken}`,
 			},
@@ -126,18 +139,21 @@ export type OrderStatusRequest = {
 	adminAccessToken: AdminAccessTokenType
 	orderId: string
 	state: string
+	description?: string
 }
 
 export const updateOrderStatus = async ({
 	adminAccessToken,
 	orderId,
 	state,
+	description,
 }: OrderStatusRequest) => {
 	return await orderApi
 		.put(
 			`/${orderId}`,
 			{
 				state: state,
+				description: description,
 			},
 			{
 				headers: {
@@ -194,12 +210,32 @@ export const updateOrderCancelStatus = async ({
 		orderId: orderId,
 		adminAccessToken: adminAccessToken,
 		state: StateOfOrder.Cancelled,
+		description: message,
 	}
 	await updateOrderStatus(orderStatusRequest)
 	const newNoti = await createNotification(
 		adminAccessToken,
-		`Your Order ${orderId} has been cancelled`,
+		// change the title of description
+		`Your Order has been cancelled`,
 		message,
+		orderId,
 	)
 	return await sendNotification(adminAccessToken, newNoti.id, [userId])
+}
+
+export const getOrderFullDetailAsAdministratorById = async (orderId: OrderData['id']) => {
+	const accessToken = getCookie(ADMIN_ACCESS_TOKEN_COOKIE_NAME)?.toString()
+
+	return await Promise.all([
+		getOrderDetailById(orderId, accessToken),
+		getOrderProductListById(orderId, accessToken),
+		getOrderPrice(orderId, accessToken),
+	]).then(([order, productList, price]) => {
+		const orderFullDetail: OrderFullDetailData = {
+			order: order.items,
+			productList: productList.items,
+			price: price,
+		}
+		return orderFullDetail
+	})
 }

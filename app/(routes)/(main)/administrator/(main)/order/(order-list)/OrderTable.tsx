@@ -8,7 +8,7 @@ import {
 } from '@tanstack/react-table'
 import Link from 'next/link'
 import { ADMINISTRATOR_ROUTE } from '@/app/_configs/constants/variables'
-import OrderDropdownState from './DropdownState'
+import OrderDropdownState from '../DropdownState'
 
 const columHelper = createColumnHelper<OrderTableData>()
 
@@ -17,7 +17,10 @@ const columns = [
 		cell: (info) => (
 			<span className='flex w-full items-center justify-center'>
 				<div>
-					<Link href={`${ADMINISTRATOR_ROUTE.ORDER.LINK}/${info.getValue().order_id!}`}>
+					<Link
+						href={`${ADMINISTRATOR_ROUTE.ORDER_DETAIL.LINK}/${info.getValue()
+							.order_id!}`}
+					>
 						{info.getValue().order_id}
 					</Link>
 					<p>
@@ -77,7 +80,7 @@ export default function OrderTable({ order }: { order: OrderTableData[] }) {
 	})
 
 	return (
-		<div className='w-full overflow-hidden border-[1px] border-primary-625-40 '>
+		<div className='w-full border-[1px] border-primary-625-40 '>
 			<div className='w-full border-b-[1px] border-primary-625-60 p-3 text-2xl text-primary-418-60 '>
 				{order.length} Order(s) in queue
 			</div>

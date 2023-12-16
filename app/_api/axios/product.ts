@@ -120,12 +120,14 @@ export const fieldJSONParseWithSearchValidation = (params: FilterParams) => {
 		const { field, ...restParms } = params
 		const fieldJSON: FieldParams = field ? JSON.parse(field) : null
 
-		const searchResult: FieldParams =
+		const searchResult =
 			fieldJSON && fieldJSON?.name && fieldJSON?.name?.length > 2
-				? fieldJSON
-				: { ...fieldJSON, name: INVALID_NAME_STRING }
+				? fieldJSON.name
+				: INVALID_NAME_STRING
 
-		return { field: searchResult, ...restParms }
+		const fieldAfterSearch: FieldParams = { ...fieldJSON, name: searchResult }
+
+		return { field: fieldAfterSearch, ...restParms }
 	}
 }
 
@@ -155,8 +157,6 @@ export const getProductListWithSearch = async (params?: FilterParams) => {
 	if (params) {
 		paramAfterJSON = fieldJSONParseWithSearchValidation(params)
 	}
-
-	console.log(paramAfterJSON)
 
 	return await productApi
 		.get<ProductListData>('/product', {

@@ -1,3 +1,4 @@
+import { INVALID_NAME_STRING } from '@/app/_configs/constants/variables'
 import axios from 'axios'
 
 const PRODUCT_URL = `${process.env.NEXT_PUBLIC_GREENDECO_BACKEND_API}`
@@ -96,11 +97,35 @@ export type FilterParams = {
 	field?: string
 } | null
 
+export type FieldParams = {
+	name?: string
+	size?: string
+	difficulty?: string
+	price?: string
+	type?: string
+	water?: string
+	light?: string
+} | null
+
 export const fieldJSONParse = (params: FilterParams) => {
 	if (params) {
 		const { field, ...restParms } = params
 		const fieldJSON = field ? JSON.parse(field) : null
 		return { field: fieldJSON ? fieldJSON : null, ...restParms }
+	}
+}
+
+export const fieldJSONParseWithSearchValidation = (params: FilterParams) => {
+	if (params) {
+		const { field, ...restParms } = params
+		const fieldJSON: FieldParams = field ? JSON.parse(field) : null
+
+		const searchResult: FieldParams =
+			fieldJSON && fieldJSON?.name && fieldJSON?.name?.length > 2
+				? fieldJSON
+				: { ...fieldJSON, name: INVALID_NAME_STRING }
+
+		return { field: searchResult, ...restParms }
 	}
 }
 
@@ -115,6 +140,23 @@ export const getProductList = async (params?: FilterParams) => {
 	if (params) {
 		paramAfterJSON = fieldJSONParse(params)
 	}
+
+	console.log(paramAfterJSON)
+
+	return await productApi
+		.get<ProductListData>('/product', {
+			params: { ...paramAfterJSON },
+		})
+		.then((res) => res.data)
+}
+
+export const getProductListWithSearch = async (params?: FilterParams) => {
+	let paramAfterJSON
+	if (params) {
+		paramAfterJSON = fieldJSONParseWithSearchValidation(params)
+	}
+
+	console.log(paramAfterJSON)
 
 	return await productApi
 		.get<ProductListData>('/product', {

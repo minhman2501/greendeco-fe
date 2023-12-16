@@ -19,6 +19,8 @@ export const TYPE_OPTIONS = ['Outdoor', 'Indoor']
 
 export const RATING_GRADES = [1, 2, 3, 4, 5]
 
+export const INVALID_NAME_STRING = '129038@!()8sdf901'
+
 export const ADMINISTRATOR_ROUTE = {
 	PRODUCT: {
 		LINK: '/administrator/product',

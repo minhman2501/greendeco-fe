@@ -19,7 +19,7 @@ module.exports = {
 					"url('https://www.everwallpaper.co.uk/cdn/shop/collections/Bird-and-Floral-Art-Wallpaper-Mural.jpg?v=1660109731')",
 				test: "linear-gradient(to left bottom, rgba(255,255,255,0),rgba(86, 119, 118, 0.2), rgba(70, 79, 65, 0.95)), url('https://www.everwallpaper.co.uk/cdn/shop/collections/Bird-and-Floral-Art-Wallpaper-Mural.jpg?v=1660109731')",
 				'search-banner':
-					"linear-gradient(to bottom, rgba(86, 119, 118, 0.35), rgba(86, 129, 118, 0.8)), url('https://wallpapers.com/images/hd/green-plant-aesthetic-56nw3y24prsozi0l.jpg')",
+					"linear-gradient(to bottom, rgba(86, 119, 118, 0.55), rgba(86, 160, 140, 0.75), rgba(86, 129, 118, 0.9)), url('https://wallpapers.com/images/hd/green-plant-aesthetic-56nw3y24prsozi0l.jpg')",
 				adminLogin:
 					"linear-gradient(to left bottom, rgba(255,255,255,0), rgba(86, 119, 118, 0.5)), url('https://hips.hearstapps.com/hmg-prod/images/best-online-plant-delivery-1638314748.jpg')",
 			},

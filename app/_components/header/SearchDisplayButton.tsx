@@ -1,9 +1,7 @@
 'use client'
 
-import { BellIcon } from '@heroicons/react/24/solid'
+import { MagnifyingGlassIcon } from '@heroicons/react/24/solid'
 import { useState } from 'react'
-import useNotification from '@/app/_hooks/useNotification'
-import NotificationList from '../notification/NotificationList'
 import { motion, useScroll, useMotionValueEvent, AnimatePresence } from 'framer-motion'
 import ProductSearchForm from '../search/ProductSearchForm'
 
@@ -12,7 +10,7 @@ export default function SearchDisplayButton() {
 
 	const { scrollY } = useScroll()
 
-	const handleOpenNotification = () => {
+	const handleOpenSearchForm = () => {
 		setOpen(!open)
 	}
 
@@ -26,10 +24,10 @@ export default function SearchDisplayButton() {
 	return (
 		<>
 			<button
-				onClick={handleOpenNotification}
+				onClick={handleOpenSearchForm}
 				className='group rounded-xl border-[1px] border-primary-5555-40 bg-primary-5555-20/40 px-[8px] py-[4px] text-primary-625 transition duration-75 ease-in hover:bg-primary-625 hover:text-neutral-gray-1'
 			>
-				<BellIcon className='aspect-square h-[24px] ' />
+				<MagnifyingGlassIcon className='aspect-square h-[24px] ' />
 			</button>
 			<AnimatePresence>
 				{open && (
@@ -54,13 +52,4 @@ export default function SearchDisplayButton() {
 			</AnimatePresence>
 		</>
 	)
-}
-
-function NotificationAmountDisplay({ amount }: { amount: number | undefined }) {
-	if (amount && amount > 0)
-		return (
-			<span className='absolute right-[-4px] top-[-4px] flex aspect-square h-[16px] items-center justify-center rounded-[100%] border-[1px] border-primary-625 bg-primary-625 font-semi-bold text-white transition duration-75  ease-in group-hover:bg-white group-hover:text-primary-625'>
-				{amount}
-			</span>
-		)
 }

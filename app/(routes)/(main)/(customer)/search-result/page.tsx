@@ -16,11 +16,10 @@ import ProductListPagination from './ProductListPagination'
 
 export default function ProductListPage() {
 	const { queryObject } = useQueryParams<FilterParams>()
-	const lmao: FilterParams = { ...queryObject }
+	const queryObj: FilterParams = { ...queryObject }
 
-	const field: FieldParams = lmao.field ? JSON.parse(lmao.field) : null
-
-	console.log(field?.name?.length)
+	const field: FieldParams = queryObject.field ? JSON.parse(queryObject.field) : null
+	const searchParam = field?.name ? field.name : ''
 
 	const productListQuery = useQuery({
 		queryKey: ['product', queryObject],
@@ -32,48 +31,66 @@ export default function ProductListPage() {
 		refetchOnWindowFocus: false,
 	})
 
+	const { data, isError, isLoading, isSuccess } = productListQuery
+
 	return (
 		<div className='flex-col-start gap-cozy py-comfortable'>
 			{/*NOTE: Because isError default false => doesn't cause rerender the SortMenu  */}
-			{productListQuery.isError === false && productListQuery.data?.page_size !== 0 && (
-				<div className='flex w-full items-center justify-end'>
+			{isError === false && data?.page_size !== 0 && (
+				<div className='flex w-full items-center justify-between'>
+					<span className='text-body-sm text-primary-418-60'>
+						{data && data?.page_size > 1 ? (
+							<>
+								There are {data?.page_size} results match{' '}
+								<span className='font-semi-bold'>&quot;{searchParam}&quot;</span>
+							</>
+						) : (
+							<>
+								There is {data?.page_size} result matches{' '}
+								<span className='font-semi-bold'>&quot;{searchParam}&quot;</span>
+							</>
+						)}
+					</span>
 					<ProductSortMenu />
 				</div>
 			)}
 
-			{productListQuery.isLoading && <ProductListLoading />}
+			{isLoading && <ProductListLoading />}
 
-			{productListQuery.isSuccess && (
+			{isSuccess && (
 				<>
-					{productListQuery.data.page_size > 0 ? (
+					{data.page_size > 0 ? (
 						<>
 							<ProductCardsGrid
-								productList={productListQuery.data.items}
+								productList={data.items}
 								columns={5}
 								gap='cozy'
 							/>
 							<ProductListPagination
-								next={productListQuery.data.next}
-								prev={productListQuery.data.prev}
+								next={data.next}
+								prev={data.prev}
 							/>
 						</>
 					) : (
-						<OutOfProductMessage />
+						<OutOfProductMessage searchResult={searchParam} />
 					)}
 				</>
 			)}
-			{productListQuery.isError && <ProuductListError />}
+			{isError && <ProuductListError />}
 		</div>
 	)
 }
 
-function OutOfProductMessage() {
+function OutOfProductMessage({ searchResult }: { searchResult: string }) {
 	return (
 		<div className='flex h-[200px] w-full items-center justify-center text-primary-418'>
 			<span className='flex-col-center gap-compact'>
 				<FaceFrownIcon className='aspect-square h-[80px]' />
 
-				<p className='text-body-md'>Sorry! We can&apos;t find any product</p>
+				<p className='text-body-md'>
+					Sorry! We can&apos;t find any product that matches{' '}
+					<span className='font-semi-bold'>&quot;{searchResult}&quot;</span>
+				</p>
 			</span>
 		</div>
 	)

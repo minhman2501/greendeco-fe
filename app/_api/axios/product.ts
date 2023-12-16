@@ -122,7 +122,7 @@ export const fieldJSONParseWithSearchValidation = (params: FilterParams) => {
 
 		const searchResult =
 			fieldJSON && fieldJSON?.name && fieldJSON?.name?.length > 2
-				? fieldJSON.name
+				? fieldJSON.name.replace(/ /g, '') //NOTE: / /g is the regex for whitespace
 				: INVALID_NAME_STRING
 
 		const fieldAfterSearch: FieldParams = { ...fieldJSON, name: searchResult }

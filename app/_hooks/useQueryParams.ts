@@ -1,5 +1,6 @@
 'use client'
 
+import { all } from 'axios'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 
 export default function useQueryParams<T>() {
@@ -24,5 +25,26 @@ export default function useQueryParams<T>() {
 		router.replace(`${pathname}${query}`)
 	}
 
-	return { queryParams: searchParams, queryObject: urlQueryObject, setQueryParams }
+	function directToPathWithQueryParams(params: Partial<T>, pathName: string) {
+		const newUrlSearchParams = new URLSearchParams()
+		Object.entries(params).forEach(([key, value]) => {
+			if (value === undefined || value === null) {
+				newUrlSearchParams.delete(key)
+			} else {
+				newUrlSearchParams.set(key, String(value))
+			}
+		})
+
+		const search = newUrlSearchParams.toString()
+		const query = search ? `?${search}` : ''
+		// replace since we don't want to build a history
+		router.push(`${pathName}${query}`)
+	}
+
+	return {
+		queryParams: searchParams,
+		queryObject: urlQueryObject,
+		setQueryParams,
+		directToPathWithQueryParams,
+	}
 }

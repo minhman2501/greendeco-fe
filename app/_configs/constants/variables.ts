@@ -62,6 +62,9 @@ export const SHOP_ROUTE = {
 	PRODUCT_DETAIL: {
 		LINK: '/shop/product-detail',
 	},
+	SEARCH: {
+		LINK: '/search-result',
+	},
 }
 
 export const ORDER_STATE_FIELD = {

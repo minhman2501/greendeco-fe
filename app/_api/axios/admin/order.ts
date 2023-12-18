@@ -168,6 +168,10 @@ export type ProcessStatusRequest = {
 	adminAccessToken: AdminAccessTokenType
 	orderId: string
 	paid_at: string
+	title: string
+	message: string
+	userId: string
+	state: StateOfOrder
 }
 
 // updateProcessStatus only use for only update process order status
@@ -175,51 +179,52 @@ export const updateOrderProcessStatus = async ({
 	adminAccessToken,
 	orderId,
 	paid_at,
-}: ProcessStatusRequest) => {
-	return await orderApi
-		.put(
-			`/${orderId}`,
-			{
-				paid_at: paid_at,
-				state: StateOfOrder.Processing,
-			},
-			{
-				headers: {
-					Authorization: `Bearer ${adminAccessToken}`,
-				},
-			},
-		)
-		.then((res) => res.data)
-}
-
-export type CancelStatusRequest = {
-	adminAccessToken: AdminAccessTokenType
-	orderId: string
-	message: string
-	userId: string
-}
-// updateCancelStatus only use for only update cancelled order status
-// fuction will update cancel status then create new noti send for owner
-export const updateOrderCancelStatus = async ({
-	adminAccessToken,
-	orderId,
+	title,
 	message,
 	userId,
-}: CancelStatusRequest) => {
+}: ProcessStatusRequest) => {
+	await orderApi.put(
+		`/${orderId}`,
+		{
+			paid_at: paid_at,
+			state: StateOfOrder.Processing,
+		},
+		{
+			headers: {
+				Authorization: `Bearer ${adminAccessToken}`,
+			},
+		},
+	)
+
+	const newNoti = await createNotification(adminAccessToken, title, message, orderId)
+	return await sendNotification(adminAccessToken, newNoti.id, [userId])
+}
+
+export type StatusRequest = {
+	adminAccessToken: AdminAccessTokenType
+	orderId: string
+	title: string
+	message: string
+	userId: string
+	state: StateOfOrder
+}
+
+export const updateOrderStatusSendNoti = async ({
+	adminAccessToken,
+	orderId,
+	title,
+	message,
+	userId,
+	state,
+}: StatusRequest) => {
 	const orderStatusRequest: OrderStatusRequest = {
 		orderId: orderId,
 		adminAccessToken: adminAccessToken,
-		state: StateOfOrder.Cancelled,
+		state: state,
 		description: message,
 	}
 	await updateOrderStatus(orderStatusRequest)
-	const newNoti = await createNotification(
-		adminAccessToken,
-		// change the title of description
-		`Your Order has been cancelled`,
-		message,
-		orderId,
-	)
+	const newNoti = await createNotification(adminAccessToken, title, message, orderId)
 	return await sendNotification(adminAccessToken, newNoti.id, [userId])
 }
 

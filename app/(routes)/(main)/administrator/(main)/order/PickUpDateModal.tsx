@@ -56,7 +56,12 @@ export default function PickUpDateModal({ order, onSuccess, onCancel }: PickUpda
 		updateStatusMutation.mutate({
 			adminAccessToken: adminAccessToken!,
 			orderId: order.order_id,
+			state: ORDER_STATE_FIELD.processing.state,
 			paid_at: new Date(values.paid_at).toISOString(),
+			//NOTE: chnage the message and tilte data for processing status
+			message: 'Your order is in processing',
+			title: 'Your order is in processing',
+			userId: order.owner_id,
 		})
 	}
 

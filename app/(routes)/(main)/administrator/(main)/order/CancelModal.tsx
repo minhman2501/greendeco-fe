@@ -1,8 +1,4 @@
-import {
-	CancelStatusRequest,
-	OrderState,
-	updateOrderCancelStatus,
-} from '@/app/_api/axios/admin/order'
+import { OrderState, StatusRequest, updateOrderStatusSendNoti } from '@/app/_api/axios/admin/order'
 import Button from '@/app/_components/Button'
 import { MultilineTextField } from '@/app/_components/form'
 import {
@@ -39,7 +35,7 @@ export default function CancelModal({ order, onCancel, onSuccess }: CancelModalT
 		register,
 		handleSubmit,
 		formState: { errors },
-	} = useForm<CancelStatusRequest>({
+	} = useForm<StatusRequest>({
 		mode: 'onBlur',
 		reValidateMode: 'onBlur',
 		resolver: zodResolver(CreateNotificationSchema),
@@ -47,7 +43,7 @@ export default function CancelModal({ order, onCancel, onSuccess }: CancelModalT
 	})
 
 	const updateCancelStatusMutation = useMutation({
-		mutationFn: updateOrderCancelStatus,
+		mutationFn: updateOrderStatusSendNoti,
 		onSuccess: () => {
 			notifyUpdateCancelSuccess(order.order_id, ORDER_STATE_FIELD.cancelled.state)
 			queryClient.invalidateQueries({ queryKey: [UseQueryKeys.Order, ADMIN_QUERY_KEY] })
@@ -60,13 +56,16 @@ export default function CancelModal({ order, onCancel, onSuccess }: CancelModalT
 		},
 	})
 
-	const handleOnSubmitCancel: SubmitHandler<CancelStatusRequest> = (values, e) => {
+	const handleOnSubmitCancel: SubmitHandler<StatusRequest> = (values, e) => {
 		e?.preventDefault()
 		updateCancelStatusMutation.mutate({
 			adminAccessToken: adminAccessToken!,
 			orderId: order.order_id,
 			userId: order.owner_id,
 			message: values.message,
+			// title for cancel message
+			title: 'Your order has been cancelled',
+			state: ORDER_STATE_FIELD.cancelled.state,
 		})
 	}
 	return (

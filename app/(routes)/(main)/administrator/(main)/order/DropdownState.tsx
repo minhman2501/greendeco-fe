@@ -1,4 +1,8 @@
-import { OrderState, updateOrderStatus } from '@/app/_api/axios/admin/order'
+import {
+	OrderState,
+	updateOrderStatus,
+	updateOrderStatusSendNoti,
+} from '@/app/_api/axios/admin/order'
 import { Dropdown } from '@/app/_components/dropdown'
 import { ADMIN_ACCESS_TOKEN_COOKIE_NAME } from '@/app/_configs/constants/cookies'
 import { ORDER_STATE_FIELD } from '@/app/_configs/constants/variables'
@@ -32,7 +36,7 @@ export default function OrderDropdownState({ order }: { order: OrderState }) {
 	}
 
 	const updateOrderStatusComplete = useMutation({
-		mutationFn: updateOrderStatus,
+		mutationFn: updateOrderStatusSendNoti,
 		onSuccess: () => {
 			notifyUpdateCancelSuccess(order.order_id, states.completed.state)
 			queryClient.invalidateQueries({ queryKey: [UseQueryKeys.Order, ADMIN_QUERY_KEY] })
@@ -60,6 +64,10 @@ export default function OrderDropdownState({ order }: { order: OrderState }) {
 				adminAccessToken: adminAccessToken!,
 				orderId: order.order_id,
 				state: states.completed.state,
+				//NOTE: full fill message, title for processing state
+				message: order.order_id,
+				title: 'Your order is completed',
+				userId: order.owner_id,
 			})
 		}
 	}

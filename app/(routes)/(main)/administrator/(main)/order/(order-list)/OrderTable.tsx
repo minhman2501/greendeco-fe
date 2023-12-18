@@ -7,7 +7,7 @@ import {
 	flexRender,
 } from '@tanstack/react-table'
 import Link from 'next/link'
-import { ADMINISTRATOR_ROUTE } from '@/app/_configs/constants/variables'
+import { ADMINISTRATOR_ROUTE, VARIANT_CURRENCY } from '@/app/_configs/constants/variables'
 import OrderDropdownState from '../DropdownState'
 
 const columHelper = createColumnHelper<OrderTableData>()
@@ -45,8 +45,13 @@ const columns = [
 	}),
 
 	columHelper.accessor('OrderPrice.total', {
-		cell: (info) => <span className='inline-block w-full text-center'>{info.getValue()}</span>,
+		cell: (info) => (
+			<span className='inline-block w-full text-center'>
+				{info.getValue()} {VARIANT_CURRENCY}
+			</span>
+		),
 		header: () => <span>Price</span>,
+		size: 120,
 	}),
 
 	columHelper.accessor('OrderData.created_at', {

@@ -1,15 +1,9 @@
 'use client'
 import { OrderState, getOrderFullDetailAsAdministratorById } from '@/app/_api/axios/admin/order'
-import { ADMIN_ACCESS_TOKEN_COOKIE_NAME } from '@/app/_configs/constants/cookies'
 import { useQuery } from '@tanstack/react-query'
-import { getCookie } from 'cookies-next'
 import OrderDropdownState from '../../DropdownState'
 import { OrderData, OrderFullDetailData } from '@/app/_api/axios/order'
-import Image from 'next/image'
-import { GetUserById } from '@/app/_api/axios/admin/user'
-import { DEFAULT_AVATAR } from '@/app/_configs/constants/images'
 import OrderInformationWrapper from './OrderInformation'
-import VariantInformation from './VariantInformation'
 import { TailSpin } from 'react-loader-spinner'
 import { ADMIN_QUERY_KEY, UseQueryKeys } from '@/app/_configs/constants/queryKey'
 import {
@@ -22,6 +16,7 @@ import {
 } from '@heroicons/react/24/solid'
 import { useRouter } from 'next/navigation'
 import formatDate from '@/app/_hooks/useFormatDate'
+import OrderProductList from './OrderProductList'
 
 export default function OrderDetailManagementPage({
 	params,
@@ -96,7 +91,7 @@ function ContentWrapper({ order }: { order: OrderFullDetailData }) {
 				</div>
 				<div className='grid grid-cols-3 gap-comfortable'>
 					<div className='col-span-2'>
-						<VariantInformation order={order.productList} />
+						<OrderProductList productList={order.productList} />
 					</div>
 					<OrderInformationWrapper order={order} />
 				</div>

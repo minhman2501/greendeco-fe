@@ -3,7 +3,7 @@ import { OrderFullDetailData } from '@/app/_api/axios/order'
 export default function OrderInformationWrapper({ order }: { order: OrderFullDetailData }) {
 	return (
 		<>
-			<div className='flex-col-start gap-cozy p-cozy shadow-30'>
+			<div className='flex-col-start sticky top-comfortable h-fit gap-cozy p-cozy shadow-30'>
 				<h2 className='text-body-md'>Coupon Infomation:</h2>
 				<div className='flex-col-start gap-compact text-body-sm'>
 					<div className='flex justify-between'>

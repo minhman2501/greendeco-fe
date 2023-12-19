@@ -16,16 +16,17 @@ import { OrderUpdateSchema, OrderUpdateSchemaType } from '@/app/_configs/schemas
 import { notifyUpdateCancelSuccess } from './Notification'
 import { ORDER_STATE_FIELD } from '@/app/_configs/constants/variables'
 import { ADMIN_QUERY_KEY, UseQueryKeys } from '@/app/_configs/constants/queryKey'
+import { useDialogStore } from '@/app/_configs/store/useDialogStore'
+import createNotificationMessage from '@/app/_hooks/useOrderNotificationMessage'
 
 type PickUpdateModalType = {
 	order: OrderState
-	onCancel: () => void
-	onSuccess: (value: any) => void
 }
 
-export default function PickUpDateModal({ order, onSuccess, onCancel }: PickUpdateModalType) {
+export default function PickUpDateModal({ order }: PickUpdateModalType) {
 	const adminAccessToken = getCookie(ADMIN_ACCESS_TOKEN_COOKIE_NAME)
 	const queryClient = useQueryClient()
+	const { closeDialog } = useDialogStore()
 	const defaultInputValues: OrderUpdateSchemaType = {
 		paid_at: '',
 	}
@@ -39,9 +40,9 @@ export default function PickUpDateModal({ order, onSuccess, onCancel }: PickUpda
 	const updateStatusMutation = useMutation({
 		mutationFn: updateOrderProcessStatus,
 		onSuccess: () => {
-			onSuccess(false)
 			notifyUpdateCancelSuccess(order.order_id, ORDER_STATE_FIELD.processing.state)
 			queryClient.invalidateQueries({ queryKey: [UseQueryKeys.Order, ADMIN_QUERY_KEY] })
+			closeDialog()
 			reset()
 		},
 		onError: (e) => {
@@ -53,51 +54,56 @@ export default function PickUpDateModal({ order, onSuccess, onCancel }: PickUpda
 
 	const handleOnSubmit: SubmitHandler<ProcessStatusRequest> = (values, e) => {
 		e?.preventDefault()
+
+		const notificationMessage = createNotificationMessage(
+			order.order_id,
+			ORDER_STATE_FIELD.processing.state,
+		)
+
 		updateStatusMutation.mutate({
 			adminAccessToken: adminAccessToken!,
 			orderId: order.order_id,
 			state: ORDER_STATE_FIELD.processing.state,
 			paid_at: new Date(values.paid_at).toISOString(),
 			//NOTE: chnage the message and tilte data for processing status
-			message: 'Your order is in processing',
-			title: 'Your order is in processing',
+			message: notificationMessage.message,
+			title: notificationMessage.title,
 			userId: order.owner_id,
 		})
 	}
 
 	return (
-		<div className='absolute inset-0 z-50 flex h-full w-full flex-col items-center justify-center bg-primary-418/40'>
-			<div className='z-10 rounded-3xl border border-order-status-processing bg-neutral-gray-1'>
-				<div className='flex h-[79px] flex-col items-center justify-center rounded-t-3xl bg-order-status-processing p-10 text-center text-white'>
-					<h1 className='text-2xl uppercase'>Updating to processing</h1>
-					<p className='pt-1 text-xl'>
+		<div className='container sticky top-0 flex h-full max-h-screen w-full items-center justify-center'>
+			<div className='overflow-hidden rounded-[16px] border border-order-status-processing'>
+				<div className='flex w-full flex-col items-center gap-compact bg-order-status-processing p-comfortable text-white'>
+					<p className='text-body-md font-bold uppercase'>Updating Order to processing</p>
+					<p className='text-body-md'>
 						Enter the customer&apos;s payment date to complete the process
 					</p>
 				</div>
 				<form
 					onSubmit={handleSubmit(handleOnSubmit)}
-					className='flex flex-col justify-center p-8 text-2xl'
+					className='flex flex-col justify-center gap-cozy bg-neutral-gray-1 p-comfortable text-body-md'
 				>
 					<TextField
 						type='datetime-local'
 						label='Date: '
 						placeholder=''
 						error={false}
-						className='m-2.5'
 						register={register('paid_at')}
 					/>
-					<div className='flex justify-end'>
+					<div className='flex justify-end gap-compact text-body-sm'>
 						<Button
-							className='m-2.5 w-40 border-0 bg-order-status-processing text-center text-xl'
+							onClick={closeDialog}
+							className='border-order-status-processing bg-neutral-gray-1 px-comfortable text-order-status-processing'
+						>
+							Cancel
+						</Button>
+						<Button
+							className='w-fit border-0 bg-order-status-processing px-comfortable '
 							type='submit'
 						>
 							Confirm
-						</Button>
-						<Button
-							className='m-2.5  w-36 border-order-status-processing bg-neutral-gray-1 text-xl text-order-status-processing'
-							onClick={onCancel}
-						>
-							Cancel
 						</Button>
 					</div>
 				</form>

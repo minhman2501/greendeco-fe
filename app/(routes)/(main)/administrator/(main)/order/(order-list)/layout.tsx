@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 
 export default function OrderListPageLayout({ children }: { children: ReactNode }) {
 	return (
-		<div className='flex-col-start min-h-screen w-full gap-cozy py-comfortable'>
+		<div className='w-full py-comfortable'>
 			<Block>
 				<div>
 					<h1 className='font-semi-bold text-primary-418'>Manage Order</h1>

@@ -11,16 +11,15 @@ import { AxiosError } from 'axios'
 import { getCookie } from 'cookies-next'
 import { useState, useEffect } from 'react'
 import { notifyUpdateCancelSuccess } from './Notification'
-import PickUpDateModal from './PickUpDateModal'
 import { ADMIN_QUERY_KEY, UseQueryKeys } from '@/app/_configs/constants/queryKey'
 import { notifyError } from '../../../(customer)/user/setting/profile/Notification'
-import CancelModal from './CancelModal'
+import useOrderUpdateDialog from '@/app/_hooks/dialog/useOrderUpdateDialog'
+import createNotificationMessage from '@/app/_hooks/useOrderNotificationMessage'
 
 export default function OrderDropdownState({ order }: { order: OrderState }) {
 	const [state, setState] = useState(order.state)
 	const adminAccessToken = getCookie(ADMIN_ACCESS_TOKEN_COOKIE_NAME)?.toString()
-	const [isModalOpen, setIsModalOpen] = useState(false)
-	const [pickUpDateModal, setPickUpModal] = useState(false)
+	const { openOrderUpdateDialog } = useOrderUpdateDialog({ order: order })
 	const states = ORDER_STATE_FIELD
 	const queryClient = useQueryClient()
 
@@ -51,22 +50,27 @@ export default function OrderDropdownState({ order }: { order: OrderState }) {
 	const handleOnSelect = (value: string) => {
 		if (value === states.processing.state) {
 			// open modal => full fill paid at => update
-			setPickUpModal(!pickUpDateModal)
+			openOrderUpdateDialog('processing')
 		}
 
 		if (value === states.cancelled.state) {
 			// update status => create message => send message to user
-			setIsModalOpen(!isModalOpen)
+			openOrderUpdateDialog('cancel')
 		}
 
 		if (value === states.completed.state) {
+			const notificationMessage = createNotificationMessage(
+				order.order_id,
+				ORDER_STATE_FIELD.completed.state,
+			)
+
 			updateOrderStatusComplete.mutate({
 				adminAccessToken: adminAccessToken!,
 				orderId: order.order_id,
 				state: states.completed.state,
 				//NOTE: full fill message, title for processing state
-				message: order.order_id,
-				title: 'Your order is completed',
+				message: notificationMessage.message,
+				title: notificationMessage.title,
 				userId: order.owner_id,
 			})
 		}
@@ -90,20 +94,6 @@ export default function OrderDropdownState({ order }: { order: OrderState }) {
 				}
 				dropdownContainerStyle={'bg-white'}
 			/>
-			{!isModalOpen || (
-				<CancelModal
-					order={order}
-					onSuccess={setIsModalOpen}
-					onCancel={() => setIsModalOpen(false)}
-				/>
-			)}
-			{!pickUpDateModal || (
-				<PickUpDateModal
-					order={order}
-					onCancel={() => setPickUpModal(false)}
-					onSuccess={setPickUpModal}
-				/>
-			)}
 		</>
 	)
 }

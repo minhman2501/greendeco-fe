@@ -15,16 +15,17 @@ import { ADMIN_ACCESS_TOKEN_COOKIE_NAME } from '@/app/_configs/constants/cookies
 import { getCookie } from 'cookies-next'
 import { ORDER_STATE_FIELD } from '@/app/_configs/constants/variables'
 import { ADMIN_QUERY_KEY, UseQueryKeys } from '@/app/_configs/constants/queryKey'
+import { useDialogStore } from '@/app/_configs/store/useDialogStore'
+import createNotificationMessage from '@/app/_hooks/useOrderNotificationMessage'
 
 type CancelModalType = {
 	order: OrderState
-	onCancel: () => void
-	onSuccess: Function
 }
 
-export default function CancelModal({ order, onCancel, onSuccess }: CancelModalType) {
+export default function CancelModal({ order }: CancelModalType) {
 	const adminAccessToken = getCookie(ADMIN_ACCESS_TOKEN_COOKIE_NAME)?.toString()
 	const queryClient = useQueryClient()
+	const { closeDialog } = useDialogStore()
 	const defaultInputValues: CreateNotificationInputType = {
 		// Change the title for notification
 		title: 'Cancel Order ' + order.order_id,
@@ -47,7 +48,7 @@ export default function CancelModal({ order, onCancel, onSuccess }: CancelModalT
 		onSuccess: () => {
 			notifyUpdateCancelSuccess(order.order_id, ORDER_STATE_FIELD.cancelled.state)
 			queryClient.invalidateQueries({ queryKey: [UseQueryKeys.Order, ADMIN_QUERY_KEY] })
-			onSuccess(false)
+			closeDialog()
 		},
 		onError: (e) => {
 			if (e instanceof AxiosError) {
@@ -58,31 +59,41 @@ export default function CancelModal({ order, onCancel, onSuccess }: CancelModalT
 
 	const handleOnSubmitCancel: SubmitHandler<StatusRequest> = (values, e) => {
 		e?.preventDefault()
+
+		const notifcationMessage = createNotificationMessage(
+			order.order_id,
+			ORDER_STATE_FIELD.cancelled.state,
+			values.message,
+		)
+
 		updateCancelStatusMutation.mutate({
 			adminAccessToken: adminAccessToken!,
 			orderId: order.order_id,
 			userId: order.owner_id,
-			message: values.message,
+			message: notifcationMessage.message,
 			// title for cancel message
-			title: 'Your order has been cancelled',
+			title: notifcationMessage.title,
 			state: ORDER_STATE_FIELD.cancelled.state,
 		})
 	}
 	return (
-		<div className='absolute inset-0 z-50 flex h-full w-full flex-col items-center justify-center bg-primary-418/40'>
-			<div className='z-10 rounded-3xl border border-order-status-cancelled bg-neutral-gray-1'>
-				<div className='flex h-[79px] flex-col items-center justify-center rounded-t-3xl bg-order-status-cancelled text-center text-white'>
-					<h1 className='text-2xl uppercase'>Cancelling order confirmation</h1>
-					<p className='pt-1 text-xl'>Enter the reason to cancel this order</p>
+		<div className='container sticky top-0 flex h-full max-h-screen w-full items-center justify-center'>
+			<div className='w-[40vw] overflow-hidden rounded-[16px] border border-order-status-cancelled'>
+				<div className='flex w-full flex-col items-center gap-compact bg-order-status-cancelled p-comfortable text-white'>
+					<p className='text-body-md font-bold uppercase'>
+						Cancelling order confirmation
+					</p>
+					<p className='text-body-md'>Enter the reason to cancel this order</p>
 				</div>
 				<form
 					onSubmit={handleSubmit(handleOnSubmitCancel)}
-					className='flex flex-col justify-center p-8 text-2xl'
+					className='flex flex-col justify-center gap-cozy bg-neutral-gray-1 p-comfortable text-body-md'
 				>
-					<div className='m-3'>
+					<div className='flex-col-start gap-compact'>
 						<p className='font-bold'>Order ID:</p>
-						<p className=''>{order.order_id}</p>
+						<p>{order.order_id}</p>
 					</div>
+
 					<MultilineTextField
 						type='text'
 						label='Reason: '
@@ -90,20 +101,20 @@ export default function CancelModal({ order, onCancel, onSuccess }: CancelModalT
 						register={register('message')}
 						error={Boolean(errors?.message)}
 						helperText={errors?.message?.message}
-						className='m-2.5 h-[145px]'
+						className='h-[200px]'
 					/>
-					<div className='flex justify-end'>
+					<div className='flex justify-end gap-compact text-body-sm'>
 						<Button
-							className='m-2.5 w-36 border-0 bg-order-status-cancelled text-center text-xl'
+							onClick={closeDialog}
+							className='border-order-status-cancelled bg-neutral-gray-1 px-comfortable text-order-status-cancelled'
+						>
+							Abort
+						</Button>
+						<Button
+							className='w-fit border-0 bg-order-status-cancelled px-comfortable'
 							type='submit'
 						>
 							Confirm
-						</Button>
-						<Button
-							className='m-2.5  w-36 border-order-status-cancelled bg-neutral-gray-1 text-xl text-order-status-cancelled'
-							onClick={onCancel}
-						>
-							Cancel
 						</Button>
 					</div>
 				</form>

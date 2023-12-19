@@ -7,7 +7,15 @@ import {
 	ADMIN_ACCESS_TOKEN_COOKIE_NAME,
 } from '@/app/_configs/constants/cookies'
 import { UserProfileResponseData } from './user'
-import { FilterParams, ProductData, VariantData, fieldJSONParse } from './product'
+import {
+	FilterParams,
+	ProductData,
+	VariantData,
+	fieldJSONParse,
+	getProductBaseById,
+	getProductDetailById,
+} from './product'
+import { BAD_REQUEST_STATUS } from '@/app/_configs/constants/status'
 
 const ORDER_URL = `${process.env.NEXT_PUBLIC_GREENDECO_BACKEND_API}/order`
 
@@ -62,6 +70,7 @@ export type OrderProductData = {
 	variant_name: VariantData['name']
 	variant_price: VariantData['price']
 	quantity: number
+	product_image: ProductData['images'][0] | undefined
 	product_id: ProductData['id']
 }
 
@@ -167,17 +176,47 @@ export const getOrderPrice = async (id: OrderData['id'], token?: string) => {
 		.then((res) => res.data)
 }
 
+export const getOrderProductWithImageListById = async (id: OrderData['id'], token?: string) => {
+	const accessToken = token ? token : getCookie(ACCESS_TOKEN_COOKIE_NAME)?.toString()
+
+	return await getOrderProductListById(id, accessToken).then(async (orderProductList) => {
+		return await Promise.all(
+			orderProductList.items.map(async (orderItem) => {
+				return await getProductBaseById(orderItem.product_id)
+					.catch((e) => {
+						if (e instanceof AxiosError && e.response?.status === BAD_REQUEST_STATUS) {
+							return undefined
+						}
+					})
+					.then((product) => {
+						if (product) {
+							const orderWithImage: OrderProductData = {
+								...orderItem,
+								product_image: product.items.images[0],
+							}
+							return orderWithImage
+						} else {
+							return orderItem
+						}
+					})
+			}),
+		).then((orderProductWithImageList) => {
+			return orderProductWithImageList
+		})
+	})
+}
+
 export const getOrderFullDetailById = async (orderId: OrderData['id']) => {
 	const accessToken = getCookie(ACCESS_TOKEN_COOKIE_NAME)?.toString()
 
 	return await Promise.all([
 		getOrderDetailById(orderId, accessToken),
-		getOrderProductListById(orderId, accessToken),
+		getOrderProductWithImageListById(orderId, accessToken),
 		getOrderPrice(orderId, accessToken),
 	]).then(([order, productList, price]) => {
 		const orderFullDetail: OrderFullDetailData = {
 			order: order.items,
-			productList: productList.items,
+			productList: productList,
 			price: price,
 		}
 		return orderFullDetail

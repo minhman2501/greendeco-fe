@@ -7,7 +7,7 @@ import {
 	flexRender,
 } from '@tanstack/react-table'
 import Link from 'next/link'
-import { ADMINISTRATOR_ROUTE } from '@/app/_configs/constants/variables'
+import { ADMINISTRATOR_ROUTE, VARIANT_CURRENCY } from '@/app/_configs/constants/variables'
 import OrderDropdownState from '../DropdownState'
 
 const columHelper = createColumnHelper<OrderTableData>()
@@ -15,24 +15,27 @@ const columHelper = createColumnHelper<OrderTableData>()
 const columns = [
 	columHelper.accessor('owner_info', {
 		cell: (info) => (
-			<span className='flex w-full items-center justify-center'>
-				<div>
-					<Link
-						href={`${ADMINISTRATOR_ROUTE.ORDER_DETAIL.LINK}/${info.getValue()
-							.order_id!}`}
-					>
-						{info.getValue().order_id}
-					</Link>
-					<p>
-						{info.getValue().user_name}({info.getValue().userPhoneNumber})
-					</p>
-				</div>
-			</span>
+			<div className='flex-col-start w-full gap-[4px]'>
+				<Link
+					className='underline hover:font-semi-bold'
+					href={`${ADMINISTRATOR_ROUTE.ORDER_DETAIL.LINK}/${info.getValue().order_id!}`}
+				>
+					{info.getValue().order_id}
+				</Link>
+				<p className='text-body-sm'>
+					<span className='font-semi-bold'>Customer:</span> {info.getValue().user_name}
+				</p>
+				<p className='text-body-sm'>
+					<span className='font-semi-bold'>Phone Number:</span>{' '}
+					{info.getValue().userPhoneNumber}
+				</p>
+			</div>
 		),
 		header: () => <span>Order Detail</span>,
 	}),
 
 	columHelper.accessor('OrderData', {
+		size: 300,
 		cell: (info) => (
 			<span className='inline-block w-full text-center'>
 				{info.getValue().shipping_address}
@@ -42,11 +45,17 @@ const columns = [
 	}),
 
 	columHelper.accessor('OrderPrice.total', {
-		cell: (info) => <span className='inline-block w-full text-center'>{info.getValue()}</span>,
+		cell: (info) => (
+			<span className='inline-block w-full text-center'>
+				{info.getValue()} {VARIANT_CURRENCY}
+			</span>
+		),
 		header: () => <span>Price</span>,
+		size: 120,
 	}),
 
 	columHelper.accessor('OrderData.created_at', {
+		size: 250,
 		cell: (info) => (
 			<span className='inline-block w-full text-center'>
 				{formatDate(new Date(info.getValue()))}
@@ -94,6 +103,11 @@ export default function OrderTable({ order }: { order: OrderTableData[] }) {
 							{headerGroup.headers.map((header) => (
 								<th
 									className='border-r-[1px] border-primary-625 bg-primary-5555-20 p-compact text-body-sm text-primary-625 last:border-0'
+									colSpan={header.colSpan}
+									style={{
+										width:
+											header.getSize() !== 150 ? header.getSize() : undefined,
+									}}
 									key={header.id}
 								>
 									{header.isPlaceholder
@@ -124,22 +138,6 @@ export default function OrderTable({ order }: { order: OrderTableData[] }) {
 						</tr>
 					))}
 				</tbody>
-				<tfoot>
-					{table.getFooterGroups().map((footerGroup) => (
-						<tr key={footerGroup.id}>
-							{footerGroup.headers.map((header) => (
-								<th key={header.id}>
-									{header.isPlaceholder
-										? null
-										: flexRender(
-												header.column.columnDef.footer,
-												header.getContext(),
-										  )}
-								</th>
-							))}
-						</tr>
-					))}
-				</tfoot>
 			</table>
 		</div>
 	)

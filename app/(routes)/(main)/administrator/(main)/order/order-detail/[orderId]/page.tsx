@@ -94,8 +94,10 @@ function ContentWrapper({ order }: { order: OrderFullDetailData }) {
 						</div>
 					</div>
 				</div>
-				<div>
-					<VariantInformation order={order.productList} />
+				<div className='grid grid-cols-3 gap-comfortable'>
+					<div className='col-span-2'>
+						<VariantInformation order={order.productList} />
+					</div>
 					<OrderInformationWrapper order={order} />
 				</div>
 			</div>

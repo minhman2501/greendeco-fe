@@ -8,6 +8,7 @@ import {
 	getOrderDetailById,
 	getOrderPrice,
 	getOrderProductListById,
+	getOrderProductWithImageListById,
 	orderApi,
 } from '../order'
 import axios from 'axios'
@@ -233,12 +234,12 @@ export const getOrderFullDetailAsAdministratorById = async (orderId: OrderData['
 
 	return await Promise.all([
 		getOrderDetailById(orderId, accessToken),
-		getOrderProductListById(orderId, accessToken),
+		getOrderProductWithImageListById(orderId, accessToken),
 		getOrderPrice(orderId, accessToken),
 	]).then(([order, productList, price]) => {
 		const orderFullDetail: OrderFullDetailData = {
 			order: order.items,
-			productList: productList.items,
+			productList: productList,
 			price: price,
 		}
 		return orderFullDetail

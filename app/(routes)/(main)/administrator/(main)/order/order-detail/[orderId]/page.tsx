@@ -12,7 +12,14 @@ import OrderInformationWrapper from './OrderInformation'
 import VariantInformation from './VariantInformation'
 import { TailSpin } from 'react-loader-spinner'
 import { ADMIN_QUERY_KEY, UseQueryKeys } from '@/app/_configs/constants/queryKey'
-import { BanknotesIcon, ExclamationTriangleIcon } from '@heroicons/react/24/solid'
+import {
+	BanknotesIcon,
+	EnvelopeIcon,
+	ExclamationTriangleIcon,
+	PhoneIcon,
+	TruckIcon,
+	UserCircleIcon,
+} from '@heroicons/react/24/solid'
 import { useRouter } from 'next/navigation'
 import formatDate from '@/app/_hooks/useFormatDate'
 
@@ -78,11 +85,11 @@ function ContentWrapper({ order }: { order: OrderFullDetailData }) {
 						<h2 className='text-body-lg'>Status: </h2>
 						<OrderDropdownState order={orderDropDown} />
 					</div>
-					<div className='grid grid-cols-7 gap-comfortable'>
-						<div className='col-span-4'>
+					<div className='grid grid-cols-3 gap-comfortable'>
+						<div className='col-span-2'>
 							<OrderDetail {...order.order} />
 						</div>
-						<div className='col-span-3'>
+						<div>
 							<UserWrapper order={order.order} />
 						</div>
 					</div>
@@ -97,37 +104,30 @@ function ContentWrapper({ order }: { order: OrderFullDetailData }) {
 }
 
 function UserWrapper({ order }: { order: OrderData }) {
-	const adminAccessToken = getCookie(ADMIN_ACCESS_TOKEN_COOKIE_NAME)
-	const userQuery = useQuery({
-		queryKey: [UseQueryKeys.Order, ADMIN_QUERY_KEY, order.owner_id, order.id],
-		queryFn: () => GetUserById(adminAccessToken, order.owner_id),
-	})
-	const { data, isLoading } = userQuery
+	const { user_name, user_phone_number, user_email, shipping_address } = order
 	return (
-		<div className='flex h-full flex-col rounded-lg border border-primary-625-80 p-8'>
-			<div className='flex items-center px-5 pb-5 text-xl'>
-				<div className='h-[90px] w-[90px] rounded-full bg-primary-580'>
-					{isLoading || (
-						<Image
-							width={90}
-							height={90}
-							alt='user image'
-							className='rounded-full'
-							style={{ objectFit: 'fill' }}
-							src={data?.avatar != null ? data!.avatar : DEFAULT_AVATAR}
-						/>
-					)}
+		<div className='flex-col-start  divide-y divide-primary-418-60 rounded-[8px] border-[2px] border-primary-625-60 p-cozy shadow-18'>
+			<div className='flex-col-start gap-[4px] pb-cozy text-body-sm '>
+				<h2 className='mb-[4px] text-body-lg font-semi-bold text-primary-625'>Customer</h2>
+				<span className='flex items-center gap-compact'>
+					<UserCircleIcon className='aspect-square h-[20px] text-primary-5555' />
+					{user_name}
+				</span>
+				<span className='flex items-center gap-compact'>
+					<EnvelopeIcon className='aspect-square h-[20px] text-primary-5555' />
+					{user_email}
+				</span>
+				<span className='flex items-center gap-compact'>
+					<PhoneIcon className='aspect-square h-[20px] text-primary-5555' />
+					{user_phone_number}
+				</span>
+			</div>
+			<div className='flex-col-start gap-[4px] pt-cozy text-body-sm '>
+				<div className='flex items-center gap-compact text-primary-625'>
+					<TruckIcon className='aspect-square h-[20px]' />
+					<h2 className=' text-body-lg font-semi-bold'>Shipping Address</h2>
 				</div>
-				<h4 className='p-5 font-semibold'>Full Name: </h4>
-				<p className='text-2xl'>{order.user_name}</p>
-			</div>
-			<div className='flex items-center text-xl'>
-				<h4 className='p-5 font-semibold'>Phone Number:</h4>
-				<p className='text-2xl'>{order.user_phone_number}</p>
-			</div>
-			<div className='flex items-center text-xl'>
-				<h4 className='p-5 font-semibold'>Shipping Address: </h4>
-				<p className='text-2xl'>{order.shipping_address}</p>
+				<span className='flex items-center gap-compact'>{shipping_address}</span>
 			</div>
 		</div>
 	)

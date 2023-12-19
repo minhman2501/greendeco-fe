@@ -42,6 +42,7 @@ export default function PickUpDateModal({ order }: PickUpdateModalType) {
 		onSuccess: () => {
 			notifyUpdateCancelSuccess(order.order_id, ORDER_STATE_FIELD.processing.state)
 			queryClient.invalidateQueries({ queryKey: [UseQueryKeys.Order, ADMIN_QUERY_KEY] })
+			closeDialog()
 			reset()
 		},
 		onError: (e) => {

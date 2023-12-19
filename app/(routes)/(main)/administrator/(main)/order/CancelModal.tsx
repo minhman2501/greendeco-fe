@@ -48,6 +48,7 @@ export default function CancelModal({ order }: CancelModalType) {
 		onSuccess: () => {
 			notifyUpdateCancelSuccess(order.order_id, ORDER_STATE_FIELD.cancelled.state)
 			queryClient.invalidateQueries({ queryKey: [UseQueryKeys.Order, ADMIN_QUERY_KEY] })
+			closeDialog()
 		},
 		onError: (e) => {
 			if (e instanceof AxiosError) {

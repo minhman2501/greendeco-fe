@@ -16,6 +16,7 @@ import { getCookie } from 'cookies-next'
 import { ORDER_STATE_FIELD } from '@/app/_configs/constants/variables'
 import { ADMIN_QUERY_KEY, UseQueryKeys } from '@/app/_configs/constants/queryKey'
 import { useDialogStore } from '@/app/_configs/store/useDialogStore'
+import createNotificationMessage from '@/app/_hooks/useOrderNotificationMessage'
 
 type CancelModalType = {
 	order: OrderState
@@ -57,13 +58,20 @@ export default function CancelModal({ order }: CancelModalType) {
 
 	const handleOnSubmitCancel: SubmitHandler<StatusRequest> = (values, e) => {
 		e?.preventDefault()
+
+		const notifcationMessage = createNotificationMessage(
+			order.order_id,
+			ORDER_STATE_FIELD.cancelled.state,
+			values.message,
+		)
+
 		updateCancelStatusMutation.mutate({
 			adminAccessToken: adminAccessToken!,
 			orderId: order.order_id,
 			userId: order.owner_id,
-			message: values.message,
+			message: notifcationMessage.message,
 			// title for cancel message
-			title: 'Your order has been cancelled',
+			title: notifcationMessage.title,
 			state: ORDER_STATE_FIELD.cancelled.state,
 		})
 	}

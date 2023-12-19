@@ -17,6 +17,7 @@ import { notifyUpdateCancelSuccess } from './Notification'
 import { ORDER_STATE_FIELD } from '@/app/_configs/constants/variables'
 import { ADMIN_QUERY_KEY, UseQueryKeys } from '@/app/_configs/constants/queryKey'
 import { useDialogStore } from '@/app/_configs/store/useDialogStore'
+import createNotificationMessage from '@/app/_hooks/useOrderNotificationMessage'
 
 type PickUpdateModalType = {
 	order: OrderState
@@ -52,14 +53,20 @@ export default function PickUpDateModal({ order }: PickUpdateModalType) {
 
 	const handleOnSubmit: SubmitHandler<ProcessStatusRequest> = (values, e) => {
 		e?.preventDefault()
+
+		const notificationMessage = createNotificationMessage(
+			order.order_id,
+			ORDER_STATE_FIELD.processing.state,
+		)
+
 		updateStatusMutation.mutate({
 			adminAccessToken: adminAccessToken!,
 			orderId: order.order_id,
 			state: ORDER_STATE_FIELD.processing.state,
 			paid_at: new Date(values.paid_at).toISOString(),
 			//NOTE: chnage the message and tilte data for processing status
-			message: 'Your order is in processing',
-			title: 'Your order is in processing',
+			message: notificationMessage.message,
+			title: notificationMessage.title,
 			userId: order.owner_id,
 		})
 	}

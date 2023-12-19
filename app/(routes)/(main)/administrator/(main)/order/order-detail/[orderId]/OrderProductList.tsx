@@ -5,18 +5,23 @@ import Image from 'next/image'
 
 export default function OrderProductList({ productList }: { productList: OrderProductData[] }) {
 	return (
-		<ul className='flex-col-start divide-y divide-primary-5555-40 overflow-y-auto rounded-[4px] '>
-			{productList.map((product) => {
-				return (
-					<li
-						className='py-cozy'
-						key={product.id}
-					>
-						<OrderItemInfo product={product} />
-					</li>
-				)
-			})}
-		</ul>
+		<div className='flex-col-start'>
+			<h2 className='border-b-[1px] border-primary-5555-80 pb-cozy text-body-lg font-semi-bold'>
+				Order Item List
+			</h2>
+			<ul className='flex-col-start divide-y divide-primary-5555-40 overflow-y-auto rounded-[4px] '>
+				{productList.map((product) => {
+					return (
+						<li
+							className='py-cozy'
+							key={product.id}
+						>
+							<OrderItemInfo product={product} />
+						</li>
+					)
+				})}
+			</ul>
+		</div>
 	)
 }
 

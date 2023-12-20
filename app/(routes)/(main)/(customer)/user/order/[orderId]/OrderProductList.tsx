@@ -1,5 +1,7 @@
 import { OrderFullDetailData, OrderProductData } from '@/app/_api/axios/order'
+import Image from 'next/image'
 import { VARIANT_CURRENCY } from '@/app/_configs/constants/variables'
+import { NOT_FOUND_IMAGE } from '@/app/_configs/constants/images'
 
 export default function OrderProductList({
 	productList,
@@ -24,14 +26,24 @@ export default function OrderProductList({
 }
 
 function OrderProductItem({ product }: { product: OrderProductData }) {
-	const { variant_name, variant_id, variant_price, quantity } = product
+	const { variant_name, product_image, variant_price, quantity } = product
 	return (
 		<div className='grid grid-cols-10 gap-cozy'>
-			<span className='col-span-6  flex items-center text-body-md font-semi-bold text-primary-625'>
+			<span className='col-span-6  flex items-center gap-comfortable text-body-md font-semi-bold text-primary-625'>
+				<div className='relative aspect-square h-[60px] overflow-hidden rounded-[8px]'>
+					<Image
+						src={product_image ? product_image : NOT_FOUND_IMAGE}
+						alt={variant_name}
+						fill
+						style={{ objectFit: 'cover' }}
+					/>
+				</div>
 				{variant_name}
 			</span>
-			<span className=' col-span-2 flex items-center justify-center rounded-[4px] border-[1px] border-primary-625 px-cozy py-compact text-body-sm text-neutral-gray-10'>
-				{`${quantity} x ${variant_price} ${VARIANT_CURRENCY}`}
+			<span className=' col-span-2 flex items-center  justify-center '>
+				<span className='w-full rounded-[4px] border-[1px] border-primary-625 px-cozy py-compact text-center text-body-sm text-neutral-gray-10'>
+					{`${quantity} x ${variant_price} ${VARIANT_CURRENCY}`}
+				</span>
 			</span>
 			<span className='  col-span-2 flex items-center justify-center text-body-sm font-bold text-primary-418'>
 				{`${quantity * parseInt(variant_price)} ${VARIANT_CURRENCY}`}

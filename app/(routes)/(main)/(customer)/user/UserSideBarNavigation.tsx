@@ -58,6 +58,7 @@ const Navigation = React.memo(function Navigation({ label, path, icon }: UserNav
 	return (
 		<Link
 			href={rootPath + path}
+			scroll
 			className={clsx('flex w-full items-center  gap-compact rounded-l-[8px] p-cozy ', {
 				'cursor-pointer text-primary-625 hover:font-semibold':
 					isPathActive(`${rootPath}${path}`) === false,

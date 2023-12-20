@@ -10,6 +10,7 @@ import UserOrderDetailLoading from './loading'
 import { ArrowLeftIcon, ExclamationTriangleIcon } from '@heroicons/react/24/solid'
 import { useRouter } from 'next/navigation'
 import { USER_SETTING_ROUTE } from '@/app/_configs/constants/variables'
+import { UseQueryKeys } from '@/app/_configs/constants/queryKey'
 
 export default function OrderDetailPage({
 	params: { orderId },
@@ -19,8 +20,9 @@ export default function OrderDetailPage({
 	}
 }) {
 	const orderDetailQuery = useQuery({
-		queryKey: ['order', orderId],
+		queryKey: [UseQueryKeys.Order, UseQueryKeys.User, orderId],
 		queryFn: () => getOrderFullDetailById(orderId),
+		refetchOnMount: true,
 	})
 
 	const { data, isLoading, isError } = orderDetailQuery

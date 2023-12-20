@@ -7,10 +7,17 @@ import { getCookie } from 'cookies-next'
 import { ADMIN_ACCESS_TOKEN_COOKIE_NAME } from '@/app/_configs/constants/cookies'
 import { ExclamationTriangleIcon } from '@heroicons/react/24/solid'
 import { useDialogStore } from '@/app/_configs/store/useDialogStore'
+import useClickOutside from '@/app/_hooks/useClickOutside'
+import { useRef } from 'react'
 
 export default function DeleteProductDialog({ productId }: { productId: ProductData['id'] }) {
 	const { closeDialog } = useDialogStore()
 	const { mutate, isLoading, isSuccess } = useDeleteProduct()
+	const deleteProductDialogRef = useRef<any>()
+
+	useClickOutside(deleteProductDialogRef, () => {
+		closeDialog()
+	})
 
 	const handleDeleteProduct = () => {
 		const adminAccessToken = getCookie(ADMIN_ACCESS_TOKEN_COOKIE_NAME)?.toString()
@@ -22,7 +29,10 @@ export default function DeleteProductDialog({ productId }: { productId: ProductD
 
 	return (
 		<div className='container sticky top-0 flex h-full max-h-screen items-center justify-center p-comfortable'>
-			<div className=' h-fit bg-white p-comfortable'>
+			<div
+				ref={deleteProductDialogRef}
+				className=' h-fit bg-white p-comfortable'
+			>
 				<div className='flex gap-cozy'>
 					<ExclamationTriangleIcon className='aspect-square h-[80px] text-status-error/80' />
 					<div className='flex-col-start gap-[4px]'>

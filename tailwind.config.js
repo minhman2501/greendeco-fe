@@ -56,6 +56,7 @@ module.exports = {
 				cozy: '1.6rem',
 				common: '2rem',
 				comfortable: '3.2rem',
+				'away-from-header': '10rem',
 			},
 			colors: {
 				primary: {

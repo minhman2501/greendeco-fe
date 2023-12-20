@@ -2,12 +2,22 @@ import PaymentInformation from '@/app/(routes)/(main)/payment/[orderId]/PaymentI
 import { OrderData } from '@/app/_api/axios/order'
 import { useDialogStore } from '@/app/_configs/store/useDialogStore'
 import { XMarkIcon } from '@heroicons/react/24/solid'
+import { useRef } from 'react'
+import useClickOutside from '@/app/_hooks/useClickOutside'
 
 export default function PaymentInfoDialog({ orderId }: { orderId: OrderData['id'] }) {
 	const { closeDialog } = useDialogStore()
+	const paymentInfoDialogRef = useRef<any>()
+
+	useClickOutside(paymentInfoDialogRef, () => {
+		closeDialog()
+	})
 	return (
-		<div className='sticky left-[50%] top-[50%] z-50 w-fit translate-x-[-50%] translate-y-[-50%]'>
-			<div className='flex-col-start relative items-center gap-cozy rounded-[16px] bg-primary-625 p-comfortable'>
+		<div className='flex-center sticky top-0 z-50 h-full max-h-screen w-full '>
+			<div
+				ref={paymentInfoDialogRef}
+				className='flex-col-start relative items-center gap-cozy rounded-[16px] bg-primary-625 p-comfortable'
+			>
 				<div className=' text-center text-body-md text-neutral-gray-1'>
 					<h3>Your Order ID:</h3>
 					<p>{orderId}</p>

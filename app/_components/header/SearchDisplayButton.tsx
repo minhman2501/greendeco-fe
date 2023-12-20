@@ -1,18 +1,24 @@
 'use client'
 
 import { MagnifyingGlassIcon } from '@heroicons/react/24/solid'
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { motion, useScroll, useMotionValueEvent, AnimatePresence } from 'framer-motion'
 import ProductSearchForm from '../search/ProductSearchForm'
+import useClickOutside from '@/app/_hooks/useClickOutside'
 
 export default function SearchDisplayButton() {
 	const [open, setOpen] = useState(false)
+	const searchRef = useRef<any>()
 
-	const { scrollY } = useScroll()
-
-	const handleOpenSearchForm = () => {
+	const handleToggleSearchForm = () => {
 		setOpen(!open)
 	}
+	useClickOutside(searchRef, () => {
+		if (open) {
+			setOpen(false)
+		}
+	})
+	const { scrollY } = useScroll()
 
 	useMotionValueEvent(scrollY, 'change', (latestWindowY) => {
 		const previousWindowY = scrollY.getPrevious()
@@ -22,9 +28,9 @@ export default function SearchDisplayButton() {
 	})
 
 	return (
-		<>
+		<div ref={searchRef}>
 			<button
-				onClick={handleOpenSearchForm}
+				onClick={handleToggleSearchForm}
 				className='group rounded-xl border-[1px] border-primary-5555-40 bg-primary-5555-20/40 px-[8px] py-[4px] text-primary-625 transition duration-75 ease-in hover:bg-primary-625 hover:text-neutral-gray-1'
 			>
 				<MagnifyingGlassIcon className='aspect-square h-[24px] ' />
@@ -50,6 +56,6 @@ export default function SearchDisplayButton() {
 					</motion.div>
 				)}
 			</AnimatePresence>
-		</>
+		</div>
 	)
 }

@@ -9,6 +9,7 @@ import OrderListPagination from './OrderPagination'
 import { MutatingDots } from 'react-loader-spinner'
 import { ArchiveBoxXMarkIcon, ExclamationTriangleIcon } from '@heroicons/react/24/solid'
 import { UseQueryKeys } from '@/app/_configs/constants/queryKey'
+import { Sort, SortBy } from '@/app/_configs/constants/paramKeys'
 
 export default function OrderHistoryPage() {
 	const { queryObject } = useQueryParams<FilterParams>()
@@ -18,6 +19,8 @@ export default function OrderHistoryPage() {
 		queryFn: () =>
 			getOrderListByUser({
 				limit: 10,
+				sort: Sort.Descending,
+				sortBy: SortBy.CreatedAt,
 				...queryObject,
 			}),
 		refetchOnMount: true,

@@ -1,13 +1,15 @@
 'use client'
 
 import { OrderFullDetailData, getOrderFullDetailById } from '@/app/_api/axios/order'
+import Link from 'next/link'
 import { useQuery } from '@tanstack/react-query'
 import OrderDetailContainer from './OrderDetailContainer'
 import OrderProductList from './OrderProductList'
 import OrderPrice from './OrderPrice'
 import UserOrderDetailLoading from './loading'
-import { ExclamationTriangleIcon } from '@heroicons/react/24/solid'
+import { ArrowLeftIcon, ExclamationTriangleIcon } from '@heroicons/react/24/solid'
 import { useRouter } from 'next/navigation'
+import { USER_SETTING_ROUTE } from '@/app/_configs/constants/variables'
 
 export default function OrderDetailPage({
 	params: { orderId },
@@ -27,7 +29,15 @@ export default function OrderDetailPage({
 			{isLoading && <UserOrderDetailLoading />}
 			{data && (
 				<>
-					<h1 className='mb-cozy'>Order Detail</h1>
+					<div className='mb-cozy flex items-center justify-between gap-cozy'>
+						<h1 className='text-heading-1 text-primary-418'>Order Detail</h1>
+						<Link href={USER_SETTING_ROUTE.ORDER.LINK}>
+							<span className='group flex items-center gap-compact text-body-sm hover:underline'>
+								<ArrowLeftIcon className='aspect-square w-[20px] transition duration-75 ease-out group-hover:translate-x-[-4px]' />
+								Back to Order List
+							</span>
+						</Link>
+					</div>
 					<div className='px-cozy'>
 						<OrderDetailContainer order={data.order} />
 						<OrderProductList productList={data.productList} />

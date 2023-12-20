@@ -4,16 +4,26 @@ import { CartList as List } from './CartList'
 import { CartCalculator as Calculator } from './CartCalculator'
 import { useDialogStore } from '@/app/_configs/store/useDialogStore'
 import { ArrowRightIcon } from '@heroicons/react/24/solid'
+import { useRef } from 'react'
+import useClickOutside from '@/app/_hooks/useClickOutside'
 
 export default function Cart() {
 	const { cartQuery } = useCartQuery()
+	const cartRef = useRef<any>()
+
+	useClickOutside(cartRef, () => {
+		closeDialog()
+	})
 
 	const { closeDialog } = useDialogStore()
 
 	const { data } = cartQuery
 
 	return (
-		<div className='flex-col-start h-full max-h-full w-[550px] gap-compact overflow-hidden rounded-[8px]  bg-white  shadow-26'>
+		<div
+			ref={cartRef}
+			className='flex-col-start h-full max-h-full w-[550px] gap-compact overflow-hidden rounded-[8px]  bg-white  shadow-26'
+		>
 			<div className=' p-comfortable pb-0'>
 				<div className='flex'>
 					<h3 className='mb-[4px] flex-1 text-heading-1 capitalize text-primary-5555'>

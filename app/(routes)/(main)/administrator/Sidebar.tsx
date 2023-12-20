@@ -7,11 +7,21 @@ import { XMarkIcon } from '@heroicons/react/24/solid'
 import clsx from 'clsx'
 import Link from 'next/link'
 import { ReactNode } from 'react'
+import { useRef } from 'react'
+import useClickOutside from '@/app/_hooks/useClickOutside'
 
 export default function AdministratorSidebar() {
 	const { closeDialog } = useDialogStore()
+	const adminSidebarRef = useRef<any>()
+
+	useClickOutside(adminSidebarRef, () => {
+		closeDialog()
+	})
 	return (
-		<div className='sticky left-0 top-0  h-full max-h-screen w-[300px]  bg-primary-625 p-comfortable pr-0'>
+		<div
+			ref={adminSidebarRef}
+			className='sticky left-0 top-0  h-full max-h-screen w-[30vw]  bg-primary-625 p-comfortable pr-0'
+		>
 			<div className='relative flex h-full w-full items-center'>
 				<span
 					onClick={() => closeDialog()}

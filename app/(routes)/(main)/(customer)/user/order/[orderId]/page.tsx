@@ -23,6 +23,8 @@ export default function OrderDetailPage({
 		queryKey: [UseQueryKeys.Order, UseQueryKeys.User, orderId],
 		queryFn: () => getOrderFullDetailById(orderId),
 		refetchOnMount: true,
+		refetchOnWindowFocus: true,
+		refetchOnReconnect: true,
 	})
 
 	const { data, isLoading, isError } = orderDetailQuery

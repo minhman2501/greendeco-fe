@@ -1,6 +1,7 @@
 'use client'
 
 import Image from 'next/image'
+import { motion, useScroll, useMotionValueEvent, AnimatePresence } from 'framer-motion'
 import { UserProfileResponseData, getUserProfile } from '@/app/_api/axios/user'
 import { ACCESS_TOKEN_COOKIE_NAME } from '@/app/_configs/constants/cookies'
 import { UseQueryKeys } from '@/app/_configs/constants/queryKey'
@@ -10,8 +11,9 @@ import { deleteCookie, getCookie } from 'cookies-next'
 import Button from '../Button'
 import { useRouter } from 'next/navigation'
 import { DEFAULT_AVATAR } from '@/app/_configs/constants/images'
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import clsx from 'clsx'
+import useClickOutside from '@/app/_hooks/useClickOutside'
 
 export default function AuthenticationHandler() {
 	const accessToken = getCookie(ACCESS_TOKEN_COOKIE_NAME)
@@ -41,36 +43,66 @@ export default function AuthenticationHandler() {
 }
 
 function UserSettingMenu(props: UserProfileResponseData) {
-	const router = useRouter()
 	const [isOpen, setIsOpen] = useState(false)
+	const settingMenuRef = useRef<any>()
+
+	useClickOutside(settingMenuRef, () => {
+		setIsOpen(false)
+	})
+	const router = useRouter()
 
 	const handleLogOut = () => {
 		deleteCookie(ACCESS_TOKEN_COOKIE_NAME)
 		router.push('/login')
 	}
+
+	const { scrollY } = useScroll()
+
+	useMotionValueEvent(scrollY, 'change', (latestWindowY) => {
+		const previousWindowY = scrollY.getPrevious()
+		if (latestWindowY > previousWindowY && latestWindowY > 90) {
+			setIsOpen(false)
+		}
+	})
+
 	return (
 		<div
+			ref={settingMenuRef}
 			onClick={() => setIsOpen(!isOpen)}
 			className='relative h-full w-full'
 		>
 			<MenuButton {...props} />
 
-			{isOpen && (
-				<ul className='absolute inset-x-0 top-[calc(100%+8px)] z-30 rounded-[8px] border-[1px] border-primary-5555-40 bg-white p-compact'>
-					<MenuItem onClick={() => router.push('/user/setting/profile')}>
-						<div className='flex h-full w-full items-center gap-compact'>
-							<Cog8ToothIcon className='aspect-square h-[16px]' />
-							user setting
-						</div>
-					</MenuItem>
-					<MenuItem onClick={() => handleLogOut()}>
-						<div className='flex h-full w-full items-center gap-compact'>
-							<ArrowLeftOnRectangleIcon className='aspect-square h-[16px]' />
-							log out
-						</div>
-					</MenuItem>
-				</ul>
-			)}
+			<AnimatePresence>
+				{isOpen && (
+					<motion.ul
+						initial={{
+							translateY: '-16px',
+							opacity: 0,
+						}}
+						animate={{ opacity: 1, translateY: 0 }}
+						exit={{
+							opacity: 0,
+							translateY: '-16px',
+						}}
+						transition={{ ease: 'easeInOut', duration: 0.2 }}
+						className='absolute inset-x-0 top-[calc(100%+8px)] z-30 rounded-[8px] border-[1px] border-primary-5555-40 bg-white p-compact'
+					>
+						<MenuItem onClick={() => router.push('/user/setting/profile')}>
+							<div className='flex h-full w-full items-center gap-compact'>
+								<Cog8ToothIcon className='aspect-square h-[16px]' />
+								user setting
+							</div>
+						</MenuItem>
+						<MenuItem onClick={() => handleLogOut()}>
+							<div className='flex h-full w-full items-center gap-compact'>
+								<ArrowLeftOnRectangleIcon className='aspect-square h-[16px]' />
+								log out
+							</div>
+						</MenuItem>
+					</motion.ul>
+				)}
+			</AnimatePresence>
 		</div>
 	)
 }

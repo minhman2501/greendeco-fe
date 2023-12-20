@@ -34,7 +34,7 @@ function OrderDetail({ id, created_at, state, paid_at }: OrderData) {
 		<div className='flex-col-start divide-y divide-primary-625-60 '>
 			<div className='flex items-center justify-between py-compact'>
 				<h2 className='text-body-lg font-semi-bold'>Order Info</h2>
-				{!paid_at && (
+				{!paid_at && state !== ORDER_STATE_FIELD.cancelled.state && (
 					<Button
 						onClick={() => {
 							openPaymentInfoDialog(id)

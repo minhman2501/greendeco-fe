@@ -10,6 +10,7 @@ import {
 	HandThumbUpIcon,
 } from '@heroicons/react/24/solid'
 import clsx from 'clsx'
+import useActivePath from '@/app/_hooks/useActivePath'
 
 type UserNavigation = {
 	label: string
@@ -29,11 +30,6 @@ const userNavigationList: UserNavigation[] = [
 		icon: <TruckIcon className='aspect-square w-[24px]' />,
 	},
 	{
-		path: '/coupon',
-		label: 'Coupon & Voucher',
-		icon: <TicketIcon className='aspect-square w-[24px]' />,
-	},
-	{
 		path: '/purchased',
 		label: 'Purchased Products',
 		icon: <HandThumbUpIcon className='aspect-square w-[24px]' />,
@@ -42,36 +38,37 @@ const userNavigationList: UserNavigation[] = [
 
 export default React.memo(function UserSidebarNavigation() {
 	return (
-		<div className='flex-col-start sticky top-comfortable gap-compact rounded-[8px] border-y-[1px] border-l-[1px] border-primary-625-20  bg-white py-comfortable pl-comfortable shadow-38'>
+		<ul className='flex-col-start sticky top-away-from-header gap-compact rounded-[8px] border-y-[1px] border-l-[1px] border-primary-625-20  bg-white py-comfortable pl-comfortable shadow-38'>
 			{userNavigationList.map((nav) => (
-				<Navigation
-					key={nav.label}
-					path={nav.path}
-					icon={nav.icon}
-					label={nav.label}
-				/>
+				<li key={nav.label}>
+					<Navigation
+						path={nav.path}
+						icon={nav.icon}
+						label={nav.label}
+					/>
+				</li>
 			))}
-		</div>
+		</ul>
 	)
 })
 
 const Navigation = React.memo(function Navigation({ label, path, icon }: UserNavigation) {
 	const rootPath = '/user'
-	const currentPath = usePathname()
-	console.log(path, 'render')
+	const { isPathActive } = useActivePath()
 
 	return (
 		<Link
 			href={rootPath + path}
-			className={clsx('flex w-full items-center  gap-compact rounded-l-[8px] p-cozy ', {
-				'cursor-pointer text-primary-625 hover:font-semibold':
-					currentPath.includes(path) === false,
+			scroll
+			className={clsx('group flex w-full items-center  gap-compact rounded-l-[8px] p-cozy ', {
+				'cursor-pointer text-primary-625 transition duration-75 ease-linear hover:bg-primary-580-20/80 hover:font-semibold':
+					isPathActive(`${rootPath}${path}`) === false,
 				'pointer-events-none cursor-auto bg-primary-625 font-bold text-neutral-gray-1':
-					currentPath.includes(path),
+					isPathActive(`${rootPath}${path}`) === true,
 			})}
 		>
 			{icon}
-			<label className='text-body-sm capitalize'>{label}</label>
+			<label className='text-body-sm capitalize group-hover:cursor-pointer'>{label}</label>
 		</Link>
 	)
 })

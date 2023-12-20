@@ -1,14 +1,17 @@
 'use client'
 
-import useEventListener from './useEventListener'
+import { useEffect } from 'react'
 
 export default function useClickOutside(ref: any, cb: Function) {
-	useEventListener(
-		'click',
-		(e: any) => {
-			if (ref.current == null || ref.current.contains(e.target)) return
-			cb(e)
-		},
-		document,
-	)
+	const handleClick = (e: any) => {
+		if (ref.current && !ref.current.contains(e.target)) {
+			cb()
+		}
+	}
+	useEffect(() => {
+		document.addEventListener('click', handleClick)
+		return () => {
+			document.removeEventListener('click', handleClick)
+		}
+	})
 }

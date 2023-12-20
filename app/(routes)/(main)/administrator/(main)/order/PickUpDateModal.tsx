@@ -18,6 +18,8 @@ import { ORDER_STATE_FIELD } from '@/app/_configs/constants/variables'
 import { ADMIN_QUERY_KEY, UseQueryKeys } from '@/app/_configs/constants/queryKey'
 import { useDialogStore } from '@/app/_configs/store/useDialogStore'
 import createNotificationMessage from '@/app/_hooks/useOrderNotificationMessage'
+import { useRef } from 'react'
+import useClickOutside from '@/app/_hooks/useClickOutside'
 
 type PickUpdateModalType = {
 	order: OrderState
@@ -27,6 +29,11 @@ export default function PickUpDateModal({ order }: PickUpdateModalType) {
 	const adminAccessToken = getCookie(ADMIN_ACCESS_TOKEN_COOKIE_NAME)
 	const queryClient = useQueryClient()
 	const { closeDialog } = useDialogStore()
+	const orderPickUpDateModalRef = useRef<any>()
+
+	useClickOutside(orderPickUpDateModalRef, () => {
+		closeDialog()
+	})
 	const defaultInputValues: OrderUpdateSchemaType = {
 		paid_at: '',
 	}
@@ -74,7 +81,10 @@ export default function PickUpDateModal({ order }: PickUpdateModalType) {
 
 	return (
 		<div className='container sticky top-0 flex h-full max-h-screen w-full items-center justify-center'>
-			<div className='overflow-hidden rounded-[16px] border border-order-status-processing'>
+			<div
+				ref={orderPickUpDateModalRef}
+				className='overflow-hidden rounded-[16px] border border-order-status-processing'
+			>
 				<div className='flex w-full flex-col items-center gap-compact bg-order-status-processing p-comfortable text-white'>
 					<p className='text-body-md font-bold uppercase'>Updating Order to processing</p>
 					<p className='text-body-md'>

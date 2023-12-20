@@ -17,6 +17,8 @@ import { ORDER_STATE_FIELD } from '@/app/_configs/constants/variables'
 import { ADMIN_QUERY_KEY, UseQueryKeys } from '@/app/_configs/constants/queryKey'
 import { useDialogStore } from '@/app/_configs/store/useDialogStore'
 import createNotificationMessage from '@/app/_hooks/useOrderNotificationMessage'
+import { useRef } from 'react'
+import useClickOutside from '@/app/_hooks/useClickOutside'
 
 type CancelModalType = {
 	order: OrderState
@@ -26,6 +28,11 @@ export default function CancelModal({ order }: CancelModalType) {
 	const adminAccessToken = getCookie(ADMIN_ACCESS_TOKEN_COOKIE_NAME)?.toString()
 	const queryClient = useQueryClient()
 	const { closeDialog } = useDialogStore()
+	const orderCancelModalRef = useRef<any>()
+
+	useClickOutside(orderCancelModalRef, () => {
+		closeDialog()
+	})
 	const defaultInputValues: CreateNotificationInputType = {
 		// Change the title for notification
 		title: 'Cancel Order ' + order.order_id,
@@ -78,7 +85,10 @@ export default function CancelModal({ order }: CancelModalType) {
 	}
 	return (
 		<div className='container sticky top-0 flex h-full max-h-screen w-full items-center justify-center'>
-			<div className='w-[40vw] overflow-hidden rounded-[16px] border border-order-status-cancelled'>
+			<div
+				ref={orderCancelModalRef}
+				className='w-[40vw] overflow-hidden rounded-[16px] border border-order-status-cancelled'
+			>
 				<div className='flex w-full flex-col items-center gap-compact bg-order-status-cancelled p-comfortable text-white'>
 					<p className='text-body-md font-bold uppercase'>
 						Cancelling order confirmation

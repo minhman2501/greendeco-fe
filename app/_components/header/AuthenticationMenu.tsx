@@ -6,7 +6,7 @@ import { UserProfileResponseData, getUserProfile } from '@/app/_api/axios/user'
 import { ACCESS_TOKEN_COOKIE_NAME } from '@/app/_configs/constants/cookies'
 import { UseQueryKeys } from '@/app/_configs/constants/queryKey'
 import { ArrowLeftOnRectangleIcon, ChevronDownIcon, Cog8ToothIcon } from '@heroicons/react/24/solid'
-import { useQuery } from '@tanstack/react-query'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { deleteCookie, getCookie } from 'cookies-next'
 import Button from '../Button'
 import { useRouter } from 'next/navigation'
@@ -44,6 +44,7 @@ export default function AuthenticationHandler() {
 
 function UserSettingMenu(props: UserProfileResponseData) {
 	const [isOpen, setIsOpen] = useState(false)
+	const queryClient = useQueryClient()
 	const settingMenuRef = useRef<any>()
 
 	useClickOutside(settingMenuRef, () => {
@@ -53,6 +54,7 @@ function UserSettingMenu(props: UserProfileResponseData) {
 
 	const handleLogOut = () => {
 		deleteCookie(ACCESS_TOKEN_COOKIE_NAME)
+		queryClient.invalidateQueries([UseQueryKeys.User])
 		router.push('/login')
 	}
 

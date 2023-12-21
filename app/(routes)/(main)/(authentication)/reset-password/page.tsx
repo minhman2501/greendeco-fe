@@ -12,7 +12,7 @@ export default function ResetPasswordPage() {
 	}
 	return (
 		<>
-			<div className='flex-col-start gap-common'>
+			<div className='flex-col-start h-full justify-center gap-common'>
 				<div>
 					<div className='flex-col-start gap-[4px]'>
 						<h1>Reset Password</h1>
@@ -28,7 +28,7 @@ export default function ResetPasswordPage() {
 function MissingTokenMessage() {
 	return (
 		<>
-			<div className='flex-col-start gap-cozy'>
+			<div className='flex-col-start h-full justify-center gap-cozy'>
 				<div className='flex-col-start gap-[4px]'>
 					<h1>Can&apos;t Reset Your Password</h1>
 					<p className='text-body-md'>

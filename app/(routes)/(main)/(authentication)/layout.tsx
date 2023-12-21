@@ -11,7 +11,7 @@ export default function AuthenticationLayout({ children }: { children: ReactNode
 		<div className='flex-center h-screen w-screen bg-primary-5555-20'>
 			<div className='container grid h-full grid-cols-2 overflow-hidden  bg-white  p-cozy  shadow-30'>
 				<div className='relative flex h-full flex-col overflow-auto p-comfortable'>
-					<div className='mx-auto w-[70%] max-w-full'>{children}</div>
+					<div className='mx-auto h-full w-[70%] max-w-full'>{children}</div>
 				</div>
 				<div className='aspect-auto h-full overflow-hidden rounded-lg'>
 					<Image

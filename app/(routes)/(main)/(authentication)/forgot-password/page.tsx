@@ -4,7 +4,7 @@ import ForgotPasswordForm from './ForgotPasswordForm'
 export default function RegisterPage() {
 	return (
 		<>
-			<div className='flex-col-start gap-common'>
+			<div className='flex-col-start h-full justify-center gap-common'>
 				<div>
 					<div className='flex-col-start gap-[4px]'>
 						<h1>Forgot Password</h1>

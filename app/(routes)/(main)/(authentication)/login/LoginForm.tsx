@@ -89,7 +89,7 @@ export default function LoginForm() {
 					type='submit'
 					disabled={loginMutation.isLoading}
 				>
-					{loginMutation.isLoading ? 'Sending...' : 'Sign Up'}
+					{loginMutation.isLoading ? 'Signing In...' : 'Sign In'}
 				</Button>
 			</form>
 		</>

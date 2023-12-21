@@ -4,7 +4,7 @@ import LoginForm from './LoginForm'
 export default function RegisterPage() {
 	return (
 		<>
-			<div className='flex h-full flex-col justify-center gap-common'>
+			<div className='flex h-full flex-col items-center justify-center gap-common'>
 				<div>
 					<span className='mb-compact block text-body-lg'>
 						Welcome back to <span className=' text-heading-2 font-bold'>GreenDeco</span>{' '}

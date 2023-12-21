@@ -54,7 +54,7 @@ function UserSettingMenu(props: UserProfileResponseData) {
 
 	const handleLogOut = () => {
 		deleteCookie(ACCESS_TOKEN_COOKIE_NAME)
-		queryClient.invalidateQueries([UseQueryKeys.User])
+		queryClient.removeQueries([UseQueryKeys.User])
 		router.push('/login')
 	}
 

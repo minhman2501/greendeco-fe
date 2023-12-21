@@ -44,7 +44,8 @@ export default function LoginForm() {
 			reset()
 			setCookie({ name: ACCESS_TOKEN_COOKIE_NAME, value: data.access_Token })
 			queryClient.invalidateQueries([UseQueryKeys.User])
-			notifyLoginSuccess({ onClose: () => router.back() })
+			notifyLoginSuccess()
+			router.back()
 		},
 		//NOTE: Execuse after receving failure responses
 		onError: (e) => {

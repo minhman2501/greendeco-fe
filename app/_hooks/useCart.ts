@@ -22,6 +22,7 @@ import { setCookie } from 'cookies-next'
 import { useRouter } from 'next/navigation'
 import useCartDialog from './dialog/useCartDialog'
 import { CONFLICT_STATUS, NOT_FOUND_STATUS, UNAUTHORIZE_STATUS } from '../_configs/constants/status'
+import { UseQueryKeys } from '../_configs/constants/queryKey'
 
 export type CartItemWithFullVariantInfo = {
 	id: CartItemData['id']
@@ -93,10 +94,11 @@ export function useCartQuery() {
 	}
 
 	const cartQuery = useQuery({
-		queryKey: ['cart'],
+		queryKey: [UseQueryKeys.User, 'cart'],
 		queryFn: getCartListWithFullDetail,
 		onError: () => {},
 		refetchOnMount: true,
+		refetchOnWindowFocus: true,
 		retry: false,
 	})
 
@@ -112,7 +114,7 @@ export function useCartMutation() {
 	const addCartItemMutation = useMutation({
 		mutationFn: addCartItem,
 		onSuccess: () => {
-			queryClient.invalidateQueries({ queryKey: ['cart'] })
+			queryClient.invalidateQueries({ queryKey: [UseQueryKeys.User, 'cart'] })
 			openCart()
 		},
 		onError: (e) => {
@@ -126,7 +128,7 @@ export function useCartMutation() {
 	const changeQuantityMutation = useMutation({
 		mutationFn: changeCartItemQuantity,
 		onSuccess: () => {
-			queryClient.invalidateQueries({ queryKey: ['cart'] })
+			queryClient.invalidateQueries({ queryKey: [UseQueryKeys.User, 'cart'] })
 		},
 		onError: (e) => {
 			if (e instanceof AxiosError) {
@@ -138,7 +140,7 @@ export function useCartMutation() {
 	const removeCartItemMutation = useMutation({
 		mutationFn: removeCartItem,
 		onSuccess: () => {
-			queryClient.invalidateQueries({ queryKey: ['cart'] })
+			queryClient.invalidateQueries({ queryKey: [UseQueryKeys.User, 'cart'] })
 		},
 		onError: (e) => {
 			if (e instanceof AxiosError) {

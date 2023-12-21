@@ -12,9 +12,10 @@ export const notifyRegisterFail = (errorMessage?: string) => {
 		position: 'top-center',
 	})
 }
-export const notifyLoginSuccess = () => {
+export const notifyLoginSuccess = (options?: ToastOptions) => {
 	toast.success(<LoginSuccessMessage />, {
 		position: 'top-center',
+		onClose: options?.onClose,
 	})
 }
 export const notifyLoginFail = (errorMessage?: string) => {

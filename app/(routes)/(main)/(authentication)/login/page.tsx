@@ -17,7 +17,13 @@ export default function RegisterPage() {
 				</div>
 				<LoginForm />
 				<span className='text-center text-body-md'>
-					Don&apos;t have an account? <Link href={'/register'}>Sign Up!</Link>
+					Don&apos;t have an account?{' '}
+					<Link
+						replace
+						href={'/register'}
+					>
+						Sign Up!
+					</Link>
 				</span>
 			</div>
 		</>

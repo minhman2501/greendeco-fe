@@ -2,7 +2,7 @@
 import { TextField } from '@/app/_components/form'
 import Link from 'next/link'
 import { AxiosError } from 'axios'
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import Button from '@/app/_components/Button'
@@ -10,7 +10,14 @@ import { LoginFormInputType, LoginSchema } from '@/app/_configs/schemas/authenti
 import { loginAccount } from '@/app/_api/axios/authentication'
 import { notifyLoginFail, notifyLoginSuccess } from '../Notification'
 import { setCookie } from '@/app/_hooks/useCookie'
+import { ACCESS_TOKEN_COOKIE_NAME } from '@/app/_configs/constants/cookies'
+import { UseQueryKeys } from '@/app/_configs/constants/queryKey'
+import { useRouter } from 'next/navigation'
+
 export default function LoginForm() {
+	const queryClient = useQueryClient()
+	const router = useRouter()
+
 	const defaultInputValues: LoginFormInputType = {
 		email: '',
 		password: '',
@@ -35,9 +42,9 @@ export default function LoginForm() {
 		//NOTE: Execuse after receiving suscess responses
 		onSuccess: (data) => {
 			reset()
-			console.log(data)
-			setCookie({ name: 'access_Token', value: data.access_Token })
-			notifyLoginSuccess()
+			setCookie({ name: ACCESS_TOKEN_COOKIE_NAME, value: data.access_Token })
+			queryClient.invalidateQueries([UseQueryKeys.User])
+			notifyLoginSuccess({ onClose: () => router.back() })
 		},
 		//NOTE: Execuse after receving failure responses
 		onError: (e) => {
@@ -83,7 +90,12 @@ export default function LoginForm() {
 					/>
 				</div>
 				<div className='flex w-full justify-end'>
-					<Link href={'/forgot-password'}>Forgot Password</Link>
+					<Link
+						href={'/forgot-password'}
+						replace
+					>
+						Forgot Password
+					</Link>
 				</div>
 				<Button
 					type='submit'

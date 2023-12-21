@@ -38,11 +38,22 @@ function MissingTokenMessage() {
 				<div className='flex-col-start gap-[4px] text-body-md'>
 					<p>
 						In order to reset your account password, you need to{' '}
-						<Link href={'/forgot-password'}>send your registered email</Link> to us.
+						<Link
+							replace
+							href={'/forgot-password'}
+						>
+							send your registered email
+						</Link>{' '}
+						to us.
 					</p>
 					<p>
 						Or if you don&apos;t have an account,{' '}
-						<Link href={'/register'}>Sign Up Now!</Link>
+						<Link
+							replace
+							href={'/register'}
+						>
+							Sign Up Now!
+						</Link>
 					</p>
 				</div>
 			</div>

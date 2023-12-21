@@ -4,6 +4,7 @@ const PRODUCT_URL = `${process.env.NEXT_PUBLIC_GREENDECO_BACKEND_API}`
 const PLANT_CATEGORY_ID = `${process.env.NEXT_PUBLIC_PLANT_CATEGORY_ID}`
 
 import { ProductData, ProductListData, VariantData } from '../product'
+import { Sort, SortBy } from '@/app/_configs/constants/paramKeys'
 
 type AdminAccessTokenType = string | undefined
 
@@ -104,6 +105,11 @@ export const getProductListAsAdministrator = async (adminAccessToken: AdminAcces
 		.get<ProductListData>('/product/all', {
 			headers: {
 				Authorization: `Bearer ${adminAccessToken}`,
+			},
+			params: {
+				limit: 9999,
+				sort: Sort.Descending,
+				sortBy: SortBy.CreatedAt,
 			},
 		})
 		.then((res) => res.data)

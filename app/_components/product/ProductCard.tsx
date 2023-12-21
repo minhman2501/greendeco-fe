@@ -34,7 +34,7 @@ function CardDetail({
 }) {
 	return (
 		<div className='flex h-full w-full justify-between gap-cozy'>
-			<span className='cursor-pointer text-body-sm font-semi-bold text-primary-625 group-hover:underline'>
+			<span className='flex-1 cursor-pointer truncate text-body-sm font-semi-bold text-primary-625 group-hover:underline'>
 				{name}
 			</span>
 			<div className='text-body-sm font-semi-bold text-primary-418'>$ {price}</div>

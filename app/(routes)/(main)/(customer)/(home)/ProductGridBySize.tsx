@@ -23,11 +23,13 @@ export default function ProductGridBySize({ size }: { size: 'S' | 'M' | 'L' | 'X
 		<>
 			{isLoading && <Loading />}
 			{data && isSuccess && (
-				<ProductCardsGrid
-					columns={3}
-					productList={data.items}
-					gap='compact'
-				/>
+				<div className='w-[80%]'>
+					<ProductCardsGrid
+						columns={3}
+						productList={data.items}
+						gap='compact'
+					/>
+				</div>
 			)}
 		</>
 	)

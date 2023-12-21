@@ -12,7 +12,7 @@ export default function ProductCardsGrid(props: ProductCardsGridProps) {
 	return (
 		<div
 			className={clsx(
-				'grid',
+				'grid w-full',
 				{
 					'grid-cols-3': columns === 3,
 					'grid-cols-4': columns === 4,

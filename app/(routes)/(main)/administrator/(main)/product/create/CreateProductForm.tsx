@@ -7,7 +7,7 @@ import {
 	ProductDetailSchema,
 	ProductDetailFormInputType,
 } from '@/app/_configs/schemas/createProduct'
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { createProduct } from '@/app/_api/axios/admin/product'
 import { SIZE_OPTIONS, TYPE_OPTIONS, DIFFICULTY_OPTIONS } from '@/app/_configs/constants/variables'
 import ImageUploadGrid from './ImagesUploadGrid'
@@ -18,9 +18,11 @@ import { notifyCreateProductSuccess } from '../Notifications'
 import { MultilineTextField } from '@/app/_components/form/MultiplelineTextField'
 import { error } from 'console'
 import LabelProvider from '@/app/_components/form/LabelProvider'
+import { ADMIN_QUERY_KEY, UseQueryKeys } from '@/app/_configs/constants/queryKey'
 
 export default function CreateProductForm() {
 	const { isFulfilled, images, resetImages } = useImageUploadStore()
+	const queryClient = useQueryClient()
 	const defaultInputValues: ProductDetailFormInputType = {
 		name: '',
 		size: SIZE_OPTIONS[0],
@@ -52,6 +54,9 @@ export default function CreateProductForm() {
 		onSuccess: (data) => {
 			handleResetForm()
 			notifyCreateProductSuccess(data.data.id)
+			queryClient.invalidateQueries({
+				queryKey: [ADMIN_QUERY_KEY, UseQueryKeys.Product],
+			})
 		},
 		//NOTE: Execuse after receving failure responses
 		/* onError: (e) => {

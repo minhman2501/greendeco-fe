@@ -68,7 +68,7 @@ export default function ProductEditForm(product: ProductData) {
 			handleResetForm()
 			notifyUpdateProductSuccess()
 			queryClient.invalidateQueries({
-				queryKey: [UseQueryKeys.Product, ADMIN_QUERY_KEY, product.id],
+				queryKey: [ADMIN_QUERY_KEY, UseQueryKeys.Product, product.id],
 			})
 			router.replace(`${ADMINISTRATOR_ROUTE.PRODUCT.LINK}/${product.id}`)
 		},

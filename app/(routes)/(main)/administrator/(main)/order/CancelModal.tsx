@@ -115,16 +115,18 @@ export default function CancelModal({ order }: CancelModalType) {
 					/>
 					<div className='flex justify-end gap-compact text-body-sm'>
 						<Button
+							disabled={updateCancelStatusMutation.isLoading}
 							onClick={closeDialog}
-							className='border-order-status-cancelled bg-neutral-gray-1 px-comfortable text-order-status-cancelled'
+							className='border-order-status-cancelled bg-neutral-gray-1 px-comfortable text-order-status-cancelled disabled:opacity-70'
 						>
 							Abort
 						</Button>
 						<Button
+							disabled={updateCancelStatusMutation.isLoading}
 							className='w-fit border-0 bg-order-status-cancelled px-comfortable'
 							type='submit'
 						>
-							Confirm
+							{updateCancelStatusMutation.isLoading ? 'Processing' : 'Confirm'}
 						</Button>
 					</div>
 				</form>

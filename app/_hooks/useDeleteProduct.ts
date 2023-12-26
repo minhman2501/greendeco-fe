@@ -14,7 +14,7 @@ export default function useDeleteProduct() {
 	const deleteProductMutation = useMutation({
 		mutationFn: deleteProduct,
 		onSuccess: () => {
-			queryClient.invalidateQueries({ queryKey: [UseQueryKeys.Product, ADMIN_QUERY_KEY] })
+			queryClient.invalidateQueries({ queryKey: [ADMIN_QUERY_KEY, UseQueryKeys.Product] })
 			closeDialog()
 			notifyDeleteProductSuccess()
 		},

@@ -104,16 +104,18 @@ export default function PickUpDateModal({ order }: PickUpdateModalType) {
 					/>
 					<div className='flex justify-end gap-compact text-body-sm'>
 						<Button
+							disabled={updateStatusMutation.isLoading}
 							onClick={closeDialog}
-							className='border-order-status-processing bg-neutral-gray-1 px-comfortable text-order-status-processing'
+							className='border-order-status-processing bg-neutral-gray-1 px-comfortable text-order-status-processing disabled:opacity-70'
 						>
 							Cancel
 						</Button>
 						<Button
+							disabled={updateStatusMutation.isLoading}
 							className='w-fit border-0 bg-order-status-processing px-comfortable '
 							type='submit'
 						>
-							Confirm
+							{updateStatusMutation.isLoading ? 'Processing' : 'Confirm'}
 						</Button>
 					</div>
 				</form>

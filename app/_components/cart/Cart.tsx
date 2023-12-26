@@ -19,7 +19,7 @@ export default function Cart() {
 
 	const { closeDialog } = useDialogStore()
 
-	const { data, isLoading, isFetching } = cartQuery
+	const { data, isLoading, isFetching, isSuccess, isFetched } = cartQuery
 
 	return (
 		<motion.div
@@ -50,7 +50,7 @@ export default function Cart() {
 				</div>
 				<p className='text-body-md text-primary-5555-80'>All of your finest choices.</p>
 			</div>
-			{(isLoading || isFetching) && (
+			{isLoading && (
 				<MutatingDots
 					height='100'
 					width='100'
@@ -59,12 +59,12 @@ export default function Cart() {
 					radius='10'
 					ariaLabel='mutating-dots-loading'
 					wrapperStyle={{}}
-					wrapperClass='flex w-full opacity-[80%] justify-center'
+					wrapperClass='flex w-full h-full opacity-[80%] justify-center'
 					visible={true}
 				/>
 			)}
 
-			{data && data.page_size > 0 && (
+			{isFetched && data && data.page_size > 0 && (
 				<>
 					<div className='flex-1 overflow-y-auto'>
 						<List {...data} />
@@ -74,7 +74,7 @@ export default function Cart() {
 					</div>
 				</>
 			)}
-			{data?.page_size === 0 && (
+			{data?.page_size === 0 && isSuccess && (
 				<div className='flex-col-start h-full justify-end'>
 					<NoItemMessage />
 				</div>

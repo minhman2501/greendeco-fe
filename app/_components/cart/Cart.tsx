@@ -59,7 +59,7 @@ export default function Cart() {
 					radius='10'
 					ariaLabel='mutating-dots-loading'
 					wrapperStyle={{}}
-					wrapperClass='flex absolute bg-primary-580-20/50 items-center inset-0 opacity-[80%] justify-center'
+					wrapperClass='flex z-20 absolute bg-primary-580-20/50 items-center inset-0 opacity-[80%] justify-center'
 					visible={true}
 				/>
 			)}

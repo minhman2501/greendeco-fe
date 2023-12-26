@@ -33,7 +33,7 @@ export default function Cart() {
 				transition: { ease: 'easeInOut', duration: 0.5 },
 			}}
 			ref={cartRef}
-			className='flex-col-start h-full max-h-full w-[550px] gap-compact overflow-hidden rounded-[8px]  bg-white  shadow-26'
+			className='flex-col-start relative h-full max-h-full w-[550px] gap-compact overflow-hidden rounded-[8px]  bg-white  shadow-26'
 		>
 			<div className=' p-comfortable pb-0'>
 				<div className='flex'>
@@ -50,7 +50,7 @@ export default function Cart() {
 				</div>
 				<p className='text-body-md text-primary-5555-80'>All of your finest choices.</p>
 			</div>
-			{isLoading && (
+			{isFetching && (
 				<MutatingDots
 					height='100'
 					width='100'
@@ -59,7 +59,7 @@ export default function Cart() {
 					radius='10'
 					ariaLabel='mutating-dots-loading'
 					wrapperStyle={{}}
-					wrapperClass='flex w-full h-full opacity-[80%] justify-center'
+					wrapperClass='flex absolute bg-primary-580-20/50 items-center inset-0 opacity-[80%] justify-center'
 					visible={true}
 				/>
 			)}
@@ -74,7 +74,7 @@ export default function Cart() {
 					</div>
 				</>
 			)}
-			{data?.page_size === 0 && isSuccess && (
+			{data?.page_size === 0 && isFetched && (
 				<div className='flex-col-start h-full justify-end'>
 					<NoItemMessage />
 				</div>

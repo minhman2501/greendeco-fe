@@ -5,6 +5,7 @@ import { CartCalculator as Calculator } from './CartCalculator'
 import { useDialogStore } from '@/app/_configs/store/useDialogStore'
 import { ArrowRightIcon } from '@heroicons/react/24/solid'
 import { useRef } from 'react'
+import { motion } from 'framer-motion'
 import useClickOutside from '@/app/_hooks/useClickOutside'
 
 export default function Cart() {
@@ -20,7 +21,16 @@ export default function Cart() {
 	const { data } = cartQuery
 
 	return (
-		<div
+		<motion.div
+			initial={{
+				translateY: '30%',
+			}}
+			animate={{ translateY: 0, transition: { type: 'spring', stiffness: 300 } }}
+			exit={{
+				opacity: 0,
+				translateY: '-20%',
+				transition: { ease: 'easeInOut', duration: 0.5 },
+			}}
 			ref={cartRef}
 			className='flex-col-start h-full max-h-full w-[550px] gap-compact overflow-hidden rounded-[8px]  bg-white  shadow-26'
 		>
@@ -54,7 +64,7 @@ export default function Cart() {
 					<NoItemMessage />
 				</div>
 			)}
-		</div>
+		</motion.div>
 	)
 }
 

@@ -1,7 +1,8 @@
 'use client'
-import { useCallback, type ChangeEvent } from 'react'
+import { useCallback, type ChangeEvent, useMemo } from 'react'
 import useQueryParams from '@/app/_hooks/useQueryParams'
 import { FunnelIcon } from '@heroicons/react/24/solid'
+import { DIFFICULTY_OPTIONS, SIZE_OPTIONS, TYPE_OPTIONS } from '@/app/_configs/constants/variables'
 
 type FieldQuery = {
 	size?: string
@@ -13,16 +14,6 @@ type FieldQuery = {
 type QueryParams = {
 	offSet: number
 	field: string | null
-}
-
-const sizeOptions = ['S', 'M', 'L', 'XL']
-const difficultyOptions = ['easy', 'medium', 'hard']
-const typeOptions = ['Outdoor', 'Indoor']
-
-const options = {
-	size: sizeOptions,
-	difficulty: difficultyOptions,
-	type: typeOptions,
 }
 
 function FilterMenu() {
@@ -49,13 +40,19 @@ function FilterMenu() {
 		[setQueryParams, object],
 	)
 
+	const filterOptions = {
+		size: useMemo(() => SIZE_OPTIONS, []),
+		difficulty: useMemo(() => DIFFICULTY_OPTIONS, []),
+		type: useMemo(() => TYPE_OPTIONS, []),
+	}
+
 	const handleOptionChange = (event: ChangeEvent<HTMLSelectElement>) => {
 		filterSearch({ [event.target.name]: event.target.value })
 	}
 
 	return (
 		<div className='flex-col-start gap-cozy'>
-			{Object.entries(options).map(([key, value]) => (
+			{Object.entries(filterOptions).map(([key, value]) => (
 				<div
 					key={key}
 					className='grid grid-cols-6 gap-compact'

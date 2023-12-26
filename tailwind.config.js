@@ -10,6 +10,13 @@ module.exports = {
 		extend: {
 			container: {
 				center: true,
+				padding: {
+					DEFAULT: '1rem',
+					sm: '2rem',
+					lg: '2.5rem',
+					xl: '3rem',
+					'2xl': '4rem',
+				},
 			},
 			backgroundColor: {
 				'light-green': '#ECF4F1',

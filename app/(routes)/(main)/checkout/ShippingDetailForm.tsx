@@ -13,6 +13,7 @@ import { useRouter } from 'next/navigation'
 import { NOT_FOUND_STATUS, UNAUTHORIZE_STATUS } from '@/app/_configs/constants/status'
 import { TextField } from '@/app/_components/form'
 import Button from '@/app/_components/Button'
+import { UseQueryKeys } from '@/app/_configs/constants/queryKey'
 
 export default function ShippingDetailForm() {
 	const router = useRouter()
@@ -42,7 +43,7 @@ export default function ShippingDetailForm() {
 		reset()
 		router.replace(`/payment/${id}`)
 		deleteCookie('cartId')
-		queryClient.invalidateQueries(['cart'], { exact: true })
+		queryClient.invalidateQueries([UseQueryKeys.User, 'cart'])
 	}
 
 	const createOrderMutation = useMutation({

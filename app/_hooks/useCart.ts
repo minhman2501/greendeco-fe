@@ -75,7 +75,9 @@ export function useCartQuery() {
 				}
 			})
 			.then((cartId) => {
-				setCookie('cartId', cartId)
+				setCookie('cartId', cartId, {
+					sameSite: 'none',
+				})
 				return cartId
 			})
 	}

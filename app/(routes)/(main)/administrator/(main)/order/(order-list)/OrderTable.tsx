@@ -14,6 +14,7 @@ const columHelper = createColumnHelper<OrderTableData>()
 
 const columns = [
 	columHelper.accessor('owner_info', {
+		size: 400,
 		cell: (info) => (
 			<div className='flex-col-start w-full gap-[4px]'>
 				<Link

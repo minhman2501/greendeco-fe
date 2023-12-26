@@ -31,7 +31,7 @@ const UpdateOrderStateSuccessMessage = ({
 		<h3 className='capitalize text-primary-625'>Order Has Been {state}</h3>
 		<p>
 			<Link
-				href={`${ADMINISTRATOR_ROUTE.ORDER.LINK}/${orderId}`}
+				href={`${ADMINISTRATOR_ROUTE.ORDER_DETAIL.LINK}/${orderId}`}
 				className='hover:font-bold'
 			>
 				View Order Detail

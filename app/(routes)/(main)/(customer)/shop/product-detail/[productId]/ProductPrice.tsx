@@ -19,6 +19,7 @@ export default function Price() {
 			<span className='text-[3rem] font-semi-bold text-white'>{`${price} ${currency}`}</span>
 			<div>
 				<Button
+					onClick={() => handleAddCartItem()}
 					disabled={addCartItem.loading}
 					className='btnSecondary group disabled:border-neutral-gray-1 disabled:bg-transparent disabled:opacity-90'
 				>
@@ -37,12 +38,7 @@ export default function Price() {
 						</span>
 					) : (
 						<div className='flex items-center gap-[4px]'>
-							<span
-								className='font-semi-bold'
-								onClick={() => handleAddCartItem()}
-							>
-								Add to cart
-							</span>
+							<span className='font-semi-bold'>Add to cart</span>
 							<ShoppingCartIcon className='aspect-square w-[24px]' />
 						</div>
 					)}

@@ -4,6 +4,7 @@ import { useVariantStore } from '@/app/_configs/store/useVariantStore'
 import { useCartMutation } from '@/app/_hooks/useCart'
 import { ShoppingCartIcon } from '@heroicons/react/24/solid'
 import { getCookie } from 'cookies-next'
+import { ThreeDots } from 'react-loader-spinner'
 export default function Price() {
 	const { price, currency, id } = useVariantStore((state) => state.activeVariant)
 
@@ -19,15 +20,32 @@ export default function Price() {
 			<div>
 				<Button
 					disabled={addCartItem.loading}
-					className='btnSecondary flex items-center gap-[4px] disabled:opacity-90'
+					className='btnSecondary group disabled:border-neutral-gray-1 disabled:bg-transparent disabled:opacity-90'
 				>
-					<span
-						className='font-semi-bold'
-						onClick={() => handleAddCartItem()}
-					>
-						Add to cart
-					</span>
-					<ShoppingCartIcon className='aspect-square w-[24px]' />
+					{addCartItem.loading ? (
+						<span className='flex items-center gap-compact group-disabled:text-neutral-gray-1'>
+							Adding
+							<ThreeDots
+								visible={true}
+								height='24px'
+								width='32px'
+								color='#fff'
+								radius='9'
+								ariaLabel='three-dots-loading'
+								wrapperClass='text-white'
+							/>
+						</span>
+					) : (
+						<div className='flex items-center gap-[4px]'>
+							<span
+								className='font-semi-bold'
+								onClick={() => handleAddCartItem()}
+							>
+								Add to cart
+							</span>
+							<ShoppingCartIcon className='aspect-square w-[24px]' />
+						</div>
+					)}
 				</Button>
 			</div>
 		</div>

@@ -152,7 +152,7 @@ export function useCartMutation() {
 	const clearCartItemMutation = useMutation({
 		mutationFn: clearCartItemList,
 		onSuccess: () => {
-			queryClient.invalidateQueries({ queryKey: ['cart'] })
+			queryClient.invalidateQueries({ queryKey: [UseQueryKeys.User, 'cart'] })
 		},
 		onError: (e) => {
 			if (e instanceof AxiosError) {

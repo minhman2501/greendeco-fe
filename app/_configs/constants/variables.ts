@@ -36,6 +36,9 @@ export const ADMINISTRATOR_ROUTE = {
 		LINK: '/administrator/order/order-detail',
 		LABEL: 'Order Detail',
 	},
+	LOGIN: {
+		LINK: '/administrator/login',
+	},
 }
 
 export const USER_SETTING_ROUTE = {

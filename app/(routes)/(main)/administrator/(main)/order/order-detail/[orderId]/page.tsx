@@ -27,7 +27,7 @@ export default function OrderDetailManagementPage({
 }) {
 	const { orderId } = params
 	const orderQuery = useQuery({
-		queryKey: [UseQueryKeys.Order, ADMIN_QUERY_KEY, orderId],
+		queryKey: [ADMIN_QUERY_KEY, UseQueryKeys.Order, orderId],
 		queryFn: () => getOrderFullDetailAsAdministratorById(orderId),
 	})
 

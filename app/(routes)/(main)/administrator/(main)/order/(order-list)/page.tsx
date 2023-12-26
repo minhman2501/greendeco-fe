@@ -15,7 +15,7 @@ export default function OrderManagementPage() {
 
 	const adminAccessToken = getCookie(ADMIN_ACCESS_TOKEN_COOKIE_NAME)?.toString()
 	const orderQuery = useQuery({
-		queryKey: [UseQueryKeys.Order, ADMIN_QUERY_KEY, queryObject],
+		queryKey: [ADMIN_QUERY_KEY, UseQueryKeys.Order, queryObject],
 		queryFn: () =>
 			getOrderListTable(adminAccessToken, {
 				limit: 9999,

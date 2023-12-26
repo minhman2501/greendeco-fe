@@ -15,7 +15,7 @@ export default function ProductManagementPage() {
 	const router = useRouter()
 	const adminAccessToken = getCookie(ADMIN_ACCESS_TOKEN_COOKIE_NAME)?.toString()
 	const productQuery = useQuery({
-		queryKey: [UseQueryKeys.Product, ADMIN_QUERY_KEY],
+		queryKey: [ADMIN_QUERY_KEY, UseQueryKeys.Product],
 		queryFn: () => getProductListAsAdministrator(adminAccessToken),
 		refetchOnMount: 'always',
 	})

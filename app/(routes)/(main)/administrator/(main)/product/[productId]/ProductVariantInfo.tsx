@@ -15,7 +15,7 @@ export default function ProductVariantInfo({
 	productId: ProductData['id']
 }) {
 	const variantQuery = useQuery({
-		queryKey: [UseQueryKeys.Variant, ADMIN_QUERY_KEY, productId],
+		queryKey: [ADMIN_QUERY_KEY, UseQueryKeys.Variant, productId],
 		queryFn: () => getVariantsByProductId(productId),
 	})
 

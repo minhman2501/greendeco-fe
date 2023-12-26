@@ -1,6 +1,6 @@
 'use client'
 import { TextField } from '@/app/_components/form'
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import Button from '@/app/_components/Button'
@@ -10,8 +10,13 @@ import { notifyLoginFail, notifyLoginSuccess } from './Notifications'
 import { setCookie } from 'cookies-next'
 import { ADMIN_ACCESS_TOKEN_COOKIE_NAME } from '@/app/_configs/constants/cookies'
 import { AxiosError } from 'axios'
+import { ADMIN_QUERY_KEY } from '@/app/_configs/constants/queryKey'
+import { useRouter } from 'next/navigation'
+import { ADMINISTRATOR_ROUTE } from '@/app/_configs/constants/variables'
 
 export default function AdminLoginForm() {
+	const router = useRouter()
+	const queryClient = useQueryClient()
 	const defaultInputValues: LoginFormInputType = {
 		email: '',
 		password: '',
@@ -38,6 +43,8 @@ export default function AdminLoginForm() {
 			reset()
 			notifyLoginSuccess()
 			setCookie(ADMIN_ACCESS_TOKEN_COOKIE_NAME, data.access_Token)
+			queryClient.invalidateQueries([ADMIN_QUERY_KEY])
+			router.replace(ADMINISTRATOR_ROUTE.PRODUCT.LINK)
 		},
 		//NOTE: Execuse after receving failure responses
 		onError: (e) => {

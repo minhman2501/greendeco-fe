@@ -21,7 +21,7 @@ export default function ProductDetailManagementPage({
 	const { productId } = params
 
 	const productQuery = useQuery({
-		queryKey: [UseQueryKeys.Product, ADMIN_QUERY_KEY, productId],
+		queryKey: [ADMIN_QUERY_KEY, UseQueryKeys.Product, productId],
 		queryFn: () => getProductBaseById(productId),
 	})
 

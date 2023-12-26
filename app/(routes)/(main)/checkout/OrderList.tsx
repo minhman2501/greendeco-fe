@@ -16,6 +16,7 @@ import { useRouter } from 'next/navigation'
 import { NOT_FOUND_STATUS, UNAUTHORIZE_STATUS } from '@/app/_configs/constants/status'
 import { memo } from 'react'
 import { MutatingDots } from 'react-loader-spinner'
+import { UseQueryKeys } from '@/app/_configs/constants/queryKey'
 
 function OrderItemList() {
 	const router = useRouter()
@@ -32,7 +33,7 @@ function OrderItemList() {
 	}
 
 	const getOrderList = useQuery({
-		queryKey: ['cart', 'order'],
+		queryKey: [UseQueryKeys.User, 'cart', 'order'],
 		queryFn: getCartItemForCheckout,
 		onSuccess: (data) => {
 			if (data.page_size === 0) {

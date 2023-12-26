@@ -1,6 +1,7 @@
 import clsx from 'clsx'
 import { ProductCardProps } from '.'
 import ProductCard from './ProductCard'
+import { motion, Variants, AnimatePresence } from 'framer-motion'
 
 type ProductCardsGridProps = {
 	productList: ProductCardProps[]
@@ -9,8 +10,32 @@ type ProductCardsGridProps = {
 }
 export default function ProductCardsGrid(props: ProductCardsGridProps) {
 	const { productList, columns = 4, gap = 'cozy' } = props
+
+	const listVariants: Variants = {
+		hidden: {
+			opacity: 0.5,
+		},
+		visible: {
+			opacity: 1,
+			transition: {
+				staggerChildren: 0.25,
+			},
+		},
+	}
+
+	const itemVariants: Variants = {
+		hidden: { y: 20, opacity: 0 },
+		visible: {
+			y: 0,
+			opacity: 1,
+			transition: { ease: 'easeInOut', duration: 0.35 },
+		},
+	}
 	return (
-		<div
+		<motion.ul
+			variants={listVariants}
+			initial='hidden'
+			animate='visible'
 			className={clsx(
 				'grid w-full',
 				{
@@ -26,16 +51,24 @@ export default function ProductCardsGrid(props: ProductCardsGridProps) {
 			)}
 		>
 			{productList.map((product) => (
-				<div
+				<motion.li
+					variants={itemVariants}
+					whileHover={{
+						scale: 1.075,
+						transition: {
+							type: 'spring',
+							stiffness: 500,
+						},
+					}}
 					key={product.id}
-					className='rounded-[8px]  shadow-38 transition duration-200 ease-in-out hover:scale-105'
+					className='rounded-[8px]  shadow-38 '
 				>
 					<ProductCard
 						key={product.id}
 						product={product}
 					/>
-				</div>
+				</motion.li>
 			))}
-		</div>
+		</motion.ul>
 	)
 }

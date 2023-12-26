@@ -29,7 +29,7 @@ export default function Header() {
 			}}
 			animate={hidden ? 'hidden' : 'visible'}
 			transition={{ duration: 0.35, ease: 'easeInOut' }}
-			className='sticky top-cozy z-20'
+			className='sticky top-cozy z-50'
 		>
 			<div className='container'>
 				<div className='mx-[-20px] mt-[-60px] flex h-[60px] items-center gap-cozy'>

@@ -7,6 +7,7 @@ import { ArrowRightIcon } from '@heroicons/react/24/solid'
 import { useRef } from 'react'
 import { motion } from 'framer-motion'
 import useClickOutside from '@/app/_hooks/useClickOutside'
+import { MutatingDots } from 'react-loader-spinner'
 
 export default function Cart() {
 	const { cartQuery } = useCartQuery()
@@ -18,7 +19,7 @@ export default function Cart() {
 
 	const { closeDialog } = useDialogStore()
 
-	const { data } = cartQuery
+	const { data, isLoading, isFetching } = cartQuery
 
 	return (
 		<motion.div
@@ -49,6 +50,20 @@ export default function Cart() {
 				</div>
 				<p className='text-body-md text-primary-5555-80'>All of your finest choices.</p>
 			</div>
+			{(isLoading || isFetching) && (
+				<MutatingDots
+					height='100'
+					width='100'
+					color='#71998c'
+					secondaryColor='#71998c'
+					radius='10'
+					ariaLabel='mutating-dots-loading'
+					wrapperStyle={{}}
+					wrapperClass='flex w-full opacity-[80%] justify-center'
+					visible={true}
+				/>
+			)}
+
 			{data && data.page_size > 0 && (
 				<>
 					<div className='flex-1 overflow-y-auto'>

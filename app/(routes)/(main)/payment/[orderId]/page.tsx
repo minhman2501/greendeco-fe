@@ -2,6 +2,7 @@ import { ClipboardDocumentListIcon, ShoppingBagIcon } from '@heroicons/react/24/
 import Link from 'next/link'
 import PaymentInformation from './PaymentInformation'
 import { USER_SETTING_ROUTE } from '@/app/_configs/constants/variables'
+import VNPayButton from '@/app/_components/paymentButton/VNPayButton'
 
 export default function PaymentPage({
 	params: { orderId },
@@ -15,9 +16,17 @@ export default function PaymentPage({
 			<p className=' text-heading font-bold text-primary-625'>
 				Thank you for shopping at GreenDeco <span className='text-[3rem]'>🫶 🥰</span>
 			</p>
-			<div className='flex  gap-comfortable'>
+			<div className='flex gap-comfortable'>
 				<PaymentGuide orderId={orderId} />
-				<PaymentInformation orderId={orderId} />
+				<div className='flex-col-start gap-cozy'>
+					<div className='flex justify-between gap-cozy'>
+						<div className='flex-1'>
+							<VNPayButton id={orderId} />
+						</div>
+						<div className='flex-1'></div>
+					</div>
+					<PaymentInformation orderId={orderId} />
+				</div>
 			</div>
 		</div>
 	)

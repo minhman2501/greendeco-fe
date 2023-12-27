@@ -83,7 +83,7 @@ function FilterMenu() {
 
 export default function FilterSideBar() {
 	return (
-		<div className='sticky top-comfortable  rounded-[8px] bg-white  p-comfortable shadow-63'>
+		<div className='sticky top-away-from-header  rounded-[8px] bg-white  p-comfortable shadow-63'>
 			<span className='mb-[16px] flex items-center gap-compact text-body-md text-primary-625'>
 				<h3>Filter</h3> <FunnelIcon className='aspect-square w-[24px]' />
 			</span>

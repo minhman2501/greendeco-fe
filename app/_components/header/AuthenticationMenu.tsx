@@ -28,7 +28,7 @@ export default function AuthenticationHandler() {
 	const { data, isLoading, isSuccess, isError } = userQuery
 
 	return (
-		<div className='h-full w-[220px] rounded-[8px] bg-primary-625 shadow-30'>
+		<div className='h-full w-[220px] rounded-[8px] bg-primary-625 shadow-18'>
 			{isSuccess && <UserSettingMenu {...data} />}
 			{isError && (
 				<Button

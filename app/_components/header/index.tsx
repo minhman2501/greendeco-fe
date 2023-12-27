@@ -46,7 +46,7 @@ function Logo() {
 	return (
 		<Link
 			href={'/'}
-			className='relative aspect-square h-full  overflow-hidden rounded-[8px] bg-primary-625 p-compact shadow-30'
+			className='relative aspect-square h-full  overflow-hidden rounded-[8px] bg-primary-625 p-compact shadow-18'
 		>
 			<Image
 				src={BrandLogoSmall}
@@ -61,7 +61,7 @@ function Logo() {
 
 function NavBar() {
 	return (
-		<div className='flex-col-start relative h-full flex-1 justify-center rounded-[8px] border-[1px] border-primary-625 bg-white px-cozy shadow-30'>
+		<div className='flex-col-start relative h-full flex-1 justify-center rounded-[8px] border-[1px] border-primary-625 bg-white px-cozy shadow-18'>
 			<div className='flex items-center justify-between'>
 				<NavigationList />
 				<div className='flex items-center gap-compact'>

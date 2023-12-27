@@ -55,11 +55,13 @@ export const useGetProductsFromCompletedOrders = () => {
 					return item.product_id
 				})
 			})
+
 			//NOTE: The result will be an order array with each element is an
 			//product id array
 			//NOTE: Join all the Product ID arrays from each order element into one 1D Array
 			.join()
 			.split(',')
+			.filter((productId) => productId.length > 0)
 
 		return productIdList
 	}

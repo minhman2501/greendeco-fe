@@ -38,7 +38,7 @@ export default function OrderDropdownState({ order }: { order: OrderState }) {
 		mutationFn: updateOrderStatusSendNoti,
 		onSuccess: () => {
 			notifyUpdateCancelSuccess(order.order_id, states.completed.state)
-			queryClient.invalidateQueries({ queryKey: [UseQueryKeys.Order, ADMIN_QUERY_KEY] })
+			queryClient.invalidateQueries({ queryKey: [ADMIN_QUERY_KEY, UseQueryKeys.Order] })
 		},
 		onError: (e) => {
 			if (e instanceof AxiosError) {

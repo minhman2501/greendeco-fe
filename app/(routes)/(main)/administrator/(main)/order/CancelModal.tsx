@@ -54,7 +54,7 @@ export default function CancelModal({ order }: CancelModalType) {
 		mutationFn: updateOrderStatusSendNoti,
 		onSuccess: () => {
 			notifyUpdateCancelSuccess(order.order_id, ORDER_STATE_FIELD.cancelled.state)
-			queryClient.invalidateQueries({ queryKey: [UseQueryKeys.Order, ADMIN_QUERY_KEY] })
+			queryClient.invalidateQueries({ queryKey: [ADMIN_QUERY_KEY, UseQueryKeys.Order] })
 			closeDialog()
 		},
 		onError: (e) => {

@@ -48,7 +48,7 @@ export default function PickUpDateModal({ order }: PickUpdateModalType) {
 		mutationFn: updateOrderProcessStatus,
 		onSuccess: () => {
 			notifyUpdateCancelSuccess(order.order_id, ORDER_STATE_FIELD.processing.state)
-			queryClient.invalidateQueries({ queryKey: [UseQueryKeys.Order, ADMIN_QUERY_KEY] })
+			queryClient.invalidateQueries({ queryKey: [ADMIN_QUERY_KEY, UseQueryKeys.Order] })
 			closeDialog()
 			reset()
 		},

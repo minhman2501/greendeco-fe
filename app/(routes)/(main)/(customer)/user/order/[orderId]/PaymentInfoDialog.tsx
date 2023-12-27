@@ -4,6 +4,7 @@ import { useDialogStore } from '@/app/_configs/store/useDialogStore'
 import { XMarkIcon } from '@heroicons/react/24/solid'
 import { useRef } from 'react'
 import useClickOutside from '@/app/_hooks/useClickOutside'
+import VNPayButton from '@/app/_components/paymentButton/VNPayButton'
 
 export default function PaymentInfoDialog({ orderId }: { orderId: OrderData['id'] }) {
 	const { closeDialog } = useDialogStore()
@@ -22,7 +23,12 @@ export default function PaymentInfoDialog({ orderId }: { orderId: OrderData['id'
 					<h3>Your Order ID:</h3>
 					<p>{orderId}</p>
 				</div>
-				<PaymentInformation orderId={orderId} />
+				<div className='flex-col-start gap-cozy'>
+					<div className='w-[50%]'>
+						<VNPayButton id={orderId} />
+					</div>
+					<PaymentInformation orderId={orderId} />
+				</div>
 				<p className=' text-heading-2 font-semi-bold text-neutral-gray-1'>
 					Thank you for shopping at GreenDeco <span className='text-[3rem]'>🫶 🥰</span>
 				</p>

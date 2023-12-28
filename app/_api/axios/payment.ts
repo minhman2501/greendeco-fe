@@ -65,5 +65,5 @@ export const paypalOnApprove = async (data: any) => {
 			ID: data.orderID,
 		})
 		.then((res) => res.data)
-		.then((message) => window.location.replace('http://localhost:3000/payment/received'))
+		.then((message) => window.location.replace(message.url))
 }

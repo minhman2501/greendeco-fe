@@ -37,8 +37,7 @@ export default function PaymentPage({
 							<PayPalScriptProvider
 								deferLoading={false}
 								options={{
-									clientId:
-										'ARd2n7YRPvm8jG2enCE7SXX5CLxlHSx0a8DlGfMmZEn18qKM8WHB8jHYoOputMIEMZLrhdZ1QO4bvsgD',
+									clientId: `${process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID}`,
 								}}
 							>
 								<PayPalButtons

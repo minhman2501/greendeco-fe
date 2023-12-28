@@ -14,6 +14,10 @@ type VNPayReturnData = {
 	callback_url: string
 }
 
+type PaypalOrderOnApprove = {
+	order_id: string
+}
+
 paymentApi.defaults.headers.common['Content-Type'] = 'application/json'
 
 export const createVNPayPayment = async (id: OrderData['id']) => {
@@ -31,4 +35,35 @@ export const createVNPayPayment = async (id: OrderData['id']) => {
 			},
 		},
 	)
+}
+
+export const createPaypalPayment = async (id: OrderData['id']) => {
+	const accessToken: AccessTokenType = getCookie(ACCESS_TOKEN_COOKIE_NAME)?.toString()
+
+	return await paymentApi
+		.post<PaypalOrderOnApprove>(
+			'/paypal_create',
+			{
+				id: id,
+				type: 'PayPal',
+			},
+			{
+				headers: {
+					Authorization: `Bearer ${accessToken}`,
+				},
+			},
+		)
+		.then((res) => res.data)
+		.then((order) => order.order_id)
+}
+
+export const paypalOnApprove = async (data: any) => {
+	console.log(data)
+
+	return await paymentApi
+		.post('/paypal_return', {
+			ID: data.orderID,
+		})
+		.then((res) => res.data)
+		.then((message) => window.location.replace('http://localhost:3000/payment/received'))
 }

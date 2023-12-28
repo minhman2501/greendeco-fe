@@ -1,8 +1,18 @@
+'use client'
 import { ClipboardDocumentListIcon, ShoppingBagIcon } from '@heroicons/react/24/solid'
 import Link from 'next/link'
 import PaymentInformation from './PaymentInformation'
 import { USER_SETTING_ROUTE } from '@/app/_configs/constants/variables'
 import VNPayButton from '@/app/_components/paymentButton/VNPayButton'
+import { FUNDING } from '@paypal/react-paypal-js'
+import {
+	PayPalScriptProvider,
+	PayPalButtons,
+	usePayPalScriptReducer,
+} from '@paypal/react-paypal-js'
+import { createPaypalPayment, paypalOnApprove } from '@/app/_api/axios/payment'
+import { CreateOrderData, CreateOrderActions } from '@paypal/paypal-js/types/components/buttons'
+import { OrderData } from '@/app/_api/axios/order'
 
 export default function PaymentPage({
 	params: { orderId },
@@ -23,7 +33,22 @@ export default function PaymentPage({
 						<div className='flex-1'>
 							<VNPayButton id={orderId} />
 						</div>
-						<div className='flex-1'></div>
+						<div className='flex-1'>
+							<PayPalScriptProvider
+								deferLoading={false}
+								options={{
+									clientId:
+										'ARd2n7YRPvm8jG2enCE7SXX5CLxlHSx0a8DlGfMmZEn18qKM8WHB8jHYoOputMIEMZLrhdZ1QO4bvsgD',
+								}}
+							>
+								<PayPalButtons
+									createOrder={() => createPaypalPayment(orderId)}
+									onApprove={paypalOnApprove}
+									fundingSource={FUNDING.PAYPAL}
+									style={{ color: 'silver', label: 'buynow' }}
+								/>
+							</PayPalScriptProvider>
+						</div>
 					</div>
 					<PaymentInformation orderId={orderId} />
 				</div>

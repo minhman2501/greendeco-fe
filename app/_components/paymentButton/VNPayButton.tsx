@@ -18,7 +18,7 @@ export default function VNPayButton({ id }: { id: OrderData['id'] }) {
 	return (
 		<Button
 			onClick={handleOnClick}
-			className='flex w-full items-center justify-center gap-compact rounded-[4px] border-none bg-blue-700 p-cozy text-neutral-gray-1'
+			className='flex h-full w-full items-center justify-center gap-compact rounded-[4px] border-none bg-blue-700 p-0 text-neutral-gray-1'
 		>
 			<QrCodeIcon className='aspect-square h-[24px]' />
 			<span className='text-body-sm '>Paying with VN Pay</span>

@@ -4,6 +4,9 @@ import { useDialogStore } from '@/app/_configs/store/useDialogStore'
 import { XMarkIcon } from '@heroicons/react/24/solid'
 import { useRef } from 'react'
 import useClickOutside from '@/app/_hooks/useClickOutside'
+import VNPayButton from '@/app/_components/paymentButton/VNPayButton'
+import { FUNDING, PayPalButtons, PayPalScriptProvider } from '@paypal/react-paypal-js'
+import { createPaypalPayment, paypalOnApprove } from '@/app/_api/axios/payment'
 
 export default function PaymentInfoDialog({ orderId }: { orderId: OrderData['id'] }) {
 	const { closeDialog } = useDialogStore()
@@ -22,7 +25,29 @@ export default function PaymentInfoDialog({ orderId }: { orderId: OrderData['id'
 					<h3>Your Order ID:</h3>
 					<p>{orderId}</p>
 				</div>
-				<PaymentInformation orderId={orderId} />
+				<div className='flex-col-start gap-cozy'>
+					<div className='flex justify-between gap-cozy'>
+						<div className='flex-1'>
+							<VNPayButton id={orderId} />
+						</div>
+						<div className='flex-1'>
+							<PayPalScriptProvider
+								deferLoading={false}
+								options={{
+									clientId: `${process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID}`,
+								}}
+							>
+								<PayPalButtons
+									createOrder={() => createPaypalPayment(orderId)}
+									onApprove={paypalOnApprove}
+									fundingSource={FUNDING.PAYPAL}
+									style={{ color: 'silver', label: 'buynow' }}
+								/>
+							</PayPalScriptProvider>
+						</div>
+					</div>
+					<PaymentInformation orderId={orderId} />
+				</div>
 				<p className=' text-heading-2 font-semi-bold text-neutral-gray-1'>
 					Thank you for shopping at GreenDeco <span className='text-[3rem]'>🫶 🥰</span>
 				</p>

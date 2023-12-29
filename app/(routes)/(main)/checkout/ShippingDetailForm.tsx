@@ -43,7 +43,9 @@ export default function ShippingDetailForm() {
 		reset()
 		router.replace(`/payment/${id}`)
 		deleteCookie('cartId')
-		queryClient.invalidateQueries([UseQueryKeys.User, 'cart'])
+		queryClient.invalidateQueries([UseQueryKeys.User, 'cart'], {
+			exact: true,
+		})
 	}
 
 	const createOrderMutation = useMutation({

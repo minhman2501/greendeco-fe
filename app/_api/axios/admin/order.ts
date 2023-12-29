@@ -72,7 +72,7 @@ export const getOrderTotalAsAdministrator = async (
 	id: string,
 ) => {
 	return await adminOrderApi
-		.get<OrderTotalData>(`/order/${id}/total/`, {
+		.get<OrderTotalData>(`/order/${id}/total`, {
 			headers: {
 				Authorization: `Bearer ${adminAccessToken}`,
 			},

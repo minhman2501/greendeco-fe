@@ -238,7 +238,7 @@ export default function ProductEditForm(product: ProductData) {
 				<Button
 					className='btnSecondary'
 					type='button'
-					onClick={() => handleResetForm()}
+					onClick={() => router.back()}
 				>
 					Cancel
 				</Button>

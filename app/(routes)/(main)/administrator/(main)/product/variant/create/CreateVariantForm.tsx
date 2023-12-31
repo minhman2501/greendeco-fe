@@ -58,7 +58,7 @@ export default function CreateVariantForm({
 		onSuccess: (data) => {
 			notifyCreateVariantSuccess()
 			queryClient.invalidateQueries({
-				queryKey: [UseQueryKeys.Variant, ADMIN_QUERY_KEY, productId],
+				queryKey: [ADMIN_QUERY_KEY, UseQueryKeys.Variant, productId],
 			})
 			router.replace(`${ADMINISTRATOR_ROUTE.PRODUCT.LINK}/${productId}`)
 		},
@@ -194,7 +194,10 @@ export default function CreateVariantForm({
 				<Button
 					className='btnSecondary'
 					type='button'
-					onClick={() => handleResetForm()}
+					onClick={() => {
+						handleResetForm()
+						router.back()
+					}}
 				>
 					Cancel
 				</Button>

@@ -70,6 +70,27 @@ export const SHOP_ROUTE = {
 	},
 }
 
+export const AUTHENTICATION_ROUTE = {
+	LOGIN: {
+		LINK: '/login',
+	},
+	REGISTER: {
+		LINK: '/register',
+	},
+	FORGOT_PASSWORD: {
+		LINK: '/forgot-password',
+	},
+	RESET_PASSWORD: {
+		LINK: '/reset-password',
+	},
+	EMAIL_SEND_SUCCESS: {
+		LINK: '/forgot-password/email-send-success',
+	},
+	ADMIN_LOGIN: {
+		LINK: '/administrator/login',
+	},
+}
+
 export const ORDER_STATE_FIELD = {
 	draft: {
 		state: OrderState.Draft,

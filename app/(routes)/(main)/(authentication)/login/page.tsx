@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import LoginForm from './LoginForm'
+import { AUTHENTICATION_ROUTE } from '@/app/_configs/constants/variables'
 
 export default function RegisterPage() {
 	return (
@@ -20,7 +21,7 @@ export default function RegisterPage() {
 					Don&apos;t have an account?{' '}
 					<Link
 						replace
-						href={'/register'}
+						href={AUTHENTICATION_ROUTE.REGISTER.LINK}
 					>
 						Sign Up!
 					</Link>

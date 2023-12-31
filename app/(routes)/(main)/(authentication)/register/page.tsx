@@ -1,3 +1,4 @@
+import { AUTHENTICATION_ROUTE } from '@/app/_configs/constants/variables'
 import RegisterForm from './RegisterForm'
 import Link from 'next/link'
 
@@ -19,7 +20,7 @@ export default function RegisterPage() {
 					Don&apos;t you have an account?{' '}
 					<Link
 						replace
-						href={'/login'}
+						href={AUTHENTICATION_ROUTE.LOGIN.LINK}
 					>
 						Sign In
 					</Link>

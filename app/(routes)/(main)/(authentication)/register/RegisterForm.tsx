@@ -8,8 +8,11 @@ import { AxiosError } from 'axios'
 import { notifyRegisterFail, notifyRegisterSuccess } from '../Notification'
 import { TextField } from '@/app/_components/form'
 import Button from '@/app/_components/Button'
+import { useRouter } from 'next/navigation'
+import { AUTHENTICATION_ROUTE } from '@/app/_configs/constants/variables'
 
 export default function RegisterForm() {
+	const router = useRouter()
 	const defaultInputValues: RegisterFormInputType = {
 		firstName: '',
 		lastName: '',
@@ -38,7 +41,9 @@ export default function RegisterForm() {
 		//NOTE: Execuse after receiving suscess responses
 		onSuccess: () => {
 			reset()
-			notifyRegisterSuccess()
+			notifyRegisterSuccess({
+				onClose: () => router.replace(AUTHENTICATION_ROUTE.LOGIN.LINK),
+			})
 		},
 		//NOTE: Execuse after receving failure responses
 		onError: (e) => {

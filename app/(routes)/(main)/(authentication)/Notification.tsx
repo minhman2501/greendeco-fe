@@ -1,10 +1,12 @@
 import React from 'react'
 import { ToastContentProps, toast, ToastOptions } from 'react-toastify'
 import Link from 'next/link'
+import { AUTHENTICATION_ROUTE, SHOP_ROUTE } from '@/app/_configs/constants/variables'
 
-export const notifyRegisterSuccess = () => {
+export const notifyRegisterSuccess = (options?: ToastOptions) => {
 	toast.success(<RegisterSuccessMessage />, {
 		position: 'top-center',
+		onClose: options?.onClose,
 	})
 }
 export const notifyRegisterFail = (errorMessage?: string) => {
@@ -49,7 +51,8 @@ const RegisterSuccessMessage = () => (
 		<p>
 			Moving to the{' '}
 			<Link
-				href={'../login'}
+				replace
+				href={AUTHENTICATION_ROUTE.LOGIN.LINK}
 				className='hover:font-bold'
 			>
 				Login Page
@@ -61,15 +64,7 @@ const RegisterSuccessMessage = () => (
 const LoginSuccessMessage = () => (
 	<div className='flex flex-col gap-[4px] pl-compact pr-common text-body-sm'>
 		<h3 className='capitalize text-primary-625'>Login Successfully</h3>
-		<p>
-			Let&apos;s go{' '}
-			<Link
-				href={'../login'}
-				className='hover:font-bold'
-			>
-				Shopping!
-			</Link>
-		</p>
+		<p>Glad to have you back!</p>
 	</div>
 )
 const RegisterErrorMessage = ({ message }: { message?: string }) => (
@@ -90,7 +85,8 @@ const ResetPasswordSuccessMessage = () => (
 		<p>
 			Let&apos;{' '}
 			<Link
-				href={'/login'}
+				replace
+				href={AUTHENTICATION_ROUTE.LOGIN.LINK}
 				className='hover:font-bold'
 			>
 				Login Now!
@@ -106,7 +102,8 @@ const ResetPasswordErrorMessage = ({ message }: { message?: string }) => (
 				<p>
 					This current session has been expired.{' '}
 					<Link
-						href={'/forgot-password'}
+						replace
+						href={AUTHENTICATION_ROUTE.FORGOT_PASSWORD.LINK}
 						className='hover:font-bold'
 					>
 						Resend your email.

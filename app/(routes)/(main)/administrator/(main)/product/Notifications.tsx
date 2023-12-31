@@ -5,8 +5,6 @@ import { ProductData } from '@/app/_api/axios/product'
 import { ADMINISTRATOR_ROUTE } from '@/app/_configs/constants/variables'
 
 export const notifyCreateProductSuccess = (productId: string, options?: ToastOptions) => {
-	console.log(productId)
-
 	toast.success(<CreateProductSuccessMessage productId={productId} />, {
 		position: 'top-center',
 		onClose: options?.onClose,

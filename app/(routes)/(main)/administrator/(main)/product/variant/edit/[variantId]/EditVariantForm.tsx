@@ -194,7 +194,10 @@ export default function EditVariantForm(variant: VariantData) {
 				<Button
 					className='btnSecondary'
 					type='button'
-					onClick={() => handleResetForm()}
+					onClick={() => {
+						handleResetForm()
+						router.back()
+					}}
 					disabled={updateVariantMutation.isLoading}
 				>
 					Cancel

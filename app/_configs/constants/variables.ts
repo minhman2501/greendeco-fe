@@ -29,7 +29,7 @@ export const ADMINISTRATOR_ROUTE = {
 		LABEL: 'Product Management',
 	},
 	ORDER: {
-		LINK: '/administrator/order/',
+		LINK: '/administrator/order',
 		LABEL: 'Order Management',
 	},
 	ORDER_DETAIL: {
@@ -67,6 +67,27 @@ export const SHOP_ROUTE = {
 	},
 	SEARCH: {
 		LINK: '/search-result',
+	},
+}
+
+export const AUTHENTICATION_ROUTE = {
+	LOGIN: {
+		LINK: '/login',
+	},
+	REGISTER: {
+		LINK: '/register',
+	},
+	FORGOT_PASSWORD: {
+		LINK: '/forgot-password',
+	},
+	RESET_PASSWORD: {
+		LINK: '/reset-password',
+	},
+	EMAIL_SEND_SUCCESS: {
+		LINK: '/forgot-password/email-send-success',
+	},
+	ADMIN_LOGIN: {
+		LINK: '/administrator/login',
 	},
 }
 

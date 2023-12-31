@@ -10,6 +10,7 @@ import Button from '@/app/_components/Button'
 import { useRouter } from 'next/navigation'
 import { ADMINISTRATOR_ROUTE } from '@/app/_configs/constants/variables'
 import { PlusCircleIcon } from '@heroicons/react/24/solid'
+import { useMemo } from 'react'
 
 export default function ProductManagementPage() {
 	const router = useRouter()
@@ -17,10 +18,13 @@ export default function ProductManagementPage() {
 	const productQuery = useQuery({
 		queryKey: [ADMIN_QUERY_KEY, UseQueryKeys.Product],
 		queryFn: () => getProductListAsAdministrator(adminAccessToken),
-		refetchOnMount: 'always',
+		refetchOnMount: true,
 	})
 
 	const { data } = productQuery
+
+	const dataMemo = useMemo(() => data, [data])
+
 	return (
 		<div className='min-h-screen py-comfortable'>
 			<Block>
@@ -34,7 +38,7 @@ export default function ProductManagementPage() {
 						<PlusCircleIcon className='aspect-square h-[24px]' />
 					</Button>
 				</div>
-				{data && <ProductTable product={data.items} />}
+				{dataMemo && <ProductTable product={dataMemo?.items} />}
 			</Block>
 		</div>
 	)

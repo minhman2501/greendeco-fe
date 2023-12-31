@@ -12,6 +12,7 @@ import { notifySendEmailFail } from '../Notification'
 import { TextField } from '@/app/_components/form'
 import Button from '@/app/_components/Button'
 import { useRouter } from 'next/navigation'
+import { AUTHENTICATION_ROUTE } from '@/app/_configs/constants/variables'
 
 export default function ForgotPasswordForm() {
 	const router = useRouter()
@@ -38,7 +39,7 @@ export default function ForgotPasswordForm() {
 		//NOTE: Execuse after receiving suscess responses
 		onSuccess: () => {
 			reset()
-			router.push('/forgot-password/email-send-success')
+			router.replace(AUTHENTICATION_ROUTE.EMAIL_SEND_SUCCESS.LINK)
 		},
 		//NOTE: Execuse after receving failure responses
 		onError: (e) => {

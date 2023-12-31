@@ -13,6 +13,7 @@ import { setCookie } from '@/app/_hooks/useCookie'
 import { ACCESS_TOKEN_COOKIE_NAME } from '@/app/_configs/constants/cookies'
 import { UseQueryKeys } from '@/app/_configs/constants/queryKey'
 import { useRouter } from 'next/navigation'
+import { AUTHENTICATION_ROUTE } from '@/app/_configs/constants/variables'
 
 export default function LoginForm() {
 	const queryClient = useQueryClient()
@@ -92,7 +93,7 @@ export default function LoginForm() {
 				</div>
 				<div className='flex w-full justify-end'>
 					<Link
-						href={'/forgot-password'}
+						href={AUTHENTICATION_ROUTE.FORGOT_PASSWORD.LINK}
 						replace
 					>
 						Forgot Password

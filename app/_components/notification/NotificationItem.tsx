@@ -12,7 +12,7 @@ export function NotificationItem(props: NotificationData) {
 		>
 			<div className='flex-col-start gap-[4px]'>
 				<span className='truncate text-body-sm font-bold text-primary-418'>{title}</span>
-				<p className='line-clamp-2 text-body-xsm text-primary-418-60'>{message}</p>
+				<p className='line-clamp-3 text-body-xsm text-primary-418-60'>{message}</p>
 			</div>
 			<div className='flex items-end justify-between'>
 				<p className='text-body-xsm font-semi-bold text-primary-5555-80'>

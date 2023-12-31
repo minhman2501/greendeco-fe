@@ -40,6 +40,7 @@ export type OrderData = {
 	shipping_address: string
 	user_phone_number: UserProfileResponseData['phoneNumber']
 	state: OrderState
+	description: string
 	coupon_id: string | null
 	coupon_discount: number
 	paid_at: string | null

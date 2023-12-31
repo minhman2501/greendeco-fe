@@ -9,6 +9,7 @@ import {
 	PhoneIcon,
 	TruckIcon,
 	BanknotesIcon,
+	ExclamationCircleIcon,
 } from '@heroicons/react/24/solid'
 import clsx from 'clsx'
 import Button from '@/app/_components/Button'
@@ -24,6 +25,12 @@ export default function OrderDetailContainer({ order }: { order: OrderData }) {
 					<CustomerAndShippingDetail {...order} />
 				</div>
 			</div>
+			{order.state === OrderState.Cancelled && (
+				<div className='mt-cozy flex items-center gap-compact rounded-[8px] border-[2px] border-status-error/80 p-cozy text-body-md font-semi-bold text-status-error/80'>
+					<ExclamationCircleIcon className='aspect-square h-[32px]'></ExclamationCircleIcon>
+					<span>Cancel Reason: {getReason(order.description)}</span>
+				</div>
+			)}
 		</>
 	)
 }
@@ -124,4 +131,9 @@ function CustomerAndShippingDetail({
 			</div>
 		</div>
 	)
+}
+
+function getReason(string: string) {
+	const slug = string.split(':').pop()
+	return slug
 }

@@ -15,7 +15,7 @@ export default function OrderHistoryPage() {
 	const { queryObject } = useQueryParams<FilterParams>()
 
 	const userOrderListQuery = useQuery({
-		queryKey: [UseQueryKeys.Order, UseQueryKeys.User, queryObject],
+		queryKey: [UseQueryKeys.User, UseQueryKeys.Order, queryObject],
 		queryFn: () =>
 			getOrderListByUser({
 				limit: 10,
@@ -24,6 +24,7 @@ export default function OrderHistoryPage() {
 				...queryObject,
 			}),
 		refetchOnMount: true,
+		refetchInterval: 1000 * 60 * 10,
 		refetchOnWindowFocus: true,
 		refetchOnReconnect: true,
 	})

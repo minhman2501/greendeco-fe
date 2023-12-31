@@ -64,9 +64,8 @@ const columns = [
 ]
 
 export default function ProductTable({ product }: { product: ProductData[] }) {
-	const data = [...product]
 	const table = useReactTable({
-		data,
+		data: product,
 		columns,
 		getCoreRowModel: getCoreRowModel(),
 	})

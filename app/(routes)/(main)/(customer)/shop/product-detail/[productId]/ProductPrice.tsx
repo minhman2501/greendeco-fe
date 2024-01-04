@@ -6,7 +6,7 @@ import { ShoppingCartIcon } from '@heroicons/react/24/solid'
 import { getCookie } from 'cookies-next'
 import { ThreeDots } from 'react-loader-spinner'
 export default function Price() {
-	const { price, currency, id } = useVariantStore((state) => state.activeVariant)
+	const { price, currency, id, available } = useVariantStore((state) => state.activeVariant)
 
 	const { addCartItem } = useCartMutation()
 	const handleAddCartItem = () => {
@@ -20,7 +20,7 @@ export default function Price() {
 			<div>
 				<Button
 					onClick={() => handleAddCartItem()}
-					disabled={addCartItem.loading}
+					disabled={addCartItem.loading || !available}
 					className='btnSecondary group disabled:border-neutral-gray-1 disabled:bg-transparent disabled:opacity-90'
 				>
 					{addCartItem.loading ? (
@@ -36,10 +36,14 @@ export default function Price() {
 								wrapperClass='text-white'
 							/>
 						</span>
-					) : (
+					) : available ? (
 						<div className='flex items-center gap-[4px]'>
 							<span className='font-semi-bold'>Add to cart</span>
 							<ShoppingCartIcon className='aspect-square w-[24px]' />
+						</div>
+					) : (
+						<div className='flex items-center gap-[4px] text-neutral-gray-1'>
+							<span className='font-semi-bold'>This item is out of stock</span>
 						</div>
 					)}
 				</Button>

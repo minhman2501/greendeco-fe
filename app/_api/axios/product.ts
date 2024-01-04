@@ -102,6 +102,7 @@ export type FieldParams = {
 	size?: string
 	difficulty?: string
 	price?: string
+	available?: boolean
 	type?: string
 	water?: string
 	light?: string
@@ -111,7 +112,8 @@ export const fieldJSONParse = (params: FilterParams) => {
 	if (params) {
 		const { field, ...restParms } = params
 		const fieldJSON = field ? JSON.parse(field) : null
-		return { field: fieldJSON ? fieldJSON : null, ...restParms }
+		const availableField: FieldParams = { ...fieldJSON, available: true }
+		return { field: availableField, ...restParms }
 	}
 }
 
@@ -125,7 +127,7 @@ export const fieldJSONParseWithSearchValidation = (params: FilterParams) => {
 				? fieldJSON.name.replace(/ /g, '') //NOTE: / /g is the regex for whitespace
 				: INVALID_NAME_STRING
 
-		const fieldAfterSearch: FieldParams = { ...fieldJSON, name: searchResult }
+		const fieldAfterSearch: FieldParams = { ...fieldJSON, name: searchResult, available: true }
 
 		return { field: fieldAfterSearch, ...restParms }
 	}

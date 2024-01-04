@@ -54,7 +54,7 @@ export default function EditVariantForm(variant: VariantData) {
 		onSuccess: (data) => {
 			notifyUpdateVariantSuccess()
 			queryClient.invalidateQueries({
-				queryKey: [UseQueryKeys.Variant, ADMIN_QUERY_KEY, variant.product],
+				queryKey: [ADMIN_QUERY_KEY, UseQueryKeys.Variant, variant.product],
 			})
 			router.replace(`${ADMINISTRATOR_ROUTE.PRODUCT.LINK}/${variant.product}`)
 		},

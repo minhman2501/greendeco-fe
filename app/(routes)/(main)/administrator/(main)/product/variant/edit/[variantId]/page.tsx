@@ -15,8 +15,9 @@ export default function VariantManagement({
 	}
 }) {
 	const variantQuery = useQuery({
-		queryKey: [UseQueryKeys.Variant, ADMIN_QUERY_KEY, variantId],
+		queryKey: [ADMIN_QUERY_KEY, UseQueryKeys.Variant, variantId],
 		queryFn: () => getVariantById(variantId),
+		refetchOnMount: 'always',
 	})
 
 	const { data, isSuccess, isLoading, isError } = variantQuery

@@ -100,6 +100,7 @@ export function useCartQuery() {
 		queryKey: [UseQueryKeys.User, 'cart'],
 		queryFn: getCartListWithFullDetail,
 		onError: () => {},
+		refetchInterval: 1000 * 5,
 		refetchOnMount: true,
 		refetchOnWindowFocus: true,
 		retry: false,

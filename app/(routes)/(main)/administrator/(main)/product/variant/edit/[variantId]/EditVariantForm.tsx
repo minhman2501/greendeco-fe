@@ -15,11 +15,12 @@ import { VariantData } from '@/app/_api/axios/product'
 import { updateVariant } from '@/app/_api/axios/admin/product'
 import { ADMINISTRATOR_ROUTE, VARIANT_CURRENCY } from '@/app/_configs/constants/variables'
 import { notifyUpdateVariantSuccess } from '../../../Notifications'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { ADMIN_QUERY_KEY, UseQueryKeys } from '@/app/_configs/constants/queryKey'
 
 export default function EditVariantForm(variant: VariantData) {
 	const queryClient = useQueryClient()
+	const productName = useSearchParams().get('productName')?.toString()
 	const router = useRouter()
 
 	const [variantImage, setVariantImage] = useState<VariantData['image'] | undefined>(
@@ -78,7 +79,7 @@ export default function EditVariantForm(variant: VariantData) {
 					...restValues,
 					id: variant.id,
 					product_id: variant.product,
-					name: ` ${color_name}`,
+					name: `${productName} ${color_name}`,
 					color_name: color_name,
 					price: parseInt(price),
 					image: variantImage,

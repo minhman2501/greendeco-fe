@@ -19,7 +19,9 @@ export default function ProductDetailPage({
 	const productDetailQuery = useQuery({
 		queryKey: ['product', params.productId],
 		queryFn: () => getProductDetailById(params.productId),
-		refetchOnWindowFocus: false,
+		refetchOnWindowFocus: 'always',
+		refetchOnMount: 'always',
+		refetchOnReconnect: 'always',
 	})
 
 	const { data, isLoading, isSuccess, isError } = productDetailQuery

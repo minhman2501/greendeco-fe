@@ -60,6 +60,9 @@ export default function VariantDisplay({
 						className='btn btnSecondary flex items-center gap-compact'
 						href={{
 							pathname: `${ADMINISTRATOR_ROUTE.PRODUCT.LINK}/variant/edit/${currentVariant.id}`,
+							query: {
+								productName: productName,
+							},
 						}}
 					>
 						Edit Variant

@@ -17,6 +17,7 @@ export default function ProductVariantInfo({
 	const variantQuery = useQuery({
 		queryKey: [ADMIN_QUERY_KEY, UseQueryKeys.Variant, productId],
 		queryFn: () => getVariantsByProductId(productId),
+		refetchOnMount: 'always',
 	})
 
 	const { data, isSuccess, isError, isLoading } = variantQuery

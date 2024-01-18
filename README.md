@@ -11,7 +11,6 @@
     <br/>
     <br/>
     <a href="https://greendeco-fe.vercel.app">View Demo</a>
-    .
   </p>
 </p>
 

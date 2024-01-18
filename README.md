@@ -10,7 +10,7 @@
     An E-commerce Website Which Sells Plants
     <br/>
     <br/>
-    <a href="https://github.com/minhman2501/greendeco-fe">View Demo</a>
+    <a href="https://greendeco-fe.vercel.app">View Demo</a>
     .
   </p>
 </p>
@@ -19,7 +19,7 @@
 
 ## About The Project
 
-![Screen Shot](https://firebasestorage.googleapis.com/v0/b/greendeco-2726b.appspot.com/o/Screenshot%202024-01-18%20at%2016-14-19%20Welcome%20to%20GreenDeco.png?alt=media&token=e0e580d5-2853-4429-8cd0-026ba54d1a94)
+![Screen Shot](https://firebasestorage.googleapis.com/v0/b/greendeco-2726b.appspot.com/o/Screenshot%202024-01-18%20at%2016-36-27%20Welcome%20to%20GreenDeco.png?alt=media&token=0e0e1458-e078-4ac5-8ab0-1186c9d82bcb)
 
 GreenDeco is an e-commerce website that sells lovely plants. Main purpose of this project is to apply the knowledge learned from university courses and develop a highly practical application.
 
@@ -30,22 +30,16 @@ GreenDeco is an e-commerce website that sells lovely plants. Main purpose of thi
 * [TailwindCSS](https://tailwindcss.com/)
 * [Tanstack-query](https://tanstack.com/query/latest)
 
+
 ## Getting Started
 
-This is an example of how you may give instructions on setting up your project locally.
-To get a local copy up and running follow these simple example steps.
-
 ### Prerequisites
-
-This is an example of how to list things you need to use the software and how to install them.
 
 * yarn
 
 ```bash
 npm install --global yarn
 ```
-
-## Getting Started
 
 First, run the development server:
 

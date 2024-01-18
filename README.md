@@ -1,7 +1,7 @@
 <br/>
 <p align="center">
   <a href="https://github.com/minhman2501/greendeco-fe">
-    <img src="https://api.logo.com/api/v2/images?logo=logo_dec2751a-e5fd-45e3-ac8c-26488931ace5&u=1697101283144&format=svg&margins=166&width=1000&height=750&fit=contain" alt="Logo" width="80" height="80">
+    <img src="https://api.logo.com/api/v2/images?logo=logo_dec2751a-e5fd-45e3-ac8c-26488931ace5&u=1697101283144&format=svg&margins=166&width=1000&height=750&fit=contain" alt="Logo" width="80" >
   </a>
 
   <h3 align="center">GreenDeco</h3>
